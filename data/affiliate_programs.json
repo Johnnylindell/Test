@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Amazon Associates Sverige/EU",
+    "url": "https://affiliate-program.amazon.com/",
+    "fit": "Brett sortiment: lampor, robotdammsugare, surfplattor, sensorer.",
+    "status": "needs_user_signup",
+    "notes": "Kräver konto, skatte-/betalningsuppgifter och godkänd webbplats. Lägg in riktiga länkar först efter godkännande."
+  },
+  {
+    "name": "Adtraction",
+    "url": "https://adtraction.com/",
+    "fit": "Nordiska annonsörer inom e-handel, teknik, hem och konsumentprodukter.",
+    "status": "needs_user_signup",
+    "notes": "Bra första nätverk för Sverige/Finland. Kräver ansökan och godkännande per annonsör."
+  },
+  {
+    "name": "Awin",
+    "url": "https://www.awin.com/",
+    "fit": "Internationellt affiliate-nätverk med många retail-annonsörer.",
+    "status": "needs_user_signup",
+    "notes": "Kan kräva granskningsavgift eller verifiering beroende på region/program."
+  },
+  {
+    "name": "Partner-ads",
+    "url": "https://www.partner-ads.com/",
+    "fit": "Nordiska kampanjer; kan passa hemelektronik och konsumentprodukter.",
+    "status": "needs_user_signup",
+    "notes": "Kolla relevanta butiker efter publicering."
+  },
+  {
+    "name": "Direktprogram hos smart-home-butiker",
+    "url": "DIRECT_OUTREACH_PLACEHOLDER",
+    "fit": "Högre relevans, potentiellt bättre provision eller sponsring.",
+    "status": "research_needed",
+    "notes": "Kräver manuell kontakt; jag kan skriva mailutkast men inte skicka utan godkännande."
+  }
+]

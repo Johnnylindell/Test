@@ -1,0 +1,47 @@
+[
+  {
+    "id": "smart-button",
+    "name": "Smart knapp / Zigbee-knapp",
+    "category": "smarta knappar",
+    "price_hint": "10–30 €",
+    "best_for": "enkla familjerutiner, nattläge, morgonknapp",
+    "affiliate_url": "AFFILIATE_PLACEHOLDER_SMART_BUTTON",
+    "note": "Byt till riktig affiliate-länk efter godkännande och affiliate-konto."
+  },
+  {
+    "id": "smart-bulb",
+    "name": "Smart LED-lampa",
+    "category": "belysning",
+    "price_hint": "8–25 €",
+    "best_for": "barnrum, kvällsrutin, visuella påminnelser",
+    "affiliate_url": "AFFILIATE_PLACEHOLDER_SMART_BULB",
+    "note": "Välj helst Zigbee/Thread om familjen vill ha robust smart hem."
+  },
+  {
+    "id": "tablet-wall",
+    "name": "Begagnad surfplatta som väggdashboard",
+    "category": "dashboard",
+    "price_hint": "50–150 €",
+    "best_for": "familjekalender, inköpslista, veckovy",
+    "affiliate_url": "AFFILIATE_PLACEHOLDER_TABLET",
+    "note": "Begagnat kan vara billigare än affiliate, men jämförelsesidan kan ändå tjäna på tillbehör."
+  },
+  {
+    "id": "robot-vacuum",
+    "name": "Robotdammsugare",
+    "category": "städning",
+    "price_hint": "150–700 €",
+    "best_for": "barnfamiljer, smulor, vardagsavlastning",
+    "affiliate_url": "AFFILIATE_PLACEHOLDER_ROBOT_VACUUM",
+    "note": "Högre ordervärde, bra affiliate-kandidat."
+  },
+  {
+    "id": "motion-sensor",
+    "name": "Rörelsesensor",
+    "category": "sensorer",
+    "price_hint": "10–35 €",
+    "best_for": "nattljus, hall, badrum, trygghet",
+    "affiliate_url": "AFFILIATE_PLACEHOLDER_MOTION_SENSOR",
+    "note": "Bra internlänkningsprodukt för lamp- och rutinartiklar."
+  }
+]

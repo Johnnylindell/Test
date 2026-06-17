@@ -1,0 +1,564 @@
+[
+  {
+    "slug": "basta-smarta-hem-prylar-barnfamiljer",
+    "title": "Bästa smarta hem-prylarna för barnfamiljer",
+    "description": "En praktisk startguide till smarta lampor, knappar, sensorer och robotdammsugare för familjer.",
+    "category": "köpguide",
+    "products": [
+      "smart-button",
+      "smart-bulb",
+      "motion-sensor",
+      "robot-vacuum"
+    ],
+    "sections": [
+      [
+        "Börja med vardagsproblem, inte teknik",
+        "Det bästa smarta hemmet för en barnfamilj är inte det som har flest prylar. Det är det som tar bort små vardagsfriktioner: tända rätt ljus på morgonen, påminna om skolväska, göra läggningen lugnare och minska städstress."
+      ],
+      [
+        "Tre billiga första köp",
+        "En smart knapp, en smart LED-lampa och en rörelsesensor räcker för att skapa de första rutinerna. Sätt knappen vid ytterdörren för 'vi går hemifrån', lampan i barnrummet för kvällsläge och sensorn i hallen för mjukt nattljus."
+      ],
+      [
+        "När det är värt att köpa dyrare",
+        "Robotdammsugare kostar mer men kan ge tydlig vardagsavlastning. För barnfamiljer är det ofta bättre ROI än ännu fler små sensorer, särskilt om köket och hallen snabbt blir smuliga."
+      ],
+      [
+        "Rekommenderad ordning",
+        "Börja med belysning och knappar. Lägg sedan till sensorer. Köp robotdammsugare först när ni vet vilka rum som faktiskt behöver automatiseras."
+      ]
+    ]
+  },
+  {
+    "slug": "home-assistant-for-familjer-nyborjarguide",
+    "title": "Home Assistant för familjer: komplett nybörjarguide",
+    "description": "Så kan en familj använda Home Assistant utan att fastna i teknikprojekt.",
+    "category": "guide",
+    "products": [
+      "smart-button",
+      "smart-bulb",
+      "motion-sensor",
+      "tablet-wall"
+    ],
+    "sections": [
+      [
+        "Vad Home Assistant gör",
+        "Home Assistant samlar smarta hem-prylar i ett lokalt system. För familjer betyder det att lampor, sensorer, knappar och dashboards kan fungera tillsammans utan att varje app måste öppnas separat."
+      ],
+      [
+        "Familjefunktioner som spelar roll",
+        "De mest värdefulla funktionerna är ofta enkla: en väggdashboard, status för hem/inte hemma, påminnelser, nattljus och visuella rutiner för barn."
+      ],
+      [
+        "Undvik teknikfällan",
+        "Bygg inte 30 automationer första veckan. Välj en rutin som stressar familjen och lös den. När den sitter, gå vidare."
+      ],
+      [
+        "Startpaket",
+        "En mini-dator eller befintlig server, två smarta lampor, en knapp och en billig surfplatta räcker för att få en tydlig familjeeffekt."
+      ]
+    ]
+  },
+  {
+    "slug": "bygg-familjedashboard-surfplatta",
+    "title": "Så bygger du en familjedashboard på en surfplatta",
+    "description": "En praktisk guide till väggmonterad kalender, veckovy, inköp och påminnelser.",
+    "category": "dashboard",
+    "products": [
+      "tablet-wall",
+      "smart-button"
+    ],
+    "sections": [
+      [
+        "Varför väggdashboard fungerar",
+        "En dashboard minskar behovet av att fråga 'vad händer idag?'. För barn och vuxna med mycket i huvudet är en synlig veckovy ofta bättre än ännu en appnotis."
+      ],
+      [
+        "Vad den ska visa",
+        "Börja med idag, nästa 7 dagar, inköpslista, måltider och viktiga påminnelser. Lägg inte in allt; en rörig dashboard blir snabbt ignorerad."
+      ],
+      [
+        "Hårdvara",
+        "En begagnad surfplatta kan räcka. Lägg budget på bra placering och laddning istället för den senaste modellen."
+      ],
+      [
+        "Nästa steg",
+        "När dashboarden används dagligen kan du lägga till knappar för 'lägg till inköp', 'klar för skola' och 'god natt'."
+      ]
+    ]
+  },
+  {
+    "slug": "adhd-vanliga-morgonrutiner-smarta-hem",
+    "title": "ADHD-vänliga morgonrutiner med smart hem",
+    "description": "Gör morgonen mindre rörig med ljus, visuella steg och enkla knappar.",
+    "category": "rutiner",
+    "products": [
+      "smart-bulb",
+      "smart-button",
+      "tablet-wall"
+    ],
+    "sections": [
+      [
+        "Tänk låg friktion",
+        "En ADHD-vänlig rutin måste vara synlig, kort och enkel att starta även när energin är låg. Tekniken ska minska beslut, inte skapa fler."
+      ],
+      [
+        "Ljus som signal",
+        "Använd färg eller ljusstyrka för olika steg: mjukt ljus för vakna, starkare ljus för klä på sig och en tydlig färg när det är dags att gå."
+      ],
+      [
+        "En knapp för nästa steg",
+        "En fysisk knapp fungerar ofta bättre än en app. Tryck en gång: visa checklistan. Tryck igen: markera morgonen klar."
+      ],
+      [
+        "Belöna avslut",
+        "Visa ett enkelt 'klart' på dashboarden. För många familjer är avslutssignalen viktigare än ännu fler påminnelser."
+      ]
+    ]
+  },
+  {
+    "slug": "basta-smarta-lampor-barnsovrum",
+    "title": "Bästa smarta lampor för barnsovrum",
+    "description": "Vad du ska tänka på när du väljer smart belysning till barnrum.",
+    "category": "köpguide",
+    "products": [
+      "smart-bulb",
+      "motion-sensor"
+    ],
+    "sections": [
+      [
+        "Viktigast: stabilitet",
+        "Barnrumslampor ska fungera varje kväll. Välj produkter som är stabila och enkla att styra från en knapp, inte bara från mobilen."
+      ],
+      [
+        "Kvällsläge",
+        "Ett varmt och svagt ljus hjälper läggningen mer än blinkande effekter. Sätt en fast tid eller knapp för kvällsläge."
+      ],
+      [
+        "Nattljus",
+        "Kombinera lampa med rörelsesensor om barnet ofta går upp på natten. Ljuset ska vara svagt nog att inte väcka resten av familjen."
+      ],
+      [
+        "Undvik detta",
+        "Köp inte lampor som kräver molnapp för varje ändring om målet är ett robust familjesystem."
+      ]
+    ]
+  },
+  {
+    "slug": "smarta-knappar-10-anvandningar-hemma",
+    "title": "Smarta knappar: 10 praktiska användningar hemma",
+    "description": "Konkreta familjeautomationer med billiga smarta knappar.",
+    "category": "idéer",
+    "products": [
+      "smart-button",
+      "smart-bulb"
+    ],
+    "sections": [
+      [
+        "Varför knappar är underskattade",
+        "Röststyrning och appar låter smart, men en knapp är ofta snabbast. Alla i familjen förstår den."
+      ],
+      [
+        "10 användningar",
+        "1. God natt. 2. Morgonstart. 3. Hemifrån. 4. Lägg till inköp. 5. Starta timer. 6. Tänd hallen. 7. Filmkväll. 8. Barnens städrutin. 9. Akut tyst läge. 10. Markera läxa klar."
+      ],
+      [
+        "Placering slår funktion",
+        "En knapp på rätt plats blir använd. En knapp i en låda är värdelös. Sätt den där beteendet redan sker."
+      ],
+      [
+        "Börja med två",
+        "Köp inte tio direkt. Börja med en vid ytterdörren och en vid sängen/soffan."
+      ]
+    ]
+  },
+  {
+    "slug": "familjekalender-pa-vaggskarm",
+    "title": "Familjekalender på väggskärm: så gör du",
+    "description": "Så skapar du en synlig kalender för hela familjen.",
+    "category": "dashboard",
+    "products": [
+      "tablet-wall"
+    ],
+    "sections": [
+      [
+        "Problemet",
+        "Familjekalendrar finns ofta i mobilen, men familjelogistik händer i kök, hall och vardagsrum. Därför fungerar en väggskärm."
+      ],
+      [
+        "Minimivy",
+        "Visa idag, imorgon och resten av veckan. Färre detaljer gör att fler faktiskt tittar."
+      ],
+      [
+        "Barnvänligt",
+        "Använd färger och ikoner för skola, hobby, mat och läggdags. Barn behöver inte läsa all text för att förstå dagen."
+      ],
+      [
+        "Underhåll",
+        "Gör kalendern till källan som redan används, till exempel Google Calendar, och låt dashboarden bara visa den."
+      ]
+    ]
+  },
+  {
+    "slug": "basta-robotdammsugare-barnfamiljer",
+    "title": "Bästa robotdammsugare för barnfamiljer",
+    "description": "Vad barnfamiljer bör prioritera: hinder, smulor, ljudnivå och scheman.",
+    "category": "köpguide",
+    "products": [
+      "robot-vacuum"
+    ],
+    "sections": [
+      [
+        "Köp för vardagen",
+        "Barnfamiljer behöver inte alltid den dyraste roboten, men de behöver en som klarar smulor, mattkanter och många små hinder."
+      ],
+      [
+        "Viktiga funktioner",
+        "Bra kartläggning, no-go-zoner, schemaläggning och enkel tömning spelar större roll än marknadsförda AI-funktioner."
+      ],
+      [
+        "När den betalar sig",
+        "Om roboten kör kök och hall 4–5 gånger i veckan kan den spara många små städpass. Det är där värdet ligger."
+      ],
+      [
+        "Tips",
+        "Schemalägg efter frukost eller när familjen lämnat hemmet. Undvik nattkörning om ljud stör sömn."
+      ]
+    ]
+  },
+  {
+    "slug": "automatisera-inkopslistor-hemma",
+    "title": "Hur man automatiserar inköpslistor hemma",
+    "description": "Färre glömda varor med knappar, röst, dashboard och delade listor.",
+    "category": "rutiner",
+    "products": [
+      "smart-button",
+      "tablet-wall"
+    ],
+    "sections": [
+      [
+        "Gör listan synlig",
+        "En inköpslista som bara finns i en persons mobil blir snabbt en flaskhals. Visa den på dashboarden och gör den lätt att uppdatera."
+      ],
+      [
+        "Snabb input",
+        "Placera en knapp eller QR-kod i köket. Målet är att lägga till mjölk på två sekunder, inte öppna tre appar."
+      ],
+      [
+        "Familjeregler",
+        "Bestäm vad som får läggas till av barn och vad som kräver vuxen. Håll systemet enkelt."
+      ],
+      [
+        "Automationsidé",
+        "När någon markerar sista paketet av en standardvara kan dashboarden föreslå att lägga till den igen."
+      ]
+    ]
+  },
+  {
+    "slug": "smarta-paminnelser-skola-medicin-laggdags",
+    "title": "Smarta påminnelser för skola, medicin och läggdags",
+    "description": "Så bygger du påminnelser som hjälper utan att skapa notisstress.",
+    "category": "rutiner",
+    "products": [
+      "smart-bulb",
+      "smart-button",
+      "tablet-wall"
+    ],
+    "sections": [
+      [
+        "Notiser räcker inte",
+        "Familjer drunknar lätt i notiser. Bättre påminnelser är synliga, lugna och kopplade till platsen där saken ska göras."
+      ],
+      [
+        "Skola",
+        "Visa packlista på morgonen och använd en knapp för 'klar'. Undvik långa checklistor."
+      ],
+      [
+        "Medicin",
+        "Använd tydlig bekräftelse och logg. För medicin bör systemet hjälpa minnet, men inte ersätta vuxenansvar."
+      ],
+      [
+        "Läggdags",
+        "Ljuset kan stegvis bli varmare och svagare. Dashboarden kan visa tre steg: pyjamas, tandborstning, säng."
+      ]
+    ]
+  },
+  {
+    "slug": "billigt-smart-hem-under-100-euro",
+    "title": "Billigt smart hem: startpaket under 100 euro",
+    "description": "Ett konkret inköpspaket för familjer som vill börja smått.",
+    "category": "köpguide",
+    "products": [
+      "smart-button",
+      "smart-bulb",
+      "motion-sensor"
+    ],
+    "sections": [
+      [
+        "Målet med 100 euro",
+        "Med en liten budget ska du inte försöka automatisera hela hemmet. Målet är att skapa två till tre rutiner som används varje dag."
+      ],
+      [
+        "Startpaket",
+        "Köp en smart knapp, två smarta lampor och en rörelsesensor. Det räcker för morgonljus, kvällsläge och nattljus."
+      ],
+      [
+        "Prioritera robusthet",
+        "Välj hellre få prylar som fungerar stabilt än många billiga enheter som tappar kontakten."
+      ],
+      [
+        "När du uppgraderar",
+        "Nästa steg är en väggdashboard eller fler knappar på platser där familjen redan fattar beslut."
+      ]
+    ]
+  },
+  {
+    "slug": "zigbee-vs-wifi-smarta-prylar",
+    "title": "Zigbee eller Wi‑Fi för smarta hem-prylar?",
+    "description": "Förklaring för barnfamiljer: när Zigbee är bättre och när Wi‑Fi räcker.",
+    "category": "guide",
+    "products": [
+      "smart-button",
+      "smart-bulb",
+      "motion-sensor"
+    ],
+    "sections": [
+      [
+        "Kort svar",
+        "Wi‑Fi är enkelt för enstaka prylar. Zigbee är ofta stabilare när hemmet växer till många lampor, knappar och sensorer."
+      ],
+      [
+        "För familjer",
+        "Om barnen ska kunna lita på knappar och nattljus är stabilitet viktigare än appfunktioner."
+      ],
+      [
+        "När Wi‑Fi räcker",
+        "En robotdammsugare eller en enstaka smart plug kan fungera fint via Wi‑Fi."
+      ],
+      [
+        "När Zigbee vinner",
+        "Många små batterisensorer, knappar och lampor brukar fungera bättre i ett Zigbee-nätverk."
+      ]
+    ]
+  },
+  {
+    "slug": "home-assistant-dashboard-koket",
+    "title": "Home Assistant-dashboard i köket: vad ska visas?",
+    "description": "En praktisk layout för köksskärm med kalender, inköp och rutiner.",
+    "category": "dashboard",
+    "products": [
+      "tablet-wall",
+      "smart-button"
+    ],
+    "sections": [
+      [
+        "Köket är kommandocentralen",
+        "Många familjebeslut tas i köket: mat, skola, tider och inköp. Därför är köket en bra plats för dashboarden."
+      ],
+      [
+        "Visa bara det som används",
+        "Idag, kommande vecka, måltider, inköpslista och viktiga påminnelser räcker långt."
+      ],
+      [
+        "Undvik överlast",
+        "Väder, grafer och tekniska sensorer är kul men bör inte konkurrera med familjens viktigaste information."
+      ],
+      [
+        "Interaktion",
+        "Lägg till stora knappar för inköp och klarmarkeringar. Små länkar fungerar dåligt på väggskärm."
+      ]
+    ]
+  },
+  {
+    "slug": "smarta-hem-for-laggdags",
+    "title": "Smart hem för läggdags: lugnare kväll med tre automationer",
+    "description": "Tre enkla automationer som gör läggningen tydligare och mindre tjatig.",
+    "category": "rutiner",
+    "products": [
+      "smart-bulb",
+      "smart-button"
+    ],
+    "sections": [
+      [
+        "Tre steg räcker",
+        "En bra läggdagsrutin behöver inte vara avancerad: dämpa ljus, visa checklista och markera klart."
+      ],
+      [
+        "Automation 1: kvällsljus",
+        "Sänk ljuset stegvis och använd varmare färg. Det signalerar att dagen går mot slut."
+      ],
+      [
+        "Automation 2: synlig checklista",
+        "Visa pyjamas, tandborstning och säng på dashboarden."
+      ],
+      [
+        "Automation 3: klar-knapp",
+        "En knapp som markerar 'god natt' kan släcka lampor och ge barnen en tydlig avslutning."
+      ]
+    ]
+  },
+  {
+    "slug": "vattenlackage-sensor-barnfamilj",
+    "title": "Vattenläckagesensorer: liten pryl som kan spara mycket pengar",
+    "description": "Därför bör barnfamiljer överväga enkla läckagesensorer i kök, tvätt och badrum.",
+    "category": "säkerhet",
+    "products": [
+      "motion-sensor"
+    ],
+    "sections": [
+      [
+        "Inte lika roligt som lampor",
+        "Läckagesensorer är inte spännande, men de kan vara bland de mest ekonomiskt försvarbara smarta hem-prylarna."
+      ],
+      [
+        "Placering",
+        "Sätt sensorer under diskmaskin, tvättmaskin, varmvattenberedare och handfat där läckor kan börja tyst."
+      ],
+      [
+        "Notifiering",
+        "En bra automation skickar tydlig varning och kan tända en lampa rött hemma."
+      ],
+      [
+        "Affiliate-vinkel",
+        "Det här är en bra köpguide eftersom problemet är konkret och produkterna ofta är billiga."
+      ]
+    ]
+  },
+  {
+    "slug": "familjens-veckovy-idag-plus-sex-dagar",
+    "title": "Familjens veckovy: idag plus sex dagar",
+    "description": "Varför en rullande 7-dagarsvy ofta är bättre än klassisk kalendervecka.",
+    "category": "dashboard",
+    "products": [
+      "tablet-wall"
+    ],
+    "sections": [
+      [
+        "Problemet med kalenderveckor",
+        "Måndag till söndag är inte alltid det hjärnan behöver. Familjen behöver veta vad som händer från idag och framåt."
+      ],
+      [
+        "Rullande sju dagar",
+        "Visa idag och nästa sex dagar. Det gör planering mer konkret och minskar överraskningar."
+      ],
+      [
+        "Vad varje dag bör visa",
+        "Kalender, påminnelser, mat, uppgifter och viktiga rutiner. Håll varje dag kompakt."
+      ],
+      [
+        "ADHD-vänligt",
+        "En rullande vy minskar behovet att översätta datum och veckonummer i huvudet."
+      ]
+    ]
+  },
+  {
+    "slug": "smarta-hem-misstag-barnfamiljer",
+    "title": "7 misstag barnfamiljer gör med smart hem",
+    "description": "Undvik vanliga fällor som gör smart hem krångligare än vardagen det ska förenkla.",
+    "category": "guide",
+    "products": [
+      "smart-button",
+      "tablet-wall"
+    ],
+    "sections": [
+      [
+        "Misstag 1: för många appar",
+        "Om varje pryl kräver egen app blir systemet snabbt tröttsamt."
+      ],
+      [
+        "Misstag 2: bara röststyrning",
+        "Röst är bra ibland, men knappar och dashboard är ofta mer pålitliga för barn."
+      ],
+      [
+        "Misstag 3: ingen plan",
+        "Börja med problem: morgonstress, läggning, inköp eller städning."
+      ],
+      [
+        "Misstag 4–7",
+        "För svag Wi‑Fi, inga manuella alternativ, för många notiser och teknik som bara en vuxen förstår."
+      ]
+    ]
+  },
+  {
+    "slug": "robotdammsugare-schema-barnfamilj",
+    "title": "Bästa schemat för robotdammsugare i barnfamilj",
+    "description": "Så får du robotdammsugaren att hjälpa utan att störa.",
+    "category": "städning",
+    "products": [
+      "robot-vacuum"
+    ],
+    "sections": [
+      [
+        "Schema är halva värdet",
+        "En robotdammsugare som kör när golvet är fullt av leksaker gör ingen nytta. Schemat måste passa familjens rytm."
+      ],
+      [
+        "Bra tider",
+        "Efter frukost, efter lämning eller innan hämtning fungerar ofta bäst."
+      ],
+      [
+        "Zoner",
+        "Kök och hall kan köras oftare än sovrum. Börja där smutsen faktiskt samlas."
+      ],
+      [
+        "Barnens del",
+        "Gör en enkel plockrutin före körning. Dashboarden kan visa 'golvet klart'."
+      ]
+    ]
+  },
+  {
+    "slug": "digital-familjedashboard-template",
+    "title": "Digital familjedashboard-template: vad bör ingå?",
+    "description": "Produktidé och checklista för en nedladdningsbar dashboard-mall.",
+    "category": "digital produkt",
+    "products": [
+      "tablet-wall"
+    ],
+    "sections": [
+      [
+        "Varför template kan sälja",
+        "Många vill ha resultatet men inte bygga allt från noll. En färdig mall sparar tid."
+      ],
+      [
+        "Innehåll",
+        "Startsida, idag, vecka, inköp, rutiner, färgkodning och installationsguide."
+      ],
+      [
+        "Prissättning",
+        "En enkel mall kan testas på 9–19 euro. Med support eller installation kan värdet bli högre."
+      ],
+      [
+        "Validering",
+        "Lägg upp waitlist innan betalning. Om människor klickar och frågar finns signal om efterfrågan."
+      ]
+    ]
+  },
+  {
+    "slug": "smarta-hem-notiser-utan-stress",
+    "title": "Smarta hem-notiser utan stress",
+    "description": "Så designar du notiser som hjälper familjen utan att skapa alarmtrötthet.",
+    "category": "rutiner",
+    "products": [
+      "smart-bulb",
+      "tablet-wall"
+    ],
+    "sections": [
+      [
+        "Mindre är bättre",
+        "Varje notis ska förtjäna sin plats. För många notiser gör att alla ignoreras."
+      ],
+      [
+        "Välj kanal efter allvar",
+        "Vattenläcka kan vara pushnotis. Läggdags kan vara ljus. Inköp kan vara dashboard."
+      ],
+      [
+        "Gör notiser handlingsbara",
+        "Skriv vad som hänt och vad någon ska göra. Undvik tekniska sensor-meddelanden."
+      ],
+      [
+        "Familjeregel",
+        "Om ingen agerar på en notis under en vecka ska den ändras eller tas bort."
+      ]
+    ]
+  }
+]
