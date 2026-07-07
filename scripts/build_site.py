@@ -23,6 +23,15 @@ MONEY_SLUGS = {
     "zigbee-vs-wifi-smarta-prylar",
     "basta-zigbee-hubbar-for-familjer",
     "bygg-familjedashboard-surfplatta",
+    "basta-vattenlackagesensorer-smart-hem",
+    "vattenlackage-sensor-barnfamilj",
+    "smarta-pluggar-barnfamilj",
+    "aqara-ikea-philips-hue-vad-ska-familjer-valja",
+    "narvarosensor-vs-rorelsesensor",
+    "home-assistant-green-eller-raspberry-pi",
+    "basta-smarta-nattljus-for-barn",
+    "smart-kok-for-barnfamiljer",
+    "smart-hem-i-hyresratt-utan-att-borra",
 }
 
 
@@ -136,14 +145,14 @@ def main() -> None:
 
     <section>
       <div class='section-head'><div><span class='pill'>Köpråd</span><h2>Populära köpråd</h2></div><p class='muted'>Köpguider och jämförelser för prylar som brukar göra verklig nytta hemma.</p></div>
-      <div class='grid'>%s</div>
+      <div class='grid feature-grid'>%s</div>
     </section>
 
     <section>
-      <div class='section-head'><div><span class='pill'>Guider</span><h2>Senaste praktiska guiderna</h2></div><p class='muted'>Innehåll som bygger förtroende runt köpsidorna.</p></div>
+      <div class='section-head'><div><span class='pill'>Guider</span><h2>Fler vardagsproblem att lösa</h2></div><p class='muted'>Mer läsning runt rutiner, kök, läggning, hund, hyresrätt och andra små irritationsmoment.</p></div>
       <div class='grid'>%s</div>
     </section>
-    """ % ("".join(money_cards[:6]), "".join(cards[:6]))
+    """ % ("".join(money_cards[:9]), "".join(cards[:12]))
     render_page("Smart Familj Hemma", "Smarta hem-guider för barnfamiljer: Home Assistant, familjedashboard och vardagsrutiner.", home, SITE / "index.html")
 
     start = """<article><span class='pill'>Börja här</span><h1>Kom igång utan att drunkna i prylar</h1>

@@ -436,24 +436,28 @@
     "description": "Därför bör barnfamiljer överväga enkla läckagesensorer i kök, tvätt och badrum.",
     "category": "säkerhet",
     "products": [
-      "motion-sensor"
+      "water-leak-sensor"
     ],
     "sections": [
       [
         "Inte lika roligt som lampor",
-        "Läckagesensorer är inte spännande, men de kan vara bland de mest ekonomiskt försvarbara smarta hem-prylarna."
+        "Vattenläckagesensorer är tråkiga på exakt rätt sätt. De blinkar inte, de gör inte hemmet mysigare och barnen kommer inte bry sig. Men om diskmaskinen börjar läcka klockan 02:13 är det plötsligt den smartaste prylen i huset."
       ],
       [
         "Placering",
-        "Sätt sensorer under diskmaskin, tvättmaskin, varmvattenberedare och handfat där läckor kan börja tyst."
+        "Sätt en sensor under diskmaskinen, vid tvättmaskinen, under handfatet och nära varmvattenberedaren om du har en. Det är platser där vatten kan börja rinna länge innan någon ser det."
       ],
       [
-        "Notifiering",
-        "En bra automation skickar tydlig varning och kan tända en lampa rött hemma."
+        "Vad den ska göra",
+        "Den ska larma tydligt. Pushnotis räcker inte alltid. Tänd en lampa rött, skicka notis till vuxna och visa varningen på dashboarden. Det ska vara omöjligt att missa."
       ],
       [
-        "Affiliate-vinkel",
-        "Det här är en bra köpguide eftersom problemet är konkret och produkterna ofta är billiga."
+        "Köp inte för avancerat",
+        "En bra läckagesensor behöver vara liten, batterisnål och pålitlig. Extra funktioner spelar mindre roll än att den faktiskt vaknar när det blir blött."
+      ],
+      [
+        "Min tumregel",
+        "Köp hellre två enkla sensorer och placera dem rätt än en dyr sensor som hamnar på fel plats. Vatten bryr sig inte om specifikationer. Det rinner där det rinner."
       ]
     ]
   },
@@ -564,6 +568,332 @@
       [
         "Familjeregel",
         "Om ingen agerar på en notis under en vecka ska den ändras eller tas bort."
+      ]
+    ]
+  },
+  {
+    "slug": "basta-vattenlackagesensorer-smart-hem",
+    "title": "Bästa vattenläckagesensorer för smart hem",
+    "description": "En konkret köpguide för sensorer som kan rädda kök, tvättstuga och badrum från dyra överraskningar.",
+    "category": "köpguide",
+    "products": [
+      "water-leak-sensor"
+    ],
+    "sections": [
+      [
+        "Vem behöver en läckagesensor?",
+        "Alla med diskmaskin, tvättmaskin eller varmvattenberedare. Det är inte mer dramatiskt än så. Vattenläckor börjar ofta tyst och blir dyra först när någon upptäcker dem för sent."
+      ],
+      [
+        "Viktigast före köp",
+        "Kolla att sensorn fungerar med ditt system, till exempel Zigbee/Home Assistant, och att batteriet håller länge. Den ska också vara tillräckligt låg för att ligga under maskiner utan att vara i vägen."
+      ],
+      [
+        "Bra placeringar",
+        "Diskmaskin, tvättmaskin, under handfat, vid kyl/frys med vattenanslutning och nära varmvattenberedare. Börja med köket om du bara köper en."
+      ],
+      [
+        "Så ska larmet se ut",
+        "Notis till vuxna, röd lampa hemma och tydlig text på dashboarden. Larmet ska säga var sensorn ligger. 'Vatten upptäckt' är sämre än 'Vatten under diskmaskinen'."
+      ],
+      [
+        "Undvik",
+        "Undvik sensorer som bara fungerar i en app du aldrig öppnar. En säkerhetssensor måste in i systemet du faktiskt ser."
+      ]
+    ]
+  },
+  {
+    "slug": "smarta-pluggar-barnfamilj",
+    "title": "Smarta pluggar i barnfamilj: när de är vettiga och när de är onödiga",
+    "description": "Smart plug är ofta första köpet, men den är inte alltid bästa köpet. Här är vad den faktiskt är bra till.",
+    "category": "köpguide",
+    "products": [
+      "smart-button",
+      "smart-bulb"
+    ],
+    "sections": [
+      [
+        "Vad en smart plug gör bra",
+        "Den gör en dum lampa, kaffebryggare eller julbelysning lite smartare. Det är användbart när saken bara behöver av/på."
+      ],
+      [
+        "När den är fel val",
+        "Om du vill dimra ljus, ändra färg eller få bra läggningsrutin är en smart lampa bättre. En plug kan bara bryta strömmen."
+      ],
+      [
+        "Barnfamiljsnytta",
+        "Julbelysning, fönsterlampor, fläkt, laddstation och en 'allt av'-rutin vid läggning. Håll det enkelt."
+      ],
+      [
+        "Säkerhet",
+        "Kolla maxbelastning. Använd inte billig okänd plug till värmeelement eller annat som drar mycket ström."
+      ],
+      [
+        "Min rekommendation",
+        "Köp smart plug när du redan vet exakt vad den ska styra. Köp den inte bara för att den är billig."
+      ]
+    ]
+  },
+  {
+    "slug": "aqara-ikea-philips-hue-vad-ska-familjer-valja",
+    "title": "Aqara, IKEA eller Philips Hue: vad ska familjer välja?",
+    "description": "En jordnära jämförelse för dig som vill börja med lampor, knappar och sensorer utan appkaos.",
+    "category": "jämförelse",
+    "products": [
+      "smart-button",
+      "smart-bulb",
+      "motion-sensor",
+      "water-leak-sensor"
+    ],
+    "sections": [
+      [
+        "Kort version",
+        "IKEA är ofta billigast att börja med. Philips Hue är starkt på belysning. Aqara är intressant för sensorer. Home Assistant kan knyta ihop allt om du vill bygga vidare."
+      ],
+      [
+        "För lampor",
+        "Hue är dyrt men stabilt. IKEA är billigare och räcker ofta. Om barnrummet bara behöver kvällsljus finns ingen anledning att börja med det dyraste."
+      ],
+      [
+        "För sensorer",
+        "Aqara har många små sensorer: rörelse, dörr, vatten och knappar. Kolla kompatibilitet innan du köper flera."
+      ],
+      [
+        "För familjefrid",
+        "Välj det som andra i hemmet kan använda utan instruktion. Om bara en vuxen förstår systemet är det inte färdigt."
+      ],
+      [
+        "Bästa väg framåt",
+        "Börja med en billig rutin. Om den används dagligen kan du bygga vidare och blanda märken via Home Assistant."
+      ]
+    ]
+  },
+  {
+    "slug": "narvarosensor-vs-rorelsesensor",
+    "title": "Närvarosensor eller rörelsesensor: vad ska man köpa?",
+    "description": "Skillnaden spelar roll i badrum, hall, barnrum och kök. Här är enkelversionen.",
+    "category": "köpguide",
+    "products": [
+      "motion-sensor"
+    ],
+    "sections": [
+      [
+        "Rörelsesensor",
+        "En rörelsesensor ser rörelse. Perfekt i hall, trappa och förråd. Mindre perfekt om någon sitter stilla länge."
+      ],
+      [
+        "Närvarosensor",
+        "En närvarosensor kan se att någon är kvar i rummet även utan stora rörelser. Det är bättre i kontor, badrum eller kök, men kostar oftast mer."
+      ],
+      [
+        "Barnfamiljsexempel",
+        "För nattljus i hall räcker rörelsesensor. För badrum där lampan inte ska slockna mitt i tandborstningen kan närvaro vara bättre."
+      ],
+      [
+        "Köpordning",
+        "Börja med billig rörelsesensor på en tydlig plats. Uppgradera till närvaro först där du märker irritationen."
+      ],
+      [
+        "Undvik",
+        "Undvik att automatisera alla rum direkt. Sensorer är bäst när de löser ett konkret irritationsmoment."
+      ]
+    ]
+  },
+  {
+    "slug": "smart-hem-i-hyresratt-utan-att-borra",
+    "title": "Smart hem i hyresrätt utan att borra",
+    "description": "Smarta lösningar för lampor, knappar och dashboard när du inte vill göra permanenta ingrepp.",
+    "category": "guide",
+    "products": [
+      "smart-button",
+      "smart-bulb",
+      "tablet-wall",
+      "motion-sensor"
+    ],
+    "sections": [
+      [
+        "Börja löst",
+        "Smarta lampor, batteriknappar och fristående sensorer kräver inga ingrepp. Det räcker långt."
+      ],
+      [
+        "Fäst utan hål",
+        "Använd kommandoremsor, ställ, magnetfästen eller en liten hylla. Väggdashboard behöver inte vara fastskruvad första veckan."
+      ],
+      [
+        "Undvik eljobb",
+        "Byt inte väggbrytare eller fasta installationer om du inte vet exakt vad som är tillåtet. Håll dig till plug-and-play."
+      ],
+      [
+        "Flyttvänligt",
+        "Spara originaldelar, märk upp prylar och bygg systemet så det går att ta med till nästa bostad."
+      ],
+      [
+        "Bra första köp",
+        "Två smarta lampor, en knapp och en sensor ger effekt utan att du rör elen."
+      ]
+    ]
+  },
+  {
+    "slug": "home-assistant-green-eller-raspberry-pi",
+    "title": "Home Assistant Green eller Raspberry Pi: vad passar bäst hemma?",
+    "description": "En enkel jämförelse för familjer som vill ha Home Assistant utan att fastna i serverkrångel.",
+    "category": "jämförelse",
+    "products": [
+      "tablet-wall",
+      "smart-button",
+      "motion-sensor"
+    ],
+    "sections": [
+      [
+        "Kort svar",
+        "Vill du komma igång enkelt: välj färdig hårdvara. Vill du pilla och återanvända saker: Raspberry Pi kan fungera, men kräver mer tålamod."
+      ],
+      [
+        "Familjeperspektivet",
+        "Det smarta hemmet ska fungera när du är trött, inte bara när du är sugen på teknik. Stabilitet vinner över maximal flexibilitet."
+      ],
+      [
+        "När Raspberry Pi är vettigt",
+        "Om du redan har en liggande, gillar att felsöka och kan ordna bra lagring och strömförsörjning."
+      ],
+      [
+        "När färdig box är bättre",
+        "När du vill lägga tiden på rutiner, dashboard och familjen, inte på SD-kort och nätaggregat."
+      ],
+      [
+        "Min linje",
+        "Börja med det som minskar risken att projektet dör halvvägs. För många är det en färdig Home Assistant-box."
+      ]
+    ]
+  },
+  {
+    "slug": "basta-smarta-nattljus-for-barn",
+    "title": "Bästa smarta nattljus för barn",
+    "description": "Så väljer du nattljus som hjälper utan att väcka hela familjen.",
+    "category": "köpguide",
+    "products": [
+      "smart-bulb",
+      "motion-sensor"
+    ],
+    "sections": [
+      [
+        "Nattljus ska vara tråkigt",
+        "Det ska vara svagt, varmt och förutsägbart. Blinkande färger och effekter är kul i fem minuter och dåliga klockan tre på natten."
+      ],
+      [
+        "Sensor eller schema",
+        "Schema fungerar för läggning. Rörelsesensor fungerar för toalettbesök och hall. Kombinera om det behövs."
+      ],
+      [
+        "Placering",
+        "Sätt ljuset lågt eller indirekt. Målet är att hitta till badrummet, inte starta dagen."
+      ],
+      [
+        "Färg och styrka",
+        "Varmt ljus och låg ljusstyrka. Om barnet piggnar till är ljuset för starkt."
+      ],
+      [
+        "Bra första setup",
+        "En smart lampa i hallen och en rörelsesensor räcker ofta."
+      ]
+    ]
+  },
+  {
+    "slug": "smart-hem-for-hundagare",
+    "title": "Smart hem för hundägare: lampor, kamera och rutiner utan krångel",
+    "description": "Små automationer som gör vardagen med hund lättare utan att bygga övervakningscentral.",
+    "category": "guide",
+    "products": [
+      "smart-bulb",
+      "motion-sensor",
+      "tablet-wall"
+    ],
+    "sections": [
+      [
+        "Börja med rutiner",
+        "Hundvardag handlar ofta om tider: mat, promenad, medicin, pälsvård. Dashboarden kan visa det utan att någon behöver fråga."
+      ],
+      [
+        "Ljus när någon kommer hem",
+        "En hallampa som tänds mjukt när någon öppnar dörren gör kvällspromenader enklare."
+      ],
+      [
+        "Kamera med måtta",
+        "Kamera kan vara användbart, men tänk integritet. Allt behöver inte spelas in."
+      ],
+      [
+        "Påminnelser",
+        "Promenad och mat kan ligga i familjevyn. Det minskar risken att alla tror att någon annan redan gjort det."
+      ],
+      [
+        "Undvik",
+        "Bygg inte ett larmsystem runt hunden om problemet egentligen är otydliga rutiner."
+      ]
+    ]
+  },
+  {
+    "slug": "smart-kok-for-barnfamiljer",
+    "title": "Smart kök för barnfamiljer: fem saker som faktiskt hjälper",
+    "description": "Köket är familjens trafikplats. Här är automationerna som märks på riktigt.",
+    "category": "guide",
+    "products": [
+      "tablet-wall",
+      "smart-button",
+      "water-leak-sensor",
+      "smart-bulb"
+    ],
+    "sections": [
+      [
+        "Köket är inte ett showroom",
+        "Det är smulor, disk, skolpapper, frukoststress och någon som frågar vad det blir till middag. Smarta prylar ska hjälpa där, inte se coola ut."
+      ],
+      [
+        "1. Synlig veckovy",
+        "Sätt dagens tider, mat och påminnelser där alla passerar."
+      ],
+      [
+        "2. Inköpsknapp",
+        "En knapp eller QR-kod vid kyl/skafferi gör att saker hamnar på listan direkt."
+      ],
+      [
+        "3. Vattenläckagesensor",
+        "Diskmaskinen är en av de första platserna jag hade säkrat."
+      ],
+      [
+        "4–5. Ljus och städ",
+        "Morgonljus och robotdammsugarschema ger liten men återkommande avlastning."
+      ]
+    ]
+  },
+  {
+    "slug": "smarta-hem-prylar-att-inte-kopa-forst",
+    "title": "Smarta hem-prylar du inte ska köpa först",
+    "description": "Allt smart är inte värt att börja med. Här är prylarna jag hade väntat med.",
+    "category": "guide",
+    "products": [
+      "smart-button",
+      "smart-bulb"
+    ],
+    "sections": [
+      [
+        "Problemet",
+        "Det är lätt att köpa det som ser mest avancerat ut. Men första prylen ska lösa ett vardagsproblem, inte skapa ett hobbyprojekt."
+      ],
+      [
+        "Vänta med smarta lås",
+        "De kan vara bra, men kraven på säkerhet och familjeacceptans är högre. Börja inte där om resten av systemet är nytt."
+      ],
+      [
+        "Vänta med avancerade kameror",
+        "Kamera väcker integritetsfrågor och kräver mer eftertanke än en knapp eller lampa."
+      ],
+      [
+        "Vänta med för många sensorer",
+        "Sensorer utan plan blir brus. Köp dem när du vet vilken rutin de ska styra."
+      ],
+      [
+        "Köp först",
+        "Lampor, knappar och en enkel sensor. Tråkigt, men oftast rätt."
       ]
     ]
   }

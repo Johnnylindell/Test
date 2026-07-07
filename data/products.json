@@ -38,5 +38,13 @@
     "price_hint": "10–35 €",
     "best_for": "nattljus, hall och badrum",
     "note": "Börja med nattljus. Det är enkelt, begripligt och märks direkt."
+  },
+  {
+    "id": "water-leak-sensor",
+    "name": "Vattenläckagesensor",
+    "category": "säkerhet",
+    "price_hint": "10–40 €",
+    "best_for": "diskmaskin, tvättmaskin, handfat och varmvattenberedare",
+    "note": "Inte roligast att köpa, men ofta en av de mest vettiga sensorerna i ett hem."
   }
 ]
