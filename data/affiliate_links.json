@@ -1,0 +1,27 @@
+{
+  "smart-button": {
+    "status": "missing",
+    "target_pages": ["/artiklar/smarta-knappar-10-anvandningar-hemma.html", "/artiklar/basta-smarta-hem-prylar-barnfamiljer.html"],
+    "needed_link": "Affiliate-länk till stabil Zigbee-knapp eller butikssökning"
+  },
+  "smart-bulb": {
+    "status": "missing",
+    "target_pages": ["/artiklar/basta-smarta-lampor-barnsovrum.html", "/artiklar/adhd-vanliga-morgonrutiner-smarta-hem.html"],
+    "needed_link": "Affiliate-länk till smart LED/Zigbee-lampa"
+  },
+  "tablet-wall": {
+    "status": "missing",
+    "target_pages": ["/artiklar/bygg-familjedashboard-surfplatta.html", "/artiklar/familjekalender-pa-vaggskarm.html"],
+    "needed_link": "Affiliate-länk till surfplatta, väggfäste eller laddningslösning"
+  },
+  "robot-vacuum": {
+    "status": "missing",
+    "target_pages": ["/artiklar/basta-robotdammsugare-barnfamiljer.html"],
+    "needed_link": "Affiliate-länk till robotdammsugare eller butikskategori"
+  },
+  "motion-sensor": {
+    "status": "missing",
+    "target_pages": ["/artiklar/basta-smarta-hem-prylar-barnfamiljer.html", "/artiklar/basta-smarta-lampor-barnsovrum.html"],
+    "needed_link": "Affiliate-länk till rörelse-/närvarosensor"
+  }
+}

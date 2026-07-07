@@ -342,6 +342,39 @@
     ]
   },
   {
+    "slug": "basta-zigbee-hubbar-for-familjer",
+    "title": "Bästa Zigbee-hubbar för familjer",
+    "description": "Vilken hubb passar om du vill ha lampor, knappar och sensorer som fungerar utan appkaos?",
+    "category": "köpguide",
+    "products": [
+      "smart-button",
+      "smart-bulb",
+      "motion-sensor"
+    ],
+    "sections": [
+      [
+        "Varför hubben spelar roll",
+        "En bra hubb gör att lampor, knappar och sensorer svarar snabbt och fortsätter fungera även när mobilen ligger någon annanstans. För en familj är stabilitet viktigare än att kunna finjustera allt."
+      ],
+      [
+        "Tre spår att välja mellan",
+        "Home Assistant med Zigbee-dongel ger mest kontroll. Home Assistant Green eller liknande färdig lösning är enklare. IKEA eller Aqara kan räcka om du vill börja billigt och inte bygga allt själv."
+      ],
+      [
+        "Titta på detta före köp",
+        "Kolla stöd för Zigbee, lokal styrning, backup, räckvidd och hur lätt det är att lägga till knappar. Om hubben kräver att alla i familjen använder en ny app kommer den troligen bli irriterande."
+      ],
+      [
+        "Min enkla rekommendation",
+        "Vill du bygga vidare över tid: välj Home Assistant-spåret. Vill du bara testa lampor och knappar: börja enklare, men köp saker som senare går att flytta över."
+      ],
+      [
+        "Undvik",
+        "Undvik låsta system där varje liten ändring kräver molnapp, konto och tålamod. Det känns okej första kvällen, men blir tröttsamt när något strular en vardagsmorgon."
+      ]
+    ]
+  },
+  {
     "slug": "home-assistant-dashboard-koket",
     "title": "Home Assistant-dashboard i köket: vad ska visas?",
     "description": "En praktisk layout för köksskärm med kalender, inköp och rutiner.",
@@ -503,33 +536,6 @@
       [
         "Barnens del",
         "Gör en enkel plockrutin före körning. Dashboarden kan visa 'golvet klart'."
-      ]
-    ]
-  },
-  {
-    "slug": "digital-familjedashboard-template",
-    "title": "Digital familjedashboard-template: vad bör ingå?",
-    "description": "Produktidé och checklista för en nedladdningsbar dashboard-mall.",
-    "category": "digital produkt",
-    "products": [
-      "tablet-wall"
-    ],
-    "sections": [
-      [
-        "Varför template kan sälja",
-        "Många vill ha resultatet men inte bygga allt från noll. En färdig mall sparar tid."
-      ],
-      [
-        "Innehåll",
-        "Startsida, idag, vecka, inköp, rutiner, färgkodning och installationsguide."
-      ],
-      [
-        "Prissättning",
-        "En enkel mall kan testas på 9–19 euro. Med support eller installation kan värdet bli högre."
-      ],
-      [
-        "Validering",
-        "Lägg upp waitlist innan betalning. Om människor klickar och frågar finns signal om efterfrågan."
       ]
     ]
   },

@@ -1,8 +1,8 @@
 /
 /kom-igang.html
 /artiklar.html
+/koprad.html
 /produkter.html
-/dashboard-template.html
 /om.html
 /affiliate.html
 /integritet.html
@@ -18,11 +18,11 @@
 /artiklar/smarta-paminnelser-skola-medicin-laggdags.html
 /artiklar/billigt-smart-hem-under-100-euro.html
 /artiklar/zigbee-vs-wifi-smarta-prylar.html
+/artiklar/basta-zigbee-hubbar-for-familjer.html
 /artiklar/home-assistant-dashboard-koket.html
 /artiklar/smarta-hem-for-laggdags.html
 /artiklar/vattenlackage-sensor-barnfamilj.html
 /artiklar/familjens-veckovy-idag-plus-sex-dagar.html
 /artiklar/smarta-hem-misstag-barnfamiljer.html
 /artiklar/robotdammsugare-schema-barnfamilj.html
-/artiklar/digital-familjedashboard-template.html
 /artiklar/smarta-hem-notiser-utan-stress.html

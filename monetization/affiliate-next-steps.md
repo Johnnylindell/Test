@@ -1,37 +1,50 @@
-# Affiliate nästa steg
+# Affiliate, reklam och content-plan
 
-Mål: kunna lägga in riktiga köplänkar utan att sajten känns fejk.
+Fokus är nu affiliate + SEO + annonser. Den digitala produkten är parkerad.
 
-## Program att söka först
+## Intäktsordning
 
-1. Amazon Associates Sverige/Tyskland
-   - bred produktkatalog
-   - passar smarta knappar, lampor, tablets, robotdammsugare
-   - nackdel: låg provision och krav på försäljning inom viss tid
+1. Affiliate-länkar på köpguider
+2. Displayannonser när trafiken finns
+3. Sponsrade placeringar endast om de märks tydligt
+
+## Första affiliateprogram att söka
+
+1. Amazon Associates
+   - smarta lampor, knappar, sensorer, tablets, robotdammsugare
+   - snabbt att komma igång men låg provision
 
 2. Adtraction
    - nordiska butiker
-   - passar om det finns smart hem-, elektronik- eller hembutiker i nätverket
+   - bättre för Finland/Sverige om relevanta elektronik-/hembutiker finns
 
-3. Prisjakt / butikssamarbeten senare
+3. Direkt med butik senare
    - bättre när sajten har trafik
 
-## Första sidor att monetisera
+## Första sidor att tjäna på
 
-- /artiklar/basta-smarta-hem-prylar-barnfamiljer.html
-- /artiklar/basta-smarta-lampor-barnsovrum.html
-- /artiklar/basta-robotdammsugare-barnfamiljer.html
-- /artiklar/billigt-smart-hem-under-100-euro.html
-- /produkter.html
+- `/koprad.html`
+- `/artiklar/basta-smarta-hem-prylar-barnfamiljer.html`
+- `/artiklar/basta-smarta-lampor-barnsovrum.html`
+- `/artiklar/basta-robotdammsugare-barnfamiljer.html`
+- `/artiklar/billigt-smart-hem-under-100-euro.html`
+- `/artiklar/zigbee-vs-wifi-smarta-prylar.html`
+
+## Vad Hermes gör automatiskt
+
+- skriver fler köpguider
+- bygger internlänkar mellan guider
+- håller köprådssidan uppdaterad
+- rapporterar vilka affiliate-länkar som saknas
+- bygger om sajten när länkar finns
+
+## Vad Johnny måste göra
+
+- skapa/godkänna affiliatekonto
+- acceptera villkor
+- ge tracking-länkar eller API/export
+- godkänna annonser/analytics innan de aktiveras
 
 ## Regel
 
-Lägg inte in en länk bara för att tjäna pengar. Länken ska passa texten. Om produkten är tveksam, skriv det.
-
-## Vad Johnny behöver göra
-
-- skapa affiliatekonto
-- godkänna villkor
-- skicka/ange tracking-länkar
-
-Efter det kan Hermes byta in länkarna och bygga om sajten.
+Ingen publik placeholder-affiliate. Antingen riktig länk eller ingen butikslänk.
