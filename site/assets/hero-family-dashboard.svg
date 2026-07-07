@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 560" role="img" aria-labelledby="t d">
+<title id="t">Familj i kök med väggdashboard</title><desc id="d">En varm illustration av en väggskärm, familjekalender och vardagssaker i hall/kök.</desc>
+<defs>
+  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#3a2d1c" flood-opacity=".16"/></filter>
+  <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="2" fill="#dfd1bc" opacity=".55"/></pattern>
+</defs>
+<rect width="760" height="560" rx="42" fill="#f7efe3"/>
+<rect x="28" y="28" width="704" height="504" rx="34" fill="url(#dots)" opacity=".45"/>
+<path d="M74 416c72-86 159-118 260-92s164 8 232-54c46-42 91-48 136-18v258H74z" fill="#dcead6"/>
+<rect x="86" y="80" width="324" height="274" rx="28" fill="#fffdf8" stroke="#2d261f" stroke-width="5" filter="url(#shadow)"/>
+<rect x="114" y="112" width="120" height="24" rx="12" fill="#2f6f44"/>
+<rect x="114" y="158" width="246" height="16" rx="8" fill="#ded6ca"/>
+<rect x="114" y="190" width="246" height="16" rx="8" fill="#ded6ca"/>
+<rect x="114" y="222" width="170" height="16" rx="8" fill="#ded6ca"/>
+<g transform="translate(114 266)">
+  <rect width="52" height="52" rx="14" fill="#f3c89a"/><rect x="66" width="52" height="52" rx="14" fill="#dcead6"/><rect x="132" width="52" height="52" rx="14" fill="#c9d8ef"/><rect x="198" width="52" height="52" rx="14" fill="#ecd2c2"/>
+  <path d="M16 25h20M26 15v20" stroke="#2d261f" stroke-width="4" stroke-linecap="round"/><path d="M82 27l10 10 18-24" stroke="#2d261f" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<rect x="472" y="108" width="154" height="202" rx="20" fill="#2f6f44" filter="url(#shadow)"/>
+<rect x="494" y="132" width="110" height="12" rx="6" fill="#dcead6"/><rect x="494" y="164" width="86" height="12" rx="6" fill="#dcead6"/><rect x="494" y="196" width="118" height="12" rx="6" fill="#dcead6"/>
+<circle cx="580" cy="266" r="20" fill="#f3c89a"/><path d="M568 266h24M580 254v24" stroke="#2d261f" stroke-width="4" stroke-linecap="round"/>
+<g transform="translate(450 346)">
+  <circle cx="54" cy="54" r="54" fill="#f3c89a" stroke="#2d261f" stroke-width="5"/>
+  <circle cx="36" cy="46" r="5" fill="#2d261f"/><circle cx="72" cy="46" r="5" fill="#2d261f"/><path d="M35 68c12 12 28 12 40 0" stroke="#2d261f" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M22 22c24-28 66-9 74 18" stroke="#2d261f" stroke-width="8" fill="none" stroke-linecap="round"/>
+</g>
+<g transform="translate(590 372)">
+  <circle cx="40" cy="40" r="40" fill="#c9d8ef" stroke="#2d261f" stroke-width="5"/>
+  <circle cx="27" cy="35" r="4" fill="#2d261f"/><circle cx="53" cy="35" r="4" fill="#2d261f"/><path d="M29 54c8 7 18 7 26 0" stroke="#2d261f" stroke-width="4" fill="none" stroke-linecap="round"/>
+</g>
+<path d="M166 404c-26 38-18 78 20 100h126c34-26 34-66 0-101-41 22-91 22-146 1z" fill="#2f6f44" stroke="#2d261f" stroke-width="5"/>
+<circle cx="238" cy="376" r="62" fill="#ecd2c2" stroke="#2d261f" stroke-width="5"/>
+<circle cx="216" cy="366" r="5" fill="#2d261f"/><circle cx="260" cy="366" r="5" fill="#2d261f"/><path d="M216 392c16 12 31 12 47 0" stroke="#2d261f" stroke-width="5" fill="none" stroke-linecap="round"/>
+<path d="M178 358c18-55 95-67 125-9" stroke="#2d261f" stroke-width="10" fill="none" stroke-linecap="round"/>
+<rect x="60" y="452" width="96" height="52" rx="16" fill="#fffdf8" stroke="#2d261f" stroke-width="5"/><path d="M82 478h52" stroke="#2d261f" stroke-width="5" stroke-linecap="round"/>
+</svg>

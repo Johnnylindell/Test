@@ -74,6 +74,9 @@ def main() -> None:
     if SITE.exists():
         shutil.rmtree(SITE)
     SITE.mkdir(parents=True)
+    assets_src = ROOT / "assets"
+    if assets_src.exists():
+        shutil.copytree(assets_src, SITE / "assets")
     articles = json.loads(ARTICLES.read_text(encoding="utf-8"))
     products = json.loads(PRODUCTS.read_text(encoding="utf-8"))
 
@@ -83,16 +86,24 @@ def main() -> None:
         render_page(a["title"], a["description"], article_html(a, products), out)
         cards.append(card(a))
 
-    home = """<section class='hero'>
-      <span class='eyebrow'>Smart hem som familjen faktiskt använder</span>
-      <h1>Färre tappade trådar. Mindre tjat. Lite mer ordning hemma.</h1>
-      <p class='lead'>Smart Familj Hemma är för dig som vill använda Home Assistant, väggskärm och enkla sensorer utan att förvandla hemmet till ett evighetsprojekt. Fokus är barnfamilj, morgnar, läggning, veckovy och saker som annars glöms bort.</p>
-      <div class='actions'><a class='cta' href='/kom-igang.html'>Börja här</a><a class='ghost' href='/artiklar.html'>Bläddra bland guider</a></div>
+    home = """<section class='hero hero-graphic'>
+      <div class='hero-copy'>
+        <span class='eyebrow'>Smart hem som familjen faktiskt använder</span>
+        <h1>Färre tappade trådar. Mindre tjat. Lite mer ordning hemma.</h1>
+        <p class='lead'>Guider för dig som vill använda Home Assistant, väggskärm och enkla sensorer utan att förvandla hemmet till ett evighetsprojekt. Fokus är hallen, morgonen, läggningen och sakerna som annars glöms bort.</p>
+        <div class='actions'><a class='cta' href='/kom-igang.html'>Börja här</a><a class='ghost' href='/artiklar.html'>Bläddra bland guider</a></div>
+      </div>
+      <img class='hero-art' src='/assets/hero-family-dashboard.svg' alt='Illustration av familj, kök och väggdashboard'>
     </section>
 
-    <section class='note-panel'>
+    <section class='note-panel editorial-panel'>
       <div><span class='pill'>Kort sagt</span><h2>Det här är inte en prylblogg för tekniknördar.</h2></div>
       <p>Jag skriver om smart hem ur familjevinkel: vad som märks i hallen klockan 07:35, vad som hjälper vid läggning och vad som bara blir ännu en app att underhålla. Ibland är bästa rådet att köpa en knapp. Ibland är det att låta bli.</p>
+    </section>
+
+    <section class='visual-band'>
+      <div class='visual-card'><img src='/assets/routine-cards.svg' alt='Illustration av morgon- och kvällskort'><h2>Rutiner ska synas</h2><p>En färg på lampan, en knapp vid dörren eller en checklista på väggen slår ofta ännu en notis i mobilen.</p></div>
+      <div class='visual-card'><img src='/assets/product-shelf.svg' alt='Illustration av smart hem-prylar'><h2>Köp färre saker</h2><p>Två bra placerade prylar kan göra mer nytta än tio som hamnar i en låda.</p></div>
     </section>
 
     <section>
@@ -103,11 +114,11 @@ def main() -> None:
     <section class='split'>
       <div><span class='pill'>Startpaket</span><h2>En vettig första setup</h2><p class='muted'>Börja smått. En väggskärm, två lampor, två knappar och en sensor räcker långt om de sitter på rätt plats.</p></div>
       <div class='checklist'>
-        <p>✓ Hallknapp för "vi går hemifrån"</p>
-        <p>✓ Kvällsljus i barnrum</p>
-        <p>✓ Veckovy i köket</p>
-        <p>✓ Nattljus med rörelsesensor</p>
-        <p>✓ Inköpslista som syns utan att öppna mobilen</p>
+        <p>Hallknapp för "vi går hemifrån"</p>
+        <p>Kvällsljus i barnrum</p>
+        <p>Veckovy i köket</p>
+        <p>Nattljus med rörelsesensor</p>
+        <p>Inköpslista som syns utan att öppna mobilen</p>
       </div>
     </section>
     """ % "".join(cards[:6])
