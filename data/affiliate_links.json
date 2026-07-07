@@ -1,27 +1,37 @@
 {
   "smart-button": {
-    "status": "missing",
-    "target_pages": ["/artiklar/smarta-knappar-10-anvandningar-hemma.html", "/artiklar/basta-smarta-hem-prylar-barnfamiljer.html"],
-    "needed_link": "Affiliate-länk till stabil Zigbee-knapp eller butikssökning"
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=zigbee+knapp&tag=smartahemmet-21",
+    "label": "Se Zigbee-knappar på Amazon",
+    "target_pages": ["/artiklar/smarta-knappar-10-anvandningar-hemma.html", "/artiklar/basta-smarta-hem-prylar-barnfamiljer.html"]
   },
   "smart-bulb": {
-    "status": "missing",
-    "target_pages": ["/artiklar/basta-smarta-lampor-barnsovrum.html", "/artiklar/adhd-vanliga-morgonrutiner-smarta-hem.html"],
-    "needed_link": "Affiliate-länk till smart LED/Zigbee-lampa"
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=smart+zigbee+lampa&tag=smartahemmet-21",
+    "label": "Se smarta lampor på Amazon",
+    "target_pages": ["/artiklar/basta-smarta-lampor-barnsovrum.html", "/artiklar/adhd-vanliga-morgonrutiner-smarta-hem.html"]
   },
   "tablet-wall": {
-    "status": "missing",
-    "target_pages": ["/artiklar/bygg-familjedashboard-surfplatta.html", "/artiklar/familjekalender-pa-vaggskarm.html"],
-    "needed_link": "Affiliate-länk till surfplatta, väggfäste eller laddningslösning"
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=surfplatta+v%C3%A4ggf%C3%A4ste&tag=smartahemmet-21",
+    "label": "Se surfplattor och väggfästen på Amazon",
+    "target_pages": ["/artiklar/bygg-familjedashboard-surfplatta.html", "/artiklar/familjekalender-pa-vaggskarm.html"]
   },
   "robot-vacuum": {
-    "status": "missing",
-    "target_pages": ["/artiklar/basta-robotdammsugare-barnfamiljer.html"],
-    "needed_link": "Affiliate-länk till robotdammsugare eller butikskategori"
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=robotdammsugare&tag=smartahemmet-21",
+    "label": "Se robotdammsugare på Amazon",
+    "target_pages": ["/artiklar/basta-robotdammsugare-barnfamiljer.html"]
   },
   "motion-sensor": {
-    "status": "missing",
-    "target_pages": ["/artiklar/basta-smarta-hem-prylar-barnfamiljer.html", "/artiklar/basta-smarta-lampor-barnsovrum.html"],
-    "needed_link": "Affiliate-länk till rörelse-/närvarosensor"
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=zigbee+r%C3%B6relsesensor&tag=smartahemmet-21",
+    "label": "Se rörelsesensorer på Amazon",
+    "target_pages": ["/artiklar/basta-smarta-hem-prylar-barnfamiljer.html", "/artiklar/basta-smarta-lampor-barnsovrum.html"]
   }
 }

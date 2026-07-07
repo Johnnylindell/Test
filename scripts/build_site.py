@@ -11,6 +11,8 @@ ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 ARTICLES = ROOT / "content" / "articles" / "articles.json"
 PRODUCTS = ROOT / "data" / "products.json"
+AFFILIATE_LINKS = ROOT / "data" / "affiliate_links.json"
+SITE_CONFIG = ROOT / "config" / "site.json"
 BASE = (ROOT / "templates" / "base.html").read_text(encoding="utf-8")
 
 MONEY_SLUGS = {
@@ -36,31 +38,36 @@ def render_page(title: str, description: str, body: str, out: Path) -> None:
     out.write_text(page, encoding="utf-8")
 
 
-def product_cards(products: list[dict], ids: list[str]) -> str:
+def product_cards(products: list[dict], ids: list[str], affiliate_links: dict) -> str:
     by_id = {p["id"]: p for p in products}
     cards = []
     for pid in ids:
         p = by_id.get(pid)
         if not p:
             continue
+        link = affiliate_links.get(pid, {})
+        link_html = ""
+        if link.get("status") == "active" and link.get("url"):
+            link_html = f"<a class='buy-link' href='{html.escape(link['url'])}' rel='sponsored nofollow noopener' target='_blank'>{html.escape(link.get('label', 'Se alternativ'))}</a>"
         cards.append(
             "<div class='mini-card'>"
             f"<span class='pill'>{html.escape(p['category'])}</span>"
             f"<h3>{html.escape(p['name'])}</h3>"
             f"<p>{html.escape(p['best_for'])}</p>"
             f"<small>Typiskt pris: {html.escape(p['price_hint'])}</small>"
+            f"{link_html}"
             "</div>"
         )
     if not cards:
         return ""
-    return "<section class='related-products'><h2>Prylar som nämns i guiden</h2><p class='muted'>Köplänkar läggs in först när rätt affiliatekonto finns. Tills dess är det här rena köpråd.</p><div class='mini-grid'>" + "".join(cards) + "</div></section>"
+    return "<section class='related-products'><h2>Prylar som nämns i guiden</h2><p class='muted'>Länkar märkta som sponsrade kan ge sajten ersättning utan extra kostnad för dig.</p><div class='mini-grid'>" + "".join(cards) + "</div></section>"
 
 
 def ad_slot(label: str = "Annonsplats") -> str:
     return f"<aside class='ad-slot'><span>{html.escape(label)}</span><p>Reserverad för relevant annons, inte aktiverad.</p></aside>"
 
 
-def article_html(article: dict, products: list[dict]) -> str:
+def article_html(article: dict, products: list[dict], affiliate_links: dict) -> str:
     parts = [
         "<article>",
         f"<span class='pill'>{html.escape(article['category'])}</span>",
@@ -69,7 +76,7 @@ def article_html(article: dict, products: list[dict]) -> str:
     ]
     for idx, (heading, text) in enumerate(article["sections"]):
         parts.append(f"<h2>{html.escape(heading)}</h2><p>{html.escape(text)}</p>")
-    parts.append(product_cards(products, article.get("products", [])))
+    parts.append(product_cards(products, article.get("products", []), affiliate_links))
     parts.append("<p class='fineprint'>Senast uppdaterad: juli 2026. Guiden är skriven för vanliga hem, inte för perfekta labbmiljöer.</p></article>")
     return "\n".join(parts)
 
@@ -94,12 +101,14 @@ def main() -> None:
         shutil.copytree(assets_src, SITE / "assets")
     articles = json.loads(ARTICLES.read_text(encoding="utf-8"))
     products = json.loads(PRODUCTS.read_text(encoding="utf-8"))
+    affiliate_links = json.loads(AFFILIATE_LINKS.read_text(encoding="utf-8")) if AFFILIATE_LINKS.exists() else {}
+    site_config = json.loads(SITE_CONFIG.read_text(encoding="utf-8")) if SITE_CONFIG.exists() else {}
 
     cards = []
     money_cards = []
     for a in articles:
         out = SITE / "artiklar" / f"{a['slug']}.html"
-        render_page(a["title"], a["description"], article_html(a, products), out)
+        render_page(a["title"], a["description"], article_html(a, products, affiliate_links), out)
         c = card(a)
         cards.append(c)
         if a.get("slug") in MONEY_SLUGS:
@@ -149,16 +158,23 @@ def main() -> None:
 
     render_page("Köpråd", "Köpguider för smart hem i barnfamiljer.", "<section><div class='section-head'><div><span class='pill'>Köpråd</span><h1>Köpguider som är värda att börja med</h1></div><p class='muted'>De här sidorna är byggda för sökningar där läsaren faktiskt funderar på att köpa något: lampor, knappar, sensorer, robotdammsugare och väggskärm.</p></div><div class='grid'>" + "".join(money_cards) + "</div></section>", SITE / "koprad.html")
 
-    product_html = "".join(
-        "<div class='card product-card'>"
-        f"<span class='pill'>{html.escape(p['category'])}</span>"
-        f"<h2>{html.escape(p['name'])}</h2>"
-        f"<p>{html.escape(p['best_for'])}</p>"
-        f"<p class='muted'>Typiskt pris: {html.escape(p['price_hint'])}</p>"
-        f"<p class='fineprint'>{html.escape(p.get('note', ''))}</p>"
-        "</div>"
-        for p in products
-    )
+    product_bits = []
+    for p in products:
+        link = affiliate_links.get(p["id"], {})
+        link_html = ""
+        if link.get("status") == "active" and link.get("url"):
+            link_html = f"<a class='buy-link' href='{html.escape(link['url'])}' rel='sponsored nofollow noopener' target='_blank'>{html.escape(link.get('label', 'Se alternativ'))}</a>"
+        product_bits.append(
+            "<div class='card product-card'>"
+            f"<span class='pill'>{html.escape(p['category'])}</span>"
+            f"<h2>{html.escape(p['name'])}</h2>"
+            f"<p>{html.escape(p['best_for'])}</p>"
+            f"<p class='muted'>Typiskt pris: {html.escape(p['price_hint'])}</p>"
+            f"<p class='fineprint'>{html.escape(p.get('note', ''))}</p>"
+            f"{link_html}"
+            "</div>"
+        )
+    product_html = "".join(product_bits)
     products_page = "<section><div class='section-head'><div><span class='pill'>Produktkategorier</span><h1>Prylar jag skulle börja med</h1></div><p class='muted'>Inga fejkade topplistor. Bara kategorier som brukar göra nytta i ett familjehem.</p></div><div class='grid'>" + product_html + "</div></section>"
     render_page("Produktkategorier", "Prylar som kan vara värda att börja med för ett smartare familjehem.", products_page, SITE / "produkter.html")
 
@@ -169,7 +185,8 @@ def main() -> None:
     render_page("Om", "Om Smart Familj Hemma.", about, SITE / "om.html")
 
     disclosure = """<article><h1>Transparens</h1>
-    <p>Smart Familj Hemma kan använda affiliate-länkar och annonser. Om du köper via en sådan länk kan sajten få ersättning utan extra kostnad för dig.</p>
+    <p>Smart Familj Hemma använder affiliate-länkar, bland annat via Amazon Associates. Som Amazon-partner tjänar sajten pengar på kvalificerade köp.</p>
+    <p>Det kostar inte extra för dig att använda en sådan länk.</p>
     <p>Rekommendationer ska bygga på praktisk nytta i ett familjehem: stabilitet, pris, enkelhet och hur lite underhåll produkten kräver.</p>
     <h2>Annonser</h2><p>Annonser ska märkas tydligt och får inte blandas ihop med redaktionella rekommendationer.</p></article>"""
     render_page("Transparens", "Transparens om länkar, annonser och rekommendationer.", disclosure, SITE / "affiliate.html")
@@ -179,8 +196,16 @@ def main() -> None:
     <p>Om analys, annonser eller affiliate-nätverk läggs till senare ska den här sidan uppdateras först.</p></article>"""
     render_page("Integritet", "Integritetspolicy för Smart Familj Hemma.", privacy, SITE / "integritet.html")
 
-    sitemap = "\n".join(["/", "/kom-igang.html", "/artiklar.html", "/koprad.html", "/produkter.html", "/om.html", "/affiliate.html", "/integritet.html"] + [f"/artiklar/{a['slug']}.html" for a in articles])
+    paths = ["/", "/kom-igang.html", "/artiklar.html", "/koprad.html", "/produkter.html", "/om.html", "/affiliate.html", "/integritet.html"] + [f"/artiklar/{a['slug']}.html" for a in articles]
+    site_url = str(site_config.get("site_url", "")).rstrip("/")
+    if site_url:
+        sitemap = "\n".join([site_url + path for path in paths])
+        robots = f"User-agent: *\nAllow: /\nSitemap: {site_url}/sitemap.txt\n"
+    else:
+        sitemap = "\n".join(paths)
+        robots = "User-agent: *\nAllow: /\n"
     (SITE / "sitemap.txt").write_text(sitemap + "\n", encoding="utf-8")
+    (SITE / "robots.txt").write_text(robots, encoding="utf-8")
     print(f"Built {len(articles)} articles into {SITE}")
 
 
