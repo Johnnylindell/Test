@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-label="Kok dashboard">
+<defs><filter id="s" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#0b2545" flood-opacity=".12"/></filter></defs>
+<rect width="640" height="420" rx="34" fill="#e8f6f2"/>
+<circle cx="548" cy="78" r="58" fill="#fff" opacity=".72"/>
+<circle cx="88" cy="352" r="84" fill="#fff" opacity=".58"/>
+<g filter="url(#s)">
+<rect x="70" y="70" width="500" height="278" rx="30" fill="#fff"/>
+<rect x="96" y="98" width="140" height="18" rx="9" fill="#0c2544"/>
+<rect x="96" y="132" width="238" height="12" rx="6" fill="#b7c8d7"/>
+<rect x="96" y="178" width="130" height="92" rx="20" fill="#e8f6f2" stroke="#dde8ee"/>
+<rect x="252" y="178" width="130" height="92" rx="20" fill="#f8fbff" stroke="#dde8ee"/>
+<rect x="408" y="178" width="130" height="92" rx="20" fill="#fff8ef" stroke="#dde8ee"/>
+<text x="161" y="232" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="800" fill="#0aa889">KÖK</text>
+<text x="317" y="218" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#0c2544">Kök</text>
+<text x="317" y="246" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#69788a">Vecka</text>
+<text x="473" y="218" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#0c2544">Mat</text>
+<path d="M410 246h72" stroke="#0aa889" stroke-width="9" stroke-linecap="round"/>
+<path d="M410 270h46" stroke="#d7e4eb" stroke-width="9" stroke-linecap="round"/>
+</g>
+</svg>
