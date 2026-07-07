@@ -1,0 +1,13 @@
+{
+  "familyName": "Familjen",
+  "today": "Tisdag",
+  "focus": "Lugn morgon, enkel kväll",
+  "week": [
+    {"day": "Idag", "items": ["Skola/dagis", "Middag: pasta", "Packa gympakläder"]},
+    {"day": "Onsdag", "items": ["Bibliotek", "Handla mjölk", "Lägg fram kläder"]},
+    {"day": "Torsdag", "items": ["Hobby", "Tvätt", "Tidigare läggning"]}
+  ],
+  "morning": ["Kläder", "Frukost", "Tänder", "Väska", "Ytterkläder"],
+  "evening": ["Plocka hall", "Packa väskor", "Pyjamas", "Tänder", "Läsning"],
+  "shopping": ["Mjölk", "Bröd", "Frukt", "Hundmat"]
+}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Familjedashboard</title>
+  <style>
+    :root{--bg:#102016;--panel:#f8f4ea;--card:#fffdf8;--ink:#24211c;--muted:#756d61;--green:#2f6f44;--line:rgba(36,33,28,.13)}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink)}
+    .wrap{max-width:1180px;margin:auto;padding:24px}.hero{background:linear-gradient(135deg,#f8f4ea,#e4efdf);border-radius:30px;padding:30px;margin-bottom:18px}.hero h1{font-size:clamp(38px,6vw,72px);line-height:.95;margin:0}.hero p{font-size:22px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px}.week{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.day{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}h2,h3{margin:0 0 12px}.task{padding:10px 0;border-bottom:1px solid var(--line)}.task:last-child{border-bottom:0}.check:before{content:'□ ';color:var(--green);font-weight:900}@media(max-width:800px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero"><h1 id="family">Familjedashboard</h1><p id="focus"></p></section>
+    <div class="grid">
+      <section class="card"><h2>Veckan</h2><div class="week" id="week"></div></section>
+      <aside class="card"><h2>Inköp</h2><div id="shopping"></div></aside>
+      <section class="card"><h2>Morgon</h2><div id="morning"></div></section>
+      <section class="card"><h2>Kväll</h2><div id="evening"></div></section>
+    </div>
+  </div>
+<script>
+fetch('data.json').then(r=>r.json()).then(d=>{
+  document.getElementById('family').textContent=d.familyName+' · '+d.today;
+  document.getElementById('focus').textContent=d.focus;
+  document.getElementById('week').innerHTML=d.week.map(day=>`<div class="day"><h3>${day.day}</h3>${day.items.map(x=>`<div class="task">${x}</div>`).join('')}</div>`).join('');
+  for (const id of ['morning','evening','shopping']) document.getElementById(id).innerHTML=d[id].map(x=>`<div class="task check">${x}</div>`).join('');
+});
+</script>
+</body>
+</html>

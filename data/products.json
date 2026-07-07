@@ -4,44 +4,39 @@
     "name": "Smart knapp / Zigbee-knapp",
     "category": "smarta knappar",
     "price_hint": "10–30 €",
-    "best_for": "enkla familjerutiner, nattläge, morgonknapp",
-    "affiliate_url": "AFFILIATE_PLACEHOLDER_SMART_BUTTON",
-    "note": "Byt till riktig affiliate-länk efter godkännande och affiliate-konto."
+    "best_for": "starta rutiner utan att öppna mobilen",
+    "note": "Bra första köp. Sätt den där beteendet redan händer: hallen, köket eller bredvid sängen."
   },
   {
     "id": "smart-bulb",
     "name": "Smart LED-lampa",
     "category": "belysning",
     "price_hint": "8–25 €",
-    "best_for": "barnrum, kvällsrutin, visuella påminnelser",
-    "affiliate_url": "AFFILIATE_PLACEHOLDER_SMART_BULB",
-    "note": "Välj helst Zigbee/Thread om familjen vill ha robust smart hem."
+    "best_for": "kvällsläge, nattljus och visuella påminnelser",
+    "note": "Välj hellre stabilitet än roliga effekter. Barnrum behöver fungera varje kväll."
   },
   {
     "id": "tablet-wall",
-    "name": "Begagnad surfplatta som väggdashboard",
+    "name": "Begagnad surfplatta som väggskärm",
     "category": "dashboard",
     "price_hint": "50–150 €",
-    "best_for": "familjekalender, inköpslista, veckovy",
-    "affiliate_url": "AFFILIATE_PLACEHOLDER_TABLET",
-    "note": "Begagnat kan vara billigare än affiliate, men jämförelsesidan kan ändå tjäna på tillbehör."
+    "best_for": "veckovy, inköpslista och familjekalender",
+    "note": "Begagnat duger ofta. Lägg mer energi på placering och laddning än på senaste modellen."
   },
   {
     "id": "robot-vacuum",
     "name": "Robotdammsugare",
     "category": "städning",
     "price_hint": "150–700 €",
-    "best_for": "barnfamiljer, smulor, vardagsavlastning",
-    "affiliate_url": "AFFILIATE_PLACEHOLDER_ROBOT_VACUUM",
-    "note": "Högre ordervärde, bra affiliate-kandidat."
+    "best_for": "smulor, hall, kök och vardagsavlastning",
+    "note": "Värt att överväga när golven faktiskt går att hålla fria från småprylar."
   },
   {
     "id": "motion-sensor",
     "name": "Rörelsesensor",
     "category": "sensorer",
     "price_hint": "10–35 €",
-    "best_for": "nattljus, hall, badrum, trygghet",
-    "affiliate_url": "AFFILIATE_PLACEHOLDER_MOTION_SENSOR",
-    "note": "Bra internlänkningsprodukt för lamp- och rutinartiklar."
+    "best_for": "nattljus, hall och badrum",
+    "note": "Börja med nattljus. Det är enkelt, begripligt och märks direkt."
   }
 ]

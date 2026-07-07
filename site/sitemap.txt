@@ -1,4 +1,5 @@
 /
+/kom-igang.html
 /artiklar.html
 /produkter.html
 /dashboard-template.html

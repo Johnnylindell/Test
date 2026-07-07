@@ -26,29 +26,48 @@ def render_page(title: str, description: str, body: str, out: Path) -> None:
     out.write_text(page, encoding="utf-8")
 
 
-def product_table(products: list[dict], ids: list[str]) -> str:
+def product_cards(products: list[dict], ids: list[str]) -> str:
     by_id = {p["id"]: p for p in products}
-    rows = []
+    cards = []
     for pid in ids:
         p = by_id.get(pid)
         if not p:
             continue
-        rows.append(
-            f"<tr><td><b>{html.escape(p['name'])}</b></td><td>{html.escape(p['price_hint'])}</td>"
-            f"<td>{html.escape(p['best_for'])}</td><td><a href='{html.escape(p['affiliate_url'])}' rel='sponsored nofollow'>Se alternativ</a></td></tr>"
+        cards.append(
+            "<div class='mini-card'>"
+            f"<span class='pill'>{html.escape(p['category'])}</span>"
+            f"<h3>{html.escape(p['name'])}</h3>"
+            f"<p>{html.escape(p['best_for'])}</p>"
+            f"<small>Typiskt pris: {html.escape(p['price_hint'])}</small>"
+            "</div>"
         )
-    if not rows:
+    if not cards:
         return ""
-    return "<h2>Relevanta produkter</h2><table><tr><th>Produkt</th><th>Prisidé</th><th>Bäst för</th><th>Länk</th></tr>" + "".join(rows) + "</table>"
+    return "<section class='related-products'><h2>Prylar som nämns i guiden</h2><p class='muted'>Inga köplänkar än. Jag lägger hellre in riktiga rekommendationer än låtsaslänkar.</p><div class='mini-grid'>" + "".join(cards) + "</div></section>"
 
 
 def article_html(article: dict, products: list[dict]) -> str:
-    parts = [f"<article><span class='pill'>{html.escape(article['category'])}</span><h1>{html.escape(article['title'])}</h1><p class='muted'>{html.escape(article['description'])}</p>"]
+    parts = [
+        "<article>",
+        f"<span class='pill'>{html.escape(article['category'])}</span>",
+        f"<h1>{html.escape(article['title'])}</h1>",
+        f"<p class='lead'>{html.escape(article['description'])}</p>",
+    ]
     for heading, text in article["sections"]:
         parts.append(f"<h2>{html.escape(heading)}</h2><p>{html.escape(text)}</p>")
-    parts.append(product_table(products, article.get("products", [])))
-    parts.append("<p class='muted'>Obs: produktlänkar är placeholders i MVP:n och ska bytas först efter affiliate-godkännande.</p></article>")
+    parts.append(product_cards(products, article.get("products", [])))
+    parts.append("<p class='fineprint'>Senast uppdaterad: juli 2026. Guiden är skriven för vanliga hem, inte för perfekta labbmiljöer.</p></article>")
     return "\n".join(parts)
+
+
+def card(article: dict) -> str:
+    return (
+        "<div class='card'>"
+        f"<span class='pill'>{html.escape(article['category'])}</span>"
+        f"<h2><a href='/artiklar/{article['slug']}.html'>{html.escape(article['title'])}</a></h2>"
+        f"<p class='muted'>{html.escape(article['description'])}</p>"
+        "</div>"
+    )
 
 
 def main() -> None:
@@ -62,72 +81,86 @@ def main() -> None:
     for a in articles:
         out = SITE / "artiklar" / f"{a['slug']}.html"
         render_page(a["title"], a["description"], article_html(a, products), out)
-        cards.append(f"<div class='card'><span class='pill'>{html.escape(a['category'])}</span><h2><a href='/artiklar/{a['slug']}.html'>{html.escape(a['title'])}</a></h2><p class='muted'>{html.escape(a['description'])}</p></div>")
+        cards.append(card(a))
 
-    home = """
-    <section class='hero'>
-      <span class='eyebrow'>🏡 Smart hem för riktiga familjer</span>
-      <h1>Lugnare vardag med Home Assistant, familjedashboard och tydliga rutiner.</h1>
-      <p class='muted'>Svenska guider för barnfamiljer som vill ha praktisk automation: mindre tjat, färre glömda saker och tydligare morgnar utan mer teknikstress.</p>
-      <div class='actions'><a class='cta' href='/artiklar.html'>Läs guiderna</a><a class='ghost' href='/dashboard-template.html'>Se dashboard-template</a></div>
-      <div class='stats'><div class='stat'><b>20</b><span>lokala guider</span></div><div class='stat'><b>0 €</b><span>spenderat hittills</span></div><div class='stat'><b>0</b><span>riktiga affiliate-länkar</span></div></div>
+    home = """<section class='hero'>
+      <span class='eyebrow'>Smart hem som familjen faktiskt använder</span>
+      <h1>Färre tappade trådar. Mindre tjat. Lite mer ordning hemma.</h1>
+      <p class='lead'>Smart Familj Hemma är för dig som vill använda Home Assistant, väggskärm och enkla sensorer utan att förvandla hemmet till ett evighetsprojekt. Fokus är barnfamilj, morgnar, läggning, veckovy och saker som annars glöms bort.</p>
+      <div class='actions'><a class='cta' href='/kom-igang.html'>Börja här</a><a class='ghost' href='/artiklar.html'>Bläddra bland guider</a></div>
     </section>
+
+    <section class='note-panel'>
+      <div><span class='pill'>Kort sagt</span><h2>Det här är inte en prylblogg för tekniknördar.</h2></div>
+      <p>Jag skriver om smart hem ur familjevinkel: vad som märks i hallen klockan 07:35, vad som hjälper vid läggning och vad som bara blir ännu en app att underhålla. Ibland är bästa rådet att köpa en knapp. Ibland är det att låta bli.</p>
+    </section>
+
     <section>
-      <div class='section-head'><div><span class='pill'>Start här</span><h2>Populära guider</h2></div><p class='muted'>Evergreen-artiklar som senare kan kopplas till affiliate-länkar när konton och publicering är godkända.</p></div>
+      <div class='section-head'><div><span class='pill'>Populärt</span><h2>Guider att börja med</h2></div><p class='muted'>Läs dessa först om du vill bygga något användbart hemma, inte bara något som ser snyggt ut i en demo.</p></div>
       <div class='grid'>%s</div>
     </section>
-    <section>
-      <div class='section-head'><div><span class='pill'>Affärsmodell</span><h2>Hur den kan tjäna pengar</h2></div><p class='muted'>Inte magi. Trafik först, monetisering sedan.</p></div>
-      <div class='grid'>
-        <div class='card'><span class='pill'>1</span><h3>Affiliate</h3><p class='muted'>Köpguider för sensorer, Zigbee, tablets och robotdammsugare. Placeholder-länkar byts först efter godkännande.</p></div>
-        <div class='card'><span class='pill'>2</span><h3>Digital produkt</h3><p class='muted'>Family Dashboard Template: enkel nedladdning när sajten har trafik och köpvillkor är klara.</p></div>
-        <div class='card'><span class='pill'>3</span><h3>Lead-gen senare</h3><p class='muted'>Om du vill: intresseformulär för dashboard-hjälp. Inte aktiverat nu, ingen data samlas in.</p></div>
+
+    <section class='split'>
+      <div><span class='pill'>Startpaket</span><h2>En vettig första setup</h2><p class='muted'>Börja smått. En väggskärm, två lampor, två knappar och en sensor räcker långt om de sitter på rätt plats.</p></div>
+      <div class='checklist'>
+        <p>✓ Hallknapp för "vi går hemifrån"</p>
+        <p>✓ Kvällsljus i barnrum</p>
+        <p>✓ Veckovy i köket</p>
+        <p>✓ Nattljus med rörelsesensor</p>
+        <p>✓ Inköpslista som syns utan att öppna mobilen</p>
       </div>
     </section>
     """ % "".join(cards[:6])
-    render_page("Smart Familj Hemma", "Svenska guider om smart hem, familjedashboard och ADHD-vänliga rutiner.", home, SITE / "index.html")
+    render_page("Smart Familj Hemma", "Smarta hem-guider för barnfamiljer: Home Assistant, familjedashboard och vardagsrutiner.", home, SITE / "index.html")
 
-    render_page("Alla artiklar", "Alla guider från Smart Familj Hemma.", "<h1>Alla artiklar</h1><div class='grid'>" + "".join(cards) + "</div>", SITE / "artiklar.html")
+    start = """<article><span class='pill'>Börja här</span><h1>Kom igång utan att drunkna i prylar</h1>
+    <p class='lead'>Det vanligaste felet är att köpa femton smarta saker och sedan försöka hitta problem åt dem. Gör tvärtom.</p>
+    <h2>Välj en jobbig stund</h2><p>Ta morgonen, läggningen eller hallen. Bara en. Skriv ner vad som faktiskt går fel där: glömda väskor, fel ljus, barn som inte ser nästa steg, vuxna som tjatar tills alla blir trötta.</p>
+    <h2>Bygg en lösning som syns</h2><p>För familjer vinner synliga signaler över notiser. En skärm i köket, en färg på lampan eller en knapp vid dörren gör mer nytta än en automation som bara finns i en app.</p>
+    <h2>Köp inte allt direkt</h2><p>En bra första runda är en smart knapp, en lampa, en sensor och en gammal surfplatta. Om det inte hjälper i vardagen efter två veckor var problemet fel valt.</p>
+    <p><a class='cta' href='/artiklar/home-assistant-for-familjer-nyborjarguide.html'>Läs nybörjarguiden</a></p></article>"""
+    render_page("Kom igång", "Börja med smart hem hemma utan att köpa fel prylar.", start, SITE / "kom-igang.html")
 
-    product_rows = "".join(
-        f"<tr><td><b>{html.escape(p['name'])}</b></td><td>{html.escape(p['category'])}</td><td>{html.escape(p['price_hint'])}</td><td>{html.escape(p['best_for'])}</td><td><a href='{html.escape(p['affiliate_url'])}' rel='sponsored nofollow'>Placeholder-länk</a></td></tr>"
+    render_page("Alla guider", "Alla guider från Smart Familj Hemma.", "<section><div class='section-head'><div><span class='pill'>Bibliotek</span><h1>Alla guider</h1></div><p class='muted'>Kort, praktiskt och skrivet för hem där vardagen redan är full.</p></div><div class='grid'>" + "".join(cards) + "</div></section>", SITE / "artiklar.html")
+
+    product_html = "".join(
+        "<div class='card product-card'>"
+        f"<span class='pill'>{html.escape(p['category'])}</span>"
+        f"<h2>{html.escape(p['name'])}</h2>"
+        f"<p>{html.escape(p['best_for'])}</p>"
+        f"<p class='muted'>Typiskt pris: {html.escape(p['price_hint'])}</p>"
+        f"<p class='fineprint'>{html.escape(p.get('note', ''))}</p>"
+        "</div>"
         for p in products
     )
-    render_page("Produkter", "Produktkategorier och affiliate-placeholders.", "<h1>Produkter</h1><p class='muted'>Affiliate-placeholders tills riktiga program godkänts.</p><table><tr><th>Produkt</th><th>Kategori</th><th>Pris</th><th>Bäst för</th><th>Länk</th></tr>" + product_rows + "</table>", SITE / "produkter.html")
+    products_page = "<section><div class='section-head'><div><span class='pill'>Köpråd</span><h1>Prylar jag skulle börja med</h1></div><p class='muted'>Inga låtsaslänkar. Inga fejkade topplistor. Bara kategorier som brukar göra nytta i ett familjehem.</p></div><div class='grid'>" + product_html + "</div></section>"
+    render_page("Köpråd", "Prylar som kan vara värda att börja med för ett smartare familjehem.", products_page, SITE / "produkter.html")
 
-    about = """
-    <article><h1>Om Smart Familj Hemma</h1>
-    <p>Smart Familj Hemma är en svensk guidesajt för barnfamiljer som vill använda smart hem, Home Assistant och familjedashboards på ett praktiskt sätt.</p>
-    <p>Målet är låg-friktionslösningar: färre glömda saker, lugnare morgnar, tydligare veckovy och mindre vardagsstress.</p>
-    <h2>Redaktionell princip</h2><p>Rekommendationer ska utgå från praktisk nytta, enkelhet och robusthet – inte bara teknikintresse.</p></article>
-    """
-    render_page("Om Smart Familj Hemma", "Om sajten och dess redaktionella principer.", about, SITE / "om.html")
+    about = """<article><h1>Om Smart Familj Hemma</h1>
+    <p class='lead'>Den här sajten handlar om smart hem där det faktiskt bor folk: barn, trötta vuxna, hund, tvätt, skolväskor och middagar som inte alltid går enligt plan.</p>
+    <p>Jag är mer intresserad av lugnare vardag än av perfekta dashboards. Om en automation inte används av familjen är den inte klar, hur snygg den än ser ut.</p>
+    <h2>Principen</h2><p>Börja med en verklig friktion. Lös den enkelt. Vänta. Bygg vidare först när det märks att lösningen hjälper.</p></article>"""
+    render_page("Om", "Om Smart Familj Hemma.", about, SITE / "om.html")
 
-    disclosure = """
-    <article><h1>Affiliate och transparens</h1>
-    <p>Vissa länkar kan vara affiliate-länkar. Det betyder att sajten kan få provision om du köper via länken, utan extra kostnad för dig.</p>
-    <p>I denna MVP är länkarna placeholders tills affiliate-konton godkänts och riktiga länkar lagts in.</p>
-    <p>Rekommendationer ska baseras på praktisk nytta för barnfamiljer, stabilitet och rimligt pris.</p></article>
-    """
-    render_page("Affiliate och transparens", "Information om affiliate-länkar och transparens.", disclosure, SITE / "affiliate.html")
+    disclosure = """<article><h1>Transparens</h1>
+    <p>Smart Familj Hemma kan längre fram använda affiliate-länkar. Om du köper via en sådan länk kan sajten få provision utan extra kostnad för dig.</p>
+    <p>Just nu länkar sajten inte vidare till butiker. Jag vill hellre vänta än fylla sidorna med dåliga köplänkar.</p>
+    <h2>Hur rekommendationer ska väljas</h2><p>Produkter ska rekommenderas för att de verkar praktiska i ett familjehem: stabilitet, pris, enkelhet och hur lite underhåll de kräver. Ersättning får inte styra vad som hamnar högst.</p></article>"""
+    render_page("Transparens", "Transparens om länkar och rekommendationer.", disclosure, SITE / "affiliate.html")
 
-    privacy = """
-    <article><h1>Integritet</h1>
-    <p>Den statiska MVP-sajten samlar inte in personuppgifter, har inga formulär och sätter inga egna cookies.</p>
-    <p>Om analys, nyhetsbrev, betalningar eller affiliate-nätverk aktiveras senare ska denna sida uppdateras innan publicering.</p></article>
-    """
-    render_page("Integritet", "Integritetspolicy för Smart Familj Hemma MVP.", privacy, SITE / "integritet.html")
+    privacy = """<article><h1>Integritet</h1>
+    <p>Den här versionen av sajten samlar inte in personuppgifter, har inga formulär och sätter inga egna cookies.</p>
+    <p>Om nyhetsbrev, analys, betalning eller affiliate-nätverk läggs till senare ska den här sidan uppdateras först.</p></article>"""
+    render_page("Integritet", "Integritetspolicy för Smart Familj Hemma.", privacy, SITE / "integritet.html")
 
-    template = """
-    <article><span class='pill'>Digital produkt</span><h1>Family Dashboard Template</h1>
-    <p class='muted'>Första digitala produkten att sälja när sajten får trafik.</p>
-    <h2>Vad paketet kan innehålla</h2><ul><li>HTML-dashboard</li><li>veckovy: idag + 6 dagar</li><li>inköpslista</li><li>morgon-/kvällsrutiner</li><li>installationsguide</li></ul>
-    <h2>Prisidé</h2><p>9–19 € som enkel download, senare 49–99 € med installationshjälp.</p>
-    <p class='muted'>Betalning ska inte aktiveras förrän Johnny godkänt Stripe/köpvillkor/GDPR-text.</p></article>
-    """
-    render_page("Family Dashboard Template", "Digital produktidé för familjedashboard.", template, SITE / "dashboard-template.html")
+    template = """<article><span class='pill'>Digitalt startpaket</span><h1>Familjedashboard startpaket</h1>
+    <p class='lead'>En enkel mall för familjer som vill få upp en veckovy på väggen utan att bygga allt från noll.</p>
+    <h2>Vad paketet innehåller</h2><ul><li>HTML-mall för väggskärm</li><li>exempeldata för veckovy</li><li>morgon- och kvällsrutiner</li><li>inköpslista</li><li>kort installationsguide</li></ul>
+    <h2>Status</h2><p>Första versionen är byggd som zip-fil. Den behöver bara kopplas till en betalplattform innan den kan säljas.</p>
+    <p><a class='ghost' href='/artiklar/bygg-familjedashboard-surfplatta.html'>Läs guiden om väggdashboard</a></p></article>"""
+    render_page("Familjedashboard startpaket", "Digitalt startpaket för familjedashboard.", template, SITE / "dashboard-template.html")
 
-    sitemap = "\n".join(["/", "/artiklar.html", "/produkter.html", "/dashboard-template.html", "/om.html", "/affiliate.html", "/integritet.html"] + [f"/artiklar/{a['slug']}.html" for a in articles])
+    sitemap = "\n".join(["/", "/kom-igang.html", "/artiklar.html", "/produkter.html", "/dashboard-template.html", "/om.html", "/affiliate.html", "/integritet.html"] + [f"/artiklar/{a['slug']}.html" for a in articles])
     (SITE / "sitemap.txt").write_text(sitemap + "\n", encoding="utf-8")
     print(f"Built {len(articles)} articles into {SITE}")
 
