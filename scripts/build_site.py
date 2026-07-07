@@ -92,10 +92,30 @@ def article_html(article: dict, products: list[dict], affiliate_links: dict) -> 
 
 def card(article: dict) -> str:
     money = " money-card" if article.get("slug") in MONEY_SLUGS else ""
+    slug = article.get("slug", "")
+    category = article.get("category", "")
+    icon = "⌂"
+    if "vatten" in slug:
+        icon = "💧"
+    elif "robot" in slug:
+        icon = "◉"
+    elif "lampa" in slug or "nattljus" in slug or "laggdags" in slug:
+        icon = "✦"
+    elif "dashboard" in slug or "kalender" in slug:
+        icon = "▦"
+    elif "zigbee" in slug or "hub" in slug:
+        icon = "⌁"
+    elif "knapp" in slug or "plug" in slug:
+        icon = "●"
+    elif "hund" in slug:
+        icon = "🐾"
+    elif "hyresratt" in slug:
+        icon = "⌂"
     return (
         f"<div class='card{money}'>"
-        f"<span class='pill'>{html.escape(article['category'])}</span>"
-        f"<h2><a href='/artiklar/{article['slug']}.html'>{html.escape(article['title'])}</a></h2>"
+        f"<div class='card-art'><span>{icon}</span></div>"
+        f"<span class='pill'>{html.escape(category)}</span>"
+        f"<h2><a href='/artiklar/{slug}.html'>{html.escape(article['title'])}</a></h2>"
         f"<p class='muted'>{html.escape(article['description'])}</p>"
         "</div>"
     )
@@ -123,36 +143,51 @@ def main() -> None:
         if a.get("slug") in MONEY_SLUGS:
             money_cards.append(c)
 
-    home = """<section class='hero hero-graphic'>
+    home = """<section class='hero'>
       <div class='hero-copy'>
-        <span class='eyebrow'>Smart hem som familjen faktiskt använder</span>
-        <h1>Färre tappade trådar. Mindre tjat. Lite mer ordning hemma.</h1>
-        <p class='lead'>Guider för dig som vill använda Home Assistant, väggskärm och enkla sensorer utan att förvandla hemmet till ett evighetsprojekt. Fokus är hallen, morgonen, läggningen och sakerna som annars glöms bort.</p>
-        <div class='actions'><a class='cta' href='/koprad.html'>Se köpråden</a><a class='ghost' href='/artiklar.html'>Bläddra bland guider</a></div>
+        <span class='eyebrow'>Smart hem för riktiga barnfamiljer</span>
+        <h1>Det smarta hemmet för familjer som redan har fullt upp.</h1>
+        <p class='lead'>Praktiska köpguider och Home Assistant-idéer för hallen, köket, läggningen, läckor, lampor och allt det där som brukar glömmas bort en vanlig tisdag.</p>
+        <div class='actions'><a class='cta' href='/koprad.html'>Se rekommenderade prylar →</a><a class='ghost' href='/kom-igang.html'>Börja lugnt</a></div>
+        <div class='trust-row'><span>✓ Inga fejkade topplistor</span><span>✓ Fokus på familjevardag</span><span>✓ Amazon-länkar tydligt märkta</span></div>
       </div>
-      <img class='hero-art' src='/assets/hero-family-dashboard.svg' alt='Illustration av familj, kök och väggdashboard'>
+      <div class='hero-art-wrap'><img class='hero-art' src='/assets/hero-smart-home.svg' alt='Illustration av familj, vardagsrum och smart hem-dashboard'><div class='hero-badge'>Svenska guider • uppdaterad juli 2026</div></div>
     </section>
 
-    <section class='note-panel editorial-panel'>
-      <div><span class='pill'>Kort sagt</span><h2>Det här är inte en prylblogg för tekniknördar.</h2></div>
-      <p>Jag skriver om smart hem ur familjevinkel: vad som märks i hallen klockan 07:35, vad som hjälper vid läggning och vad som bara blir ännu en app att underhålla. Ibland är bästa rådet att köpa en knapp. Ibland är det att låta bli.</p>
-    </section>
-
-    <section class='visual-band'>
-      <div class='visual-card'><img src='/assets/routine-cards.svg' alt='Illustration av morgon- och kvällskort'><h2>Rutiner ska synas</h2><p>En färg på lampan, en knapp vid dörren eller en checklista på väggen slår ofta ännu en notis i mobilen.</p></div>
-      <div class='visual-card'><img src='/assets/product-shelf.svg' alt='Illustration av smart hem-prylar'><h2>Köp färre saker</h2><p>Två bra placerade prylar kan göra mer nytta än tio som hamnar i en låda.</p></div>
-    </section>
-
-    <section>
-      <div class='section-head'><div><span class='pill'>Köpråd</span><h2>Populära köpråd</h2></div><p class='muted'>Köpguider och jämförelser för prylar som brukar göra verklig nytta hemma.</p></div>
-      <div class='grid feature-grid'>%s</div>
+    <section class='feature-strip'>
+      <div class='feature'><div class='icon'>⌂</div><h3>Trygghet</h3><p>Vattenläcka, nattljus och tydliga varningar när något faktiskt spelar roll.</p></div>
+      <div class='feature'><div class='icon'>◷</div><h3>Rutiner</h3><p>Morgon, läggning, skola och medicin utan att allt blir ännu en app.</p></div>
+      <div class='feature'><div class='icon'>♧</div><h3>Energikoll</h3><p>Lampor, scheman och smarta val som inte kräver teknikhobby.</p></div>
+      <div class='feature'><div class='icon'>▤</div><h3>Barnrum</h3><p>Smart belysning och nattljus som hjälper snarare än stör.</p></div>
+      <div class='feature'><div class='icon'>👥</div><h3>Familjekoll</h3><p>Dashboard, kalender och köksvy där alla faktiskt passerar.</p></div>
     </section>
 
     <section>
-      <div class='section-head'><div><span class='pill'>Guider</span><h2>Fler vardagsproblem att lösa</h2></div><p class='muted'>Mer läsning runt rutiner, kök, läggning, hund, hyresrätt och andra små irritationsmoment.</p></div>
+      <div class='section-head'><span class='pill'>Smarta lösningar</span><h2>Guider för familjens vardag</h2><p>Inte prylar för prylarnas skull. Sidorna börjar i konkreta situationer: hallen, badrummet, köket, barnrummet och morgonen.</p></div>
+      <div class='grid solution-grid'>%s</div>
+    </section>
+
+    <section>
+      <div class='section-head'><span class='pill'>Välj startspår</span><h2>Vad passar hemma hos er?</h2><p>Börja där irritationen är störst. En liten fungerande lösning är bättre än ett halvklart smart hem.</p></div>
+      <div class='paths'>
+        <div class='path-card'><span class='pill'>Liten start</span><h3>Under 100 €</h3><p class='muted'>För dig som vill testa utan att bygga system.</p><ul><li>Smart knapp</li><li>Två lampor</li><li>En enkel sensor</li></ul><a class='ghost' href='/artiklar/billigt-smart-hem-under-100-euro.html'>Se startpaket</a></div>
+        <div class='path-card popular'><span class='pill'>Mest rimligt</span><h3>Familjerutiner</h3><p class='muted'>För morgon, läggning och hallkaos.</p><ul><li>Dashboard i köket</li><li>Smarta knappar</li><li>Nattljus och påminnelser</li></ul><a class='cta' href='/koprad.html'>Välj köpråd</a></div>
+        <div class='path-card'><span class='pill'>Trygghet</span><h3>Säkerhet först</h3><p class='muted'>För läckor, badrum och saker du helst vill upptäcka tidigt.</p><ul><li>Vattenläckagesensor</li><li>Tydliga larm</li><li>Dashboard-varning</li></ul><a class='ghost' href='/artiklar/basta-vattenlackagesensorer-smart-hem.html'>Se sensorer</a></div>
+      </div>
+    </section>
+
+    <section>
+      <div class='section-head'><span class='pill'>Köpråd</span><h2>Populära köpguider</h2><p>Kategorier som kan ge mest nytta hemma och som också passar bra för affiliate-länkar.</p></div>
       <div class='grid'>%s</div>
     </section>
-    """ % ("".join(money_cards[:9]), "".join(cards[:12]))
+
+    <section>
+      <div class='section-head'><span class='pill'>Typiska effekter</span><h2>Små saker som märks i vardagen</h2></div>
+      <div class='quote-grid'><div class='quote-card'><p>Kvällsljus gör läggningen tydligare utan att någon behöver förklara rutinen om och om igen.</p><strong>Läggning</strong></div><div class='quote-card'><p>En väggskärm i köket blir familjens gemensamma minne när kalendern i mobilen inte räcker.</p><strong>Veckoplanering</strong></div><div class='quote-card'><p>Vattenläckagesensorer är tråkiga tills de behövs. Då är tydliga larm viktigare än alla smarta effekter.</p><strong>Trygghet</strong></div></div>
+    </section>
+
+    <section class='newsletter'><div><h2>Vill du bygga vidare?</h2><p class='muted'>Börja med köpråden. När fler affiliateprogram och annonser är klara kan sajten byggas ut med fler jämförelser.</p></div><a class='cta' href='/artiklar.html'>Se alla guider</a></section>
+    """ % ("".join(money_cards[:5]), "".join(money_cards[:9]))
     render_page("Smart Familj Hemma", "Smarta hem-guider för barnfamiljer: Home Assistant, familjedashboard och vardagsrutiner.", home, SITE / "index.html")
 
     start = """<article><span class='pill'>Börja här</span><h1>Kom igång utan att drunkna i prylar</h1>
