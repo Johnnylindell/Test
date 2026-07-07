@@ -66,12 +66,24 @@ def main() -> None:
 
     home = """
     <section class='hero'>
-      <span class='pill'>Smart hem för riktiga familjer</span>
-      <h1>Gör vardagen enklare med smart hem, familjedashboard och låg-friktionsrutiner.</h1>
-      <p class='muted'>Svenska guider för barnfamiljer som vill ha praktisk automation utan teknikstress.</p>
-      <a class='cta' href='/artiklar.html'>Läs guiderna</a>
+      <span class='eyebrow'>🏡 Smart hem för riktiga familjer</span>
+      <h1>Lugnare vardag med Home Assistant, familjedashboard och tydliga rutiner.</h1>
+      <p class='muted'>Svenska guider för barnfamiljer som vill ha praktisk automation: mindre tjat, färre glömda saker och tydligare morgnar utan mer teknikstress.</p>
+      <div class='actions'><a class='cta' href='/artiklar.html'>Läs guiderna</a><a class='ghost' href='/dashboard-template.html'>Se dashboard-template</a></div>
+      <div class='stats'><div class='stat'><b>20</b><span>lokala guider</span></div><div class='stat'><b>0 €</b><span>spenderat hittills</span></div><div class='stat'><b>0</b><span>riktiga affiliate-länkar</span></div></div>
     </section>
-    <section><h2>Populära guider</h2><div class='grid'>%s</div></section>
+    <section>
+      <div class='section-head'><div><span class='pill'>Start här</span><h2>Populära guider</h2></div><p class='muted'>Evergreen-artiklar som senare kan kopplas till affiliate-länkar när konton och publicering är godkända.</p></div>
+      <div class='grid'>%s</div>
+    </section>
+    <section>
+      <div class='section-head'><div><span class='pill'>Affärsmodell</span><h2>Hur den kan tjäna pengar</h2></div><p class='muted'>Inte magi. Trafik först, monetisering sedan.</p></div>
+      <div class='grid'>
+        <div class='card'><span class='pill'>1</span><h3>Affiliate</h3><p class='muted'>Köpguider för sensorer, Zigbee, tablets och robotdammsugare. Placeholder-länkar byts först efter godkännande.</p></div>
+        <div class='card'><span class='pill'>2</span><h3>Digital produkt</h3><p class='muted'>Family Dashboard Template: enkel nedladdning när sajten har trafik och köpvillkor är klara.</p></div>
+        <div class='card'><span class='pill'>3</span><h3>Lead-gen senare</h3><p class='muted'>Om du vill: intresseformulär för dashboard-hjälp. Inte aktiverat nu, ingen data samlas in.</p></div>
+      </div>
+    </section>
     """ % "".join(cards[:6])
     render_page("Smart Familj Hemma", "Svenska guider om smart hem, familjedashboard och ADHD-vänliga rutiner.", home, SITE / "index.html")
 
