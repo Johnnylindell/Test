@@ -267,6 +267,8 @@ def main() -> None:
     assets_src = ROOT / "assets"
     if assets_src.exists():
         shutil.copytree(assets_src, SITE / "assets")
+    for verification_file in ROOT.glob("google*.html"):
+        shutil.copy2(verification_file, SITE / verification_file.name)
 
     articles = json.loads(ARTICLES.read_text(encoding="utf-8"))
     products = json.loads(PRODUCTS.read_text(encoding="utf-8"))
