@@ -95,24 +95,22 @@ def thumb_for(article: dict) -> str:
     slug = article.get("slug", "")
     category = article.get("category", "")
     if "vatten" in slug:
-        return "/assets/blog/water-sensor.svg"
+        return "/assets/photos/kitchen.jpg"
     if "robot" in slug:
-        return "/assets/blog/robot-vacuum.svg"
+        return "/assets/photos/vacuum-room.jpg"
     if "lampa" in slug or "nattljus" in slug or "laggdags" in slug or "barnsovrum" in slug:
-        return "/assets/blog/kids-room-light.svg"
+        return "/assets/photos/bedroom.jpg"
     if "dashboard" in slug or "kalender" in slug or "kok" in slug:
-        return "/assets/blog/kitchen-dashboard.svg"
-    if "zigbee" in slug or "hub" in slug or "aqara" in slug or "ikea" in slug:
-        return "/assets/blog/zigbee.svg"
+        return "/assets/photos/tablet-desk.jpg"
+    if "zigbee" in slug or "hub" in slug or "aqara" in slug or "ikea" in slug or "home-assistant" in slug:
+        return "/assets/photos/tech-desk.jpg"
     if "knapp" in slug or "plug" in slug or "under-100" in slug:
-        return "/assets/blog/buttons.svg"
-    if "hund" in slug:
-        return "/assets/blog/dog-home.svg"
-    if "hyresratt" in slug:
-        return "/assets/blog/apartment.svg"
+        return "/assets/photos/living-room.jpg"
+    if "hund" in slug or "hyresratt" in slug:
+        return "/assets/photos/hallway.jpg"
     if "rutin" in slug or category == "rutiner":
-        return "/assets/blog/routines.svg"
-    return "/assets/blog/kitchen-dashboard.svg"
+        return "/assets/photos/cozy-room.jpg"
+    return "/assets/photos/living-room.jpg"
 
 
 def card(article: dict, large: bool = False) -> str:
@@ -161,45 +159,61 @@ def main() -> None:
     ]
     featured_cards = "".join(card(by_slug[s], large=True) for s in featured_slugs if s in by_slug)
 
-    home = """<section class='hero'>
-      <div class='hero-copy'>
-        <span class='eyebrow'>Smart hem för barnfamiljer</span>
-        <h1>Guider, köpråd och smarta rutiner för ett lugnare hem.</h1>
-        <p class='lead'>Smart Familj Hemma skriver om prylar och lösningar som faktiskt märks i vardagen: läckagesensorer, nattljus, köksdashboard, robotdammsugare, knappar och Home Assistant.</p>
-        <div class='actions'><a class='cta' href='/artiklar.html'>Läs senaste guiderna</a><a class='ghost' href='/koprad.html'>Se köpråd</a></div>
+    home = """
+    <section class='hero'>
+      <div class='hero-main'>
+        <img src='/assets/photos/hero-home.jpg' alt='Ljust skandinaviskt hem'>
+        <div class='hero-copy'>
+          <span class='kicker'>Smart hem för barnfamiljer</span>
+          <h1>Smarta prylar som löser vardagsproblem.</h1>
+          <p class='lead'>Köpguider, jämförelser och Home Assistant-idéer för kök, barnrum, hall, nattljus, läckor och robotdammsugare.</p>
+          <div class='actions'><a class='cta' href='/artiklar.html'>Läs bloggen</a><a class='ghost' href='/koprad.html'>Gå till köpråd</a></div>
+        </div>
       </div>
-      <div class='hero-art-wrap'><img class='hero-art' src='/assets/hero-smart-home.svg' alt='Illustration av familj, vardagsrum och smart hem-dashboard'></div>
+      <div class='hero-side'>
+        <a class='side-card' href='/artiklar/basta-vattenlackagesensorer-smart-hem.html'><img src='/assets/photos/kitchen.jpg' alt='Kök'><div><span class='kicker'>Säkerhet</span><h2>Vattenläckagesensorer</h2></div></a>
+        <a class='side-card' href='/artiklar/basta-smarta-nattljus-for-barn.html'><img src='/assets/photos/cozy-room.jpg' alt='Vardagsrum i kvällsljus'><div><span class='kicker'>Barnrum</span><h2>Nattljus som inte väcker alla</h2></div></a>
+      </div>
     </section>
 
     <nav class='category-nav' aria-label='Kategorier'>
-      <a href='/koprad.html'>Köpguider</a><a href='/artiklar/basta-vattenlackagesensorer-smart-hem.html'>Säkerhet</a><a href='/artiklar/basta-smarta-nattljus-for-barn.html'>Barnrum</a><a href='/artiklar/smart-kok-for-barnfamiljer.html'>Kök</a><a href='/artiklar/bygg-familjedashboard-surfplatta.html'>Dashboard</a><a href='/artiklar/zigbee-vs-wifi-smarta-prylar.html'>Zigbee</a>
+      <a href='/koprad.html'>Köpguider</a>
+      <a href='/artiklar/basta-vattenlackagesensorer-smart-hem.html'>Säkerhet</a>
+      <a href='/artiklar/basta-smarta-nattljus-for-barn.html'>Barnrum</a>
+      <a href='/artiklar/smart-kok-for-barnfamiljer.html'>Kök</a>
+      <a href='/artiklar/bygg-familjedashboard-surfplatta.html'>Dashboard</a>
+      <a href='/artiklar/zigbee-vs-wifi-smarta-prylar.html'>Zigbee</a>
+      <a href='/artiklar/basta-robotdammsugare-barnfamiljer.html'>Städning</a>
     </nav>
 
     <section>
-      <div class='section-head'><span class='pill'>Utvalt</span><h2>Börja med de här guiderna</h2><p>Tre områden som ofta ger mest praktisk nytta hemma.</p></div>
-      <div class='featured-grid'>%s</div>
-    </section>
-
-    <section class='feature-strip'>
-      <div class='feature'><div class='icon'>💧</div><h3>Vattenläcka</h3><p>Sensorer under diskmaskin, tvättmaskin och handfat.</p></div>
-      <div class='feature'><div class='icon'>✦</div><h3>Nattljus</h3><p>Ljus som hjälper utan att väcka hela huset.</p></div>
-      <div class='feature'><div class='icon'>▦</div><h3>Dashboard</h3><p>Veckovy, inköp och rutiner på en skärm.</p></div>
-      <div class='feature'><div class='icon'>◉</div><h3>Städning</h3><p>Robotdammsugare och scheman som passar familjeliv.</p></div>
-      <div class='feature'><div class='icon'>●</div><h3>Knappar</h3><p>Fysiska knappar som alla i hemmet förstår.</p></div>
+      <div class='section-title'><h2>Utvalt</h2><a href='/artiklar.html'>Alla guider</a></div>
+      <div class='grid'>%s</div>
     </section>
 
     <section>
-      <div class='section-head'><span class='pill'>Senaste guiderna</span><h2>Mer att läsa</h2><p>Korta artiklar med konkreta exempel, köpråd och vanliga misstag.</p></div>
-      <div class='grid blog-grid'>%s</div>
+      <div class='section-title'><h2>Ämnen</h2></div>
+      <div class='topic-strip'>
+        <a class='topic' href='/artiklar/basta-vattenlackagesensorer-smart-hem.html'><strong>Vattenläcka</strong><span>Kök, tvätt, badrum</span></a>
+        <a class='topic' href='/artiklar/basta-smarta-nattljus-for-barn.html'><strong>Nattljus</strong><span>Barnrum och hall</span></a>
+        <a class='topic' href='/artiklar/smart-kok-for-barnfamiljer.html'><strong>Smart kök</strong><span>Dashboard och listor</span></a>
+        <a class='topic' href='/artiklar/basta-robotdammsugare-barnfamiljer.html'><strong>Städning</strong><span>Robotar och schema</span></a>
+        <a class='topic' href='/artiklar/smarta-knappar-10-anvandningar-hemma.html'><strong>Knappar</strong><span>Fysiska genvägar</span></a>
+      </div>
     </section>
 
     <section>
-      <div class='section-head'><span class='pill'>Köpråd</span><h2>Populära köpguider</h2><p>Samlat för dig som jämför prylar innan du köper.</p></div>
-      <div class='grid blog-grid'>%s</div>
+      <div class='section-title'><h2>Senaste</h2><a href='/artiklar.html'>Öppna blogg</a></div>
+      <div class='compact-grid'>%s</div>
     </section>
 
-    <section class='newsletter'><div><h2>Hitta rätt snabbare</h2><p class='muted'>Gå via kategorierna ovan eller börja med köpråden om du redan vet vilken typ av pryl du söker.</p></div><a class='cta' href='/koprad.html'>Öppna köpråd</a></section>
-    """ % (featured_cards, "".join(cards[:12]), "".join(money_cards[:9]))
+    <section>
+      <div class='section-title'><h2>Köpråd</h2><a href='/koprad.html'>Alla köpråd</a></div>
+      <div class='compact-grid'>%s</div>
+    </section>
+
+    <section class='newsletter'><div><h2>Börja med rätt kategori.</h2><p>Välj ett problem hemma och läs guiden innan du köper.</p></div><a href='/kom-igang.html'>Kom igång</a></section>
+    """ % (featured_cards, "".join(cards[:12]), "".join(money_cards[:8]))
     render_page("Smart Familj Hemma", "Smarta hem-guider för barnfamiljer: Home Assistant, familjedashboard och vardagsrutiner.", home, SITE / "index.html")
 
     start = """<article><span class='pill'>Börja här</span><h1>Kom igång utan att drunkna i prylar</h1>
@@ -210,9 +224,9 @@ def main() -> None:
     <p><a class='cta' href='/koprad.html'>Se första köpråden</a></p></article>"""
     render_page("Kom igång", "Börja med smart hem hemma utan att köpa fel prylar.", start, SITE / "kom-igang.html")
 
-    render_page("Alla guider", "Alla guider från Smart Familj Hemma.", "<section><div class='section-head'><div><span class='pill'>Bibliotek</span><h1>Alla guider</h1></div><p class='muted'>Kort, praktiskt och skrivet för hem där vardagen redan är full.</p></div><div class='grid'>" + "".join(cards) + "</div></section>", SITE / "artiklar.html")
+    render_page("Alla guider", "Alla guider från Smart Familj Hemma.", "<section><div class='section-title'><h1>Alla guider</h1></div><div class='grid'>" + "".join(cards) + "</div></section>", SITE / "artiklar.html")
 
-    render_page("Köpråd", "Köpguider för smart hem i barnfamiljer.", "<section><div class='section-head'><div><span class='pill'>Köpråd</span><h1>Köpguider som är värda att börja med</h1></div><p class='muted'>De här sidorna är byggda för sökningar där läsaren faktiskt funderar på att köpa något: lampor, knappar, sensorer, robotdammsugare och väggskärm.</p></div><div class='grid'>" + "".join(money_cards) + "</div></section>", SITE / "koprad.html")
+    render_page("Köpråd", "Köpguider för smart hem i barnfamiljer.", "<section><div class='section-title'><h1>Köpråd</h1></div><div class='grid'>" + "".join(money_cards) + "</div></section>", SITE / "koprad.html")
 
     product_bits = []
     for p in products:
@@ -231,8 +245,8 @@ def main() -> None:
             "</div>"
         )
     product_html = "".join(product_bits)
-    products_page = "<section><div class='section-head'><div><span class='pill'>Produktkategorier</span><h1>Prylar jag skulle börja med</h1></div><p class='muted'>Inga fejkade topplistor. Bara kategorier som brukar göra nytta i ett familjehem.</p></div><div class='grid'>" + product_html + "</div></section>"
-    render_page("Produktkategorier", "Prylar som kan vara värda att börja med för ett smartare familjehem.", products_page, SITE / "produkter.html")
+    products_page = "<section><div class='section-title'><h1>Prylar</h1></div><div class='grid'>" + product_html + "</div></section>"
+    render_page("Produktkategorier", "Prylar för smart hem i barnfamiljer.", products_page, SITE / "produkter.html")
 
     about = """<article><h1>Om Smart Familj Hemma</h1>
     <p class='lead'>Den här sajten handlar om smart hem där det faktiskt bor folk: barn, trötta vuxna, hund, tvätt, skolväskor och middagar som inte alltid går enligt plan.</p>
