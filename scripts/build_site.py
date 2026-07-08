@@ -39,8 +39,8 @@ MONEY_SLUGS = {
 PHOTO_BY_SLUG = {
     "basta-smarta-hem-prylar-barnfamiljer": "family-living.jpg",
     "home-assistant-for-familjer-nyborjarguide": "tech-desk.jpg",
-    "bygg-familjedashboard-surfplatta": "tablet-kitchen.jpg",
-    "adhd-vanliga-morgonrutiner-smarta-hem": "morning-hall.jpg",
+    "bygg-familjedashboard-surfplatta": "generated/familjedashboard-kok.jpg",
+    "adhd-vanliga-morgonrutiner-smarta-hem": "generated/morgonhall-smart-knapp.jpg",
     "basta-smarta-lampor-barnsovrum": "kids-bedroom.jpg",
     "smarta-knappar-10-anvandningar-hemma": "switch-wall.jpg",
     "familjekalender-pa-vaggskarm": "family-calendar.jpg",
@@ -56,7 +56,7 @@ PHOTO_BY_SLUG = {
     "smarta-hem-misstag-barnfamiljer": "messy-table.jpg",
     "billigt-smart-hem-under-100-euro": "budget-home.jpg",
     "basta-zigbee-hubbar-for-familjer": "hub-table.jpg",
-    "basta-vattenlackagesensorer-smart-hem": "commons-leaky-sink-valve.jpg",
+    "basta-vattenlackagesensorer-smart-hem": "generated/lackage-diskmaskin-sensor.jpg",
     "vattenlackage-sensor-barnfamilj": "commons-laundry-room.jpg",
     "smarta-pluggar-barnfamilj": "smart-plug.jpg",
     "aqara-ikea-philips-hue-vad-ska-familjer-valja": "smart-bulbs.jpg",
@@ -523,7 +523,6 @@ def buying_index_page(articles: list[dict]) -> str:
         cluster_cards.append(f"<a class='topic' href='{href}'><strong>{esc(title)}</strong><span>{esc(text)} · {count} sidor</span></a>")
     body = (
         "<section><div class='section-title'><h1>Köpråd</h1></div>"
-        "<p class='lead page-lead'>Köpguiderna är sorterade efter vardagsproblem. Börja där något skaver hemma, inte i en produktkategori.</p>"
         "<div class='topic-strip buying-clusters'>" + "".join(cluster_cards) + "</div></section>"
         "<section><div class='section-title'><h2>Alla köpråd</h2></div><div class='grid'>" + "".join(card(a) for a in articles) + "</div></section>"
     )
@@ -566,10 +565,10 @@ def main() -> None:
         for t in article_tags(a):
             tag_map[t].append(a)
     for tag, tagged_articles in tag_map.items():
-        body = article_list_page(f"#{tag_label(tag)}", f"Artiklar taggade med {tag_label(tag)}.", tagged_articles, "Filtrera artiklar efter det problem eller rum du vill lösa först.")
+        body = article_list_page(f"#{tag_label(tag)}", f"Artiklar taggade med {tag_label(tag)}.", tagged_articles)
         render_page(f"Tagg: {tag_label(tag)}", f"Artiklar om {tag_label(tag)}.", body, SITE / "tag" / f"{slugify(tag)}.html")
     popular_tags = [t for t, _ in Counter({k: len(v) for k, v in tag_map.items()}).most_common()]
-    tag_page = "<section><div class='section-title'><h1>Taggar</h1></div><p class='lead page-lead'>Välj ämne i stället för att gå via rum. Det passar bättre när du vet problemet men inte vilken pryl som löser det.</p><div class='tag-cloud'>" + "".join(
+    tag_page = "<section><div class='section-title'><h1>Taggar</h1></div><div class='tag-cloud'>" + "".join(
         f"<a href='/tag/{slugify(t)}.html'>#{esc(tag_label(t))}<span>{len(tag_map[t])}</span></a>" for t in popular_tags
     ) + "</div></section>"
     render_page("Taggar", "Hitta guider via taggar.", tag_page, SITE / "taggar.html")
@@ -622,9 +621,8 @@ def main() -> None:
     </section>
 
     <section class='text-feature'>
-      <h2>Exempel: en vanlig tisdag</h2>
-      <p>07.10 tänds hallen mjukt och köksskärmen visar skolväskor, gympapåse och vem som hämtar. 17.30 ligger inköpslistan synligt när någon går förbi kylen. 20.15 går barnrummet över till varmare ljus och en knapp vid sängen släcker resten.</p>
-      <p>Det är den typen av små lösningar sajten bygger runt: färre öppna appar, färre muntliga påminnelser och prylar som går att förstå när man redan är trött.</p>
+      <h2>En vanlig tisdag</h2>
+      <p>07.10 tänds hallen mjukt och köksskärmen visar skolväskor, gympapåse och vem som hämtar. 17.30 ligger inköpslistan synligt när någon går förbi kylen. 20.15 går barnrummet över till varmare ljus.</p>
     </section>
     """
     render_page("Smart Familj Hemma", "Smarta hem-guider för barnfamiljer: Home Assistant, familjedashboard och vardagsrutiner.", home, SITE / "index.html")
@@ -637,8 +635,8 @@ def main() -> None:
     <p><a class='cta' href='/guider.html'>Läs guider</a> <a class='ghost' href='/koprad.html'>Se köpråd</a></p></article>"""
     render_page("Kom igång", "Börja med smart hem hemma utan att köpa fel prylar.", start, SITE / "kom-igang.html")
 
-    render_page("Blogg", "Alla artiklar från Smart Familj Hemma.", article_list_page("Blogg", "Alla artiklar", articles, "Här finns både längre guider och rena köpråd. Vill du slippa blandningen finns separata sidor för guider och köpråd."), SITE / "artiklar.html")
-    render_page("Guider", "Praktiska smart hem-guider för barnfamiljer.", article_list_page("Guider", "Praktiska guider", guide_articles, "Rutiner, dashboards, Home Assistant och vardagsexempel utan produktlistor i centrum."), SITE / "guider.html")
+    render_page("Blogg", "Alla artiklar från Smart Familj Hemma.", article_list_page("Blogg", "Alla artiklar", articles), SITE / "artiklar.html")
+    render_page("Guider", "Praktiska smart hem-guider för barnfamiljer.", article_list_page("Guider", "Guider", guide_articles), SITE / "guider.html")
     render_page("Köpråd", "Köpguider för smart hem i barnfamiljer.", buying_index_page(buy_articles), SITE / "koprad.html")
 
     product_by_id = {p["id"]: p for p in products}
@@ -662,20 +660,21 @@ def main() -> None:
         )
 
     product_groups = [
-        ("Vatten, brand och frånvaro", "Prylar som varnar när något kan bli dyrt eller farligt.", ["water-leak-sensor", "smart-smoke-detector", "door-window-sensor", "temperature-sensor"]),
-        ("Barnrum och kväll", "Ljus, knappar och klimat för lugnare kvällar utan appkaos.", ["smart-bulb", "smart-button", "motion-sensor", "air-quality-sensor", "smart-blinds"]),
-        ("Energi och vinter", "Mät, styr och förstå elförbrukning utan att göra hemmet obekvämt.", ["smart-plug", "smart-thermostat", "temperature-sensor"]),
-        ("Kom igång med Home Assistant", "Basen för dashboard, Zigbee och de första automationerna.", ["zigbee-hub", "tablet-wall", "smart-button", "motion-sensor"]),
-        ("Städning och hall", "Sådant som märks varje vecka: smulor, grus, väskor och dörrar.", ["robot-vacuum", "door-window-sensor", "smart-button", "motion-sensor"]),
+        ("Vatten, brand och frånvaro", "", ["water-leak-sensor", "smart-smoke-detector", "door-window-sensor", "temperature-sensor"]),
+        ("Barnrum och kväll", "", ["smart-bulb", "smart-button", "motion-sensor", "air-quality-sensor", "smart-blinds"]),
+        ("Energi och vinter", "", ["smart-plug", "smart-thermostat", "temperature-sensor"]),
+        ("Kom igång med Home Assistant", "", ["zigbee-hub", "tablet-wall", "smart-button", "motion-sensor"]),
+        ("Städning och hall", "", ["robot-vacuum", "door-window-sensor", "smart-button", "motion-sensor"]),
     ]
     product_sections = []
     for heading, intro_text, ids in product_groups:
         cards = "".join(product_card(pid) for pid in ids)
+        intro_html = f"<p class='lead page-lead'>{esc(intro_text)}</p>" if intro_text else ""
         product_sections.append(
             f"<section><div class='section-title'><h2>{esc(heading)}</h2></div>"
-            f"<p class='lead page-lead'>{esc(intro_text)}</p><div class='grid'>{cards}</div></section>"
+            f"{intro_html}<div class='grid'>{cards}</div></section>"
         )
-    products_page = "<section><div class='section-title'><h1>Produktkategorier</h1></div><p class='lead page-lead'>Välj efter vardagsproblem först. Produkten är bara intressant om den löser något som händer hemma på riktigt.</p></section>" + "".join(product_sections)
+    products_page = "<section><div class='section-title'><h1>Produktkategorier</h1></div></section>" + "".join(product_sections)
     render_page("Produktkategorier", "Prylar för smart hem i barnfamiljer.", products_page, SITE / "produkter.html")
 
     about = """<article><h1>Om Smart Familj Hemma</h1>
