@@ -67,5 +67,33 @@
       "/artiklar/smarta-pluggar-barnfamilj.html",
       "/artiklar/basta-smarta-pluggar-energi-familj.html"
     ]
+  },
+  "door-window-sensor": {
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=zigbee+d%C3%B6rrsensor&tag=smartahemmet-21",
+    "label": "Se dörrsensorer på Amazon",
+    "target_pages": []
+  },
+  "temperature-sensor": {
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=zigbee+temperatursensor+fuktsensor&tag=smartahemmet-21",
+    "label": "Se temperatur- och fuktsensorer på Amazon",
+    "target_pages": []
+  },
+  "zigbee-hub": {
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=zigbee+hubb+home+assistant&tag=smartahemmet-21",
+    "label": "Se Zigbee-hubbar på Amazon",
+    "target_pages": []
+  },
+  "smart-thermostat": {
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=smart+termostat+zigbee&tag=smartahemmet-21",
+    "label": "Se smarta termostater på Amazon",
+    "target_pages": []
   }
 }

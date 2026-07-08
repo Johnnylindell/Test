@@ -54,5 +54,37 @@
     "price_hint": "10–35 €",
     "best_for": "lampor, tvättmaskinspåminnelser och enkel energikoll",
     "note": "Välj energimätning om du vill känna av när en maskin är klar. Kontrollera alltid maxlast."
+  },
+  {
+    "id": "door-window-sensor",
+    "name": "Dörr- och fönstersensor",
+    "category": "sensorer",
+    "price_hint": "10–30 €",
+    "best_for": "ytterdörr, balkongdörr, kylskåp och fönster",
+    "note": "Bra när du vill veta om något lämnats öppet, inte bara om någon rör sig i rummet."
+  },
+  {
+    "id": "temperature-sensor",
+    "name": "Temperatur- och fuktsensor",
+    "category": "klimat",
+    "price_hint": "10–35 €",
+    "best_for": "barnrum, badrum, källare och tvättstuga",
+    "note": "Mest användbar när värdet leder till en enkel handling: vädra, slå på fläkt eller flytta avfuktare."
+  },
+  {
+    "id": "zigbee-hub",
+    "name": "Zigbee-hubb",
+    "category": "hubb",
+    "price_hint": "25–120 €",
+    "best_for": "stabilare knappar, lampor och sensorer",
+    "note": "Välj hubb efter vilka prylar du vill använda, inte bara efter lägsta pris."
+  },
+  {
+    "id": "smart-thermostat",
+    "name": "Smart termostat / elementstyrning",
+    "category": "värme",
+    "price_hint": "30–100 €",
+    "best_for": "jämnare temperatur i sovrum och hemmakontor",
+    "note": "Börja med ett rum där temperaturen faktiskt skapar problem."
   }
 ]

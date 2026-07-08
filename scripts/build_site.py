@@ -101,6 +101,14 @@ TAG_LABELS = {
     "notiser": "Notiser",
     "knappar": "Knappar",
     "pluggar": "Pluggar",
+    "dorrar": "Dörrar",
+    "hall": "Hall",
+    "klimat": "Klimat",
+    "varme": "Värme",
+    "värme": "Värme",
+    "energi": "Energi",
+    "checklista": "Checklista",
+    "faq": "FAQ",
 }
 
 
@@ -168,7 +176,31 @@ def article_tags(article: dict) -> list[str]:
 
 
 def thumb_for(article: dict) -> str:
-    filename = PHOTO_BY_SLUG.get(article.get("slug"), "living-room.jpg")
+    slug = article.get("slug", "")
+    title = article.get("title", "").lower()
+    hay = f"{slug} {title}"
+    filename = PHOTO_BY_SLUG.get(slug)
+    if not filename:
+        if any(x in hay for x in ["vatten", "diskmaskin", "badrum", "tvatt", "tvätt", "sommarstuga"]):
+            filename = "water-sink.jpg"
+        elif any(x in hay for x in ["dorr", "dörr", "hall", "regn", "lagenhet", "lägenhet"]):
+            filename = "morning-hall.jpg"
+        elif any(x in hay for x in ["temperatur", "fukt", "termostat", "varme", "värme", "vinter", "energi"]):
+            filename = "budget-home.jpg"
+        elif any(x in hay for x in ["dashboard", "kalender", "veckovy", "barnvakt"]):
+            filename = "tablet-kitchen.jpg"
+        elif any(x in hay for x in ["knapp", "button"]):
+            filename = "switch-wall.jpg"
+        elif any(x in hay for x in ["zigbee", "aqara", "ikea", "hue", "green", "internet", "moln", "lokalt"]):
+            filename = "zigbee-desk.jpg"
+        elif any(x in hay for x in ["robot", "dammsugare", "husdjur", "hund"]):
+            filename = "robot-floor.jpg"
+        elif any(x in hay for x in ["barnrum", "natt", "skarmtid", "skärmtid", "tonaring", "tonåring"]):
+            filename = "kids-bedroom.jpg"
+        elif any(x in hay for x in ["kok", "kök", "mat", "inkop", "inköp"]):
+            filename = "kitchen.jpg"
+        else:
+            filename = "family-living.jpg"
     return f"/assets/photos/{filename}"
 
 
