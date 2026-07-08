@@ -57,7 +57,7 @@ PHOTO_BY_SLUG = {
     "billigt-smart-hem-under-100-euro": "budget-home.jpg",
     "basta-zigbee-hubbar-for-familjer": "hub-table.jpg",
     "basta-vattenlackagesensorer-smart-hem": "water-sink.jpg",
-    "vattenlackage-sensor-barnfamilj": "laundry-sensor.jpg",
+    "vattenlackage-sensor-barnfamilj": "commons-laundry-room.jpg",
     "smarta-pluggar-barnfamilj": "smart-plug.jpg",
     "aqara-ikea-philips-hue-vad-ska-familjer-valja": "smart-bulbs.jpg",
     "narvarosensor-vs-rorelsesensor": "hallway.jpg",
@@ -68,7 +68,7 @@ PHOTO_BY_SLUG = {
     "smart-kok-for-barnfamiljer": "kitchen.jpg",
     "smarta-hem-prylar-att-inte-kopa-forst": "shopping-basket.jpg",
     "hallkaos-smart-hem-skola-forskola": "morning-hall.jpg",
-    "tvattstuga-sensorer-familj": "laundry-sensor.jpg",
+    "tvattstuga-sensorer-familj": "commons-laundry-room.jpg",
     "matplanering-dashboard-smart-kok": "tablet-kitchen.jpg",
     "barnens-skarmtid-smarta-hem-signaler": "kids-bedroom.jpg",
     "basta-smarta-pluggar-energi-familj": "smart-plug.jpg",
@@ -91,6 +91,22 @@ PHOTO_BY_SLUG = {
     "smart-hem-for-medicinpaminnelser": "tablet-kitchen.jpg",
     "smart-hem-for-familj-med-skiftarbete": "bedroom-night.jpg",
     "kopguide-smarta-hem-presenter": "smart-plug.jpg",
+    "tvattmaskinen-klar-smart-paminnelse": "commons-laundry-room.jpg",
+    "smart-hem-delad-vardnad-packlista": "family-calendar.jpg",
+    "barn-glommer-saker-smart-checklista": "school-bag.jpg",
+    "smart-hall-vinterfamilj": "morning-hall.jpg",
+    "god-natt-knapp-familj-home-assistant": "bedroom-night.jpg",
+    "smart-kyl-frys-utan-dyrt-kylskap": "commons-thermostat.jpg",
+    "barnrum-utan-appkaos-tre-lagen": "kids-bedroom.jpg",
+    "barn-ensamma-hemma-smart-hem-utan-kamera": "commons-smart-lock.jpg",
+    "robotdammsugare-stadzoner-kok-hall-matbord": "robot-floor.jpg",
+    "familjens-krislage-dashboard-vatten-brand-strom": "water-sink.jpg",
+    "produktguide-forsta-zigbee-sensorerna-rum-for-rum": "zigbee-desk.jpg",
+    "spara-el-home-assistant-familj": "budget-home.jpg",
+    "smart-plug-energimatning-vad-kan-man-mata": "smart-plug.jpg",
+    "home-assistant-startpaket-vad-behover-man-kopa": "green-pi.jpg",
+    "smart-hem-hyresratt-startpaket-under-100-euro": "apartment.jpg",
+    "vackningsljus-barn-smart-lampa-eller-vackarklocka": "night-light.jpg",
 }
 
 TAG_LABELS = {
@@ -513,13 +529,17 @@ def main() -> None:
     render_page("Guider", "Praktiska smart hem-guider för barnfamiljer.", article_list_page("Guider", "Praktiska guider", guide_articles, "Rutiner, dashboards, Home Assistant och vardagsexempel utan produktlistor i centrum."), SITE / "guider.html")
     render_page("Köpråd", "Köpguider för smart hem i barnfamiljer.", article_list_page("Köpråd", "Köpguider", buy_articles, "Här samlas sidor där produktvalet är huvudfrågan. Guiderna ligger separat."), SITE / "koprad.html")
 
-    product_bits = []
-    for p in products:
-        link = affiliate_links.get(p["id"], {})
+    product_by_id = {p["id"]: p for p in products}
+
+    def product_card(pid: str) -> str:
+        p = product_by_id.get(pid)
+        if not p:
+            return ""
+        link = affiliate_links.get(pid, {})
         link_html = ""
         if link.get("status") == "active" and link.get("url"):
             link_html = f"<a class='buy-link' href='{esc(link['url'])}' rel='sponsored nofollow noopener' target='_blank'>{esc(link.get('label', 'Se alternativ'))}</a>"
-        product_bits.append(
+        return (
             "<div class='card product-card'>"
             f"<div class='card-body'><span class='pill'>{esc(p['category'])}</span>"
             f"<h2>{esc(p['name'])}</h2>"
@@ -528,7 +548,22 @@ def main() -> None:
             f"<p class='fineprint'>{esc(p.get('note', ''))}</p>"
             f"{link_html}</div></div>"
         )
-    products_page = "<section><div class='section-title'><h1>Produktkategorier</h1></div><div class='grid'>" + "".join(product_bits) + "</div></section>"
+
+    product_groups = [
+        ("Vatten, brand och frånvaro", "Prylar som varnar när något kan bli dyrt eller farligt.", ["water-leak-sensor", "smart-smoke-detector", "door-window-sensor", "temperature-sensor"]),
+        ("Barnrum och kväll", "Ljus, knappar och klimat för lugnare kvällar utan appkaos.", ["smart-bulb", "smart-button", "motion-sensor", "air-quality-sensor", "smart-blinds"]),
+        ("Energi och vinter", "Mät, styr och förstå elförbrukning utan att göra hemmet obekvämt.", ["smart-plug", "smart-thermostat", "temperature-sensor"]),
+        ("Kom igång med Home Assistant", "Basen för dashboard, Zigbee och de första automationerna.", ["zigbee-hub", "tablet-wall", "smart-button", "motion-sensor"]),
+        ("Städning och hall", "Sådant som märks varje vecka: smulor, grus, väskor och dörrar.", ["robot-vacuum", "door-window-sensor", "smart-button", "motion-sensor"]),
+    ]
+    product_sections = []
+    for heading, intro_text, ids in product_groups:
+        cards = "".join(product_card(pid) for pid in ids)
+        product_sections.append(
+            f"<section><div class='section-title'><h2>{esc(heading)}</h2></div>"
+            f"<p class='lead page-lead'>{esc(intro_text)}</p><div class='grid'>{cards}</div></section>"
+        )
+    products_page = "<section><div class='section-title'><h1>Produktkategorier</h1></div><p class='lead page-lead'>Välj efter vardagsproblem först. Produkten är bara intressant om den löser något som händer hemma på riktigt.</p></section>" + "".join(product_sections)
     render_page("Produktkategorier", "Prylar för smart hem i barnfamiljer.", products_page, SITE / "produkter.html")
 
     about = """<article><h1>Om Smart Familj Hemma</h1>
