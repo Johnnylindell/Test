@@ -46,5 +46,13 @@
     "price_hint": "10–40 €",
     "best_for": "diskmaskin, tvättmaskin, handfat och varmvattenberedare",
     "note": "Inte roligast att köpa, men ofta en av de mest vettiga sensorerna i ett hem."
+  },
+  {
+    "id": "smart-plug",
+    "name": "Smart plug med energimätning",
+    "category": "pluggar",
+    "price_hint": "10–35 €",
+    "best_for": "lampor, tvättmaskinspåminnelser och enkel energikoll",
+    "note": "Välj energimätning om du vill känna av när en maskin är klar. Kontrollera alltid maxlast."
   }
 ]

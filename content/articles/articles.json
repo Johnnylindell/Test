@@ -26,8 +26,25 @@
       [
         "Rekommenderad ordning",
         "Börja med belysning och knappar. Lägg sedan till sensorer. Köp robotdammsugare först när ni vet vilka rum som faktiskt behöver automatiseras."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "kopguide"
+    ],
+    "examples": [
+      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
+      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
+      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "home-assistant-for-familjer-nyborjarguide",
@@ -56,8 +73,26 @@
       [
         "Startpaket",
         "En mini-dator eller befintlig server, två smarta lampor, en knapp och en billig surfplatta räcker för att få en tydlig familjeeffekt."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "guide",
+      "home-assistant"
+    ],
+    "examples": [
+      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
+      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
+      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "bygg-familjedashboard-surfplatta",
@@ -84,8 +119,25 @@
       [
         "Nästa steg",
         "När dashboarden används dagligen kan du lägga till knappar för 'lägg till inköp', 'klar för skola' och 'god natt'."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "dashboard"
+    ],
+    "examples": [
+      "Alla ser på samma skärm vem som hämtar och vad som ska med till skolan.",
+      "Inköpslistan står kvar i köket där man märker att mjölken är slut.",
+      "Söndagskvällen blir fem minuters genomgång i stället för måndagsöverraskningar."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "adhd-vanliga-morgonrutiner-smarta-hem",
@@ -113,8 +165,26 @@
       [
         "Belöna avslut",
         "Visa ett enkelt 'klart' på dashboarden. För många familjer är avslutssignalen viktigare än ännu fler påminnelser."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "morgon",
+      "rutiner"
+    ],
+    "examples": [
+      "Kökslampan går från varm till klar när det är dags att ta på ytterkläder.",
+      "Väggskärmen visar bara tre saker: frukost, tandborste, väska.",
+      "Knappen i hallen markerar 'klar' så ingen behöver ropa genom huset."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "basta-smarta-lampor-barnsovrum",
@@ -141,8 +211,27 @@
       [
         "Undvik detta",
         "Köp inte lampor som kräver molnapp för varje ändring om målet är ett robust familjesystem."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "barnrum",
+      "belysning",
+      "kopguide"
+    ],
+    "examples": [
+      "Barnrummet får varmare ljus efter kvällsmat och släcks stegvis i stället för tvärt.",
+      "Ett svagt nattljus tänds i hallen utan att resten av familjen vaknar.",
+      "Godnatt-knappen stänger kökslampor och lämnar bara en liten väg till badrummet."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "smarta-knappar-10-anvandningar-hemma",
@@ -169,8 +258,26 @@
       [
         "Börja med två",
         "Köp inte tio direkt. Börja med en vid ytterdörren och en vid sängen/soffan."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "idéer",
+      "knappar"
+    ],
+    "examples": [
+      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
+      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
+      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "familjekalender-pa-vaggskarm",
@@ -196,8 +303,26 @@
       [
         "Underhåll",
         "Gör kalendern till källan som redan används, till exempel Google Calendar, och låt dashboarden bara visa den."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "dashboard",
+      "kalender"
+    ],
+    "examples": [
+      "Alla ser på samma skärm vem som hämtar och vad som ska med till skolan.",
+      "Inköpslistan står kvar i köket där man märker att mjölken är slut.",
+      "Söndagskvällen blir fem minuters genomgång i stället för måndagsöverraskningar."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "basta-robotdammsugare-barnfamiljer",
@@ -223,8 +348,26 @@
       [
         "Tips",
         "Schemalägg efter frukost eller när familjen lämnat hemmet. Undvik nattkörning om ljud stör sömn."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "kopguide",
+      "städning"
+    ],
+    "examples": [
+      "Robotdammsugaren kör efter lämning när lego och strumpor hunnit plockas upp.",
+      "Köket får en kort extra körning efter middag, inte hela huset.",
+      "Hallen städas oftare under grusperioden och mer sällan på sommaren."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "automatisera-inkopslistor-hemma",
@@ -251,8 +394,26 @@
       [
         "Automationsidé",
         "När någon markerar sista paketet av en standardvara kan dashboarden föreslå att lägga till den igen."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "kok",
+      "rutiner"
+    ],
+    "examples": [
+      "En knapp vid kylen lägger till standardvaror på listan utan att någon tar fram mobilen.",
+      "Köksskärmen visar middag och nästa kalenderhändelse medan maten lagas.",
+      "Diskmaskinsensor och vattenlarm ligger där skadan faktiskt börjar."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "smarta-paminnelser-skola-medicin-laggdags",
@@ -280,8 +441,28 @@
       [
         "Läggdags",
         "Ljuset kan stegvis bli varmare och svagare. Dashboarden kan visa tre steg: pyjamas, tandborstning, säng."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "laggdags",
+      "morgon",
+      "notiser",
+      "rutiner"
+    ],
+    "examples": [
+      "Kökslampan går från varm till klar när det är dags att ta på ytterkläder.",
+      "Väggskärmen visar bara tre saker: frukost, tandborste, väska.",
+      "Knappen i hallen markerar 'klar' så ingen behöver ropa genom huset."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "billigt-smart-hem-under-100-euro",
@@ -309,8 +490,26 @@
       [
         "När du uppgraderar",
         "Nästa steg är en väggdashboard eller fler knappar på platser där familjen redan fattar beslut."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "budget",
+      "kopguide"
+    ],
+    "examples": [
+      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
+      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
+      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "zigbee-vs-wifi-smarta-prylar",
@@ -338,8 +537,26 @@
       [
         "När Zigbee vinner",
         "Många små batterisensorer, knappar och lampor brukar fungera bättre i ett Zigbee-nätverk."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "guide",
+      "zigbee"
+    ],
+    "examples": [
+      "När internet strular ska hallknappen fortfarande kunna tända lampan.",
+      "Billiga sensorer blir mer användbara när de slipper ligga på hemmets wifi.",
+      "En stabil hubb gör att barnrummets kvällsljus känns som en del av huset, inte som en app."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "basta-zigbee-hubbar-for-familjer",
@@ -371,8 +588,26 @@
       [
         "Undvik",
         "Undvik låsta system där varje liten ändring kräver molnapp, konto och tålamod. Det känns okej första kvällen, men blir tröttsamt när något strular en vardagsmorgon."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "kopguide",
+      "zigbee"
+    ],
+    "examples": [
+      "När internet strular ska hallknappen fortfarande kunna tända lampan.",
+      "Billiga sensorer blir mer användbara när de slipper ligga på hemmets wifi.",
+      "En stabil hubb gör att barnrummets kvällsljus känns som en del av huset, inte som en app."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "home-assistant-dashboard-koket",
@@ -399,8 +634,27 @@
       [
         "Interaktion",
         "Lägg till stora knappar för inköp och klarmarkeringar. Små länkar fungerar dåligt på väggskärm."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "dashboard",
+      "home-assistant",
+      "kok"
+    ],
+    "examples": [
+      "Alla ser på samma skärm vem som hämtar och vad som ska med till skolan.",
+      "Inköpslistan står kvar i köket där man märker att mjölken är slut.",
+      "Söndagskvällen blir fem minuters genomgång i stället för måndagsöverraskningar."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "smarta-hem-for-laggdags",
@@ -427,8 +681,26 @@
       [
         "Automation 3: klar-knapp",
         "En knapp som markerar 'god natt' kan släcka lampor och ge barnen en tydlig avslutning."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "laggdags",
+      "rutiner"
+    ],
+    "examples": [
+      "Barnrummet får varmare ljus efter kvällsmat och släcks stegvis i stället för tvärt.",
+      "Ett svagt nattljus tänds i hallen utan att resten av familjen vaknar.",
+      "Godnatt-knappen stänger kökslampor och lämnar bara en liten väg till badrummet."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "vattenlackage-sensor-barnfamilj",
@@ -458,8 +730,27 @@
       [
         "Min tumregel",
         "Köp hellre två enkla sensorer och placera dem rätt än en dyr sensor som hamnar på fel plats. Vatten bryr sig inte om specifikationer. Det rinner där det rinner."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "sensorer",
+      "säkerhet",
+      "vattenlackage"
+    ],
+    "examples": [
+      "Sensorn ligger under diskmaskinen och skickar larm innan vattnet hunnit ut i hallen.",
+      "En extra sensor under handfatet fångar droppet som annars märks först när lådan luktar fukt.",
+      "När barnen badar kan ett larm i tvättstugan vara skillnaden mellan handduk och försäkringsärende."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "familjens-veckovy-idag-plus-sex-dagar",
@@ -485,8 +776,26 @@
       [
         "ADHD-vänligt",
         "En rullande vy minskar behovet att översätta datum och veckonummer i huvudet."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "dashboard",
+      "kalender"
+    ],
+    "examples": [
+      "Alla ser på samma skärm vem som hämtar och vad som ska med till skolan.",
+      "Inköpslistan står kvar i köket där man märker att mjölken är slut.",
+      "Söndagskvällen blir fem minuters genomgång i stället för måndagsöverraskningar."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "smarta-hem-misstag-barnfamiljer",
@@ -513,8 +822,25 @@
       [
         "Misstag 4–7",
         "För svag Wi‑Fi, inga manuella alternativ, för många notiser och teknik som bara en vuxen förstår."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "guide"
+    ],
+    "examples": [
+      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
+      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
+      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "robotdammsugare-schema-barnfamilj",
@@ -540,8 +866,25 @@
       [
         "Barnens del",
         "Gör en enkel plockrutin före körning. Dashboarden kan visa 'golvet klart'."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "städning"
+    ],
+    "examples": [
+      "Robotdammsugaren kör efter lämning när lego och strumpor hunnit plockas upp.",
+      "Köket får en kort extra körning efter middag, inte hela huset.",
+      "Hallen städas oftare under grusperioden och mer sällan på sommaren."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "smarta-hem-notiser-utan-stress",
@@ -568,8 +911,26 @@
       [
         "Familjeregel",
         "Om ingen agerar på en notis under en vecka ska den ändras eller tas bort."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "notiser",
+      "rutiner"
+    ],
+    "examples": [
+      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
+      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
+      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "basta-vattenlackagesensorer-smart-hem",
@@ -599,8 +960,27 @@
       [
         "Undvik",
         "Undvik sensorer som bara fungerar i en app du aldrig öppnar. En säkerhetssensor måste in i systemet du faktiskt ser."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "kopguide",
+      "sensorer",
+      "vattenlackage"
+    ],
+    "examples": [
+      "Sensorn ligger under diskmaskinen och skickar larm innan vattnet hunnit ut i hallen.",
+      "En extra sensor under handfatet fångar droppet som annars märks först när lådan luktar fukt.",
+      "När barnen badar kan ett larm i tvättstugan vara skillnaden mellan handduk och försäkringsärende."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "smarta-pluggar-barnfamilj",
@@ -631,8 +1011,26 @@
       [
         "Min rekommendation",
         "Köp smart plug när du redan vet exakt vad den ska styra. Köp den inte bara för att den är billig."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "kopguide",
+      "pluggar"
+    ],
+    "examples": [
+      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
+      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
+      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "aqara-ikea-philips-hue-vad-ska-familjer-valja",
@@ -665,8 +1063,26 @@
       [
         "Bästa väg framåt",
         "Börja med en billig rutin. Om den används dagligen kan du bygga vidare och blanda märken via Home Assistant."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "jämförelse",
+      "zigbee"
+    ],
+    "examples": [
+      "När internet strular ska hallknappen fortfarande kunna tända lampan.",
+      "Billiga sensorer blir mer användbara när de slipper ligga på hemmets wifi.",
+      "En stabil hubb gör att barnrummets kvällsljus känns som en del av huset, inte som en app."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "narvarosensor-vs-rorelsesensor",
@@ -696,8 +1112,26 @@
       [
         "Undvik",
         "Undvik att automatisera alla rum direkt. Sensorer är bäst när de löser ett konkret irritationsmoment."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "kopguide",
+      "sensorer"
+    ],
+    "examples": [
+      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
+      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
+      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "smart-hem-i-hyresratt-utan-att-borra",
@@ -730,8 +1164,26 @@
       [
         "Bra första köp",
         "Två smarta lampor, en knapp och en sensor ger effekt utan att du rör elen."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "guide",
+      "hyresratt"
+    ],
+    "examples": [
+      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
+      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
+      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "home-assistant-green-eller-raspberry-pi",
@@ -763,8 +1215,26 @@
       [
         "Min linje",
         "Börja med det som minskar risken att projektet dör halvvägs. För många är det en färdig Home Assistant-box."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "home-assistant",
+      "jämförelse"
+    ],
+    "examples": [
+      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
+      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
+      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "basta-smarta-nattljus-for-barn",
@@ -795,8 +1265,28 @@
       [
         "Bra första setup",
         "En smart lampa i hallen och en rörelsesensor räcker ofta."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "barnrum",
+      "belysning",
+      "kopguide",
+      "laggdags"
+    ],
+    "examples": [
+      "Barnrummet får varmare ljus efter kvällsmat och släcks stegvis i stället för tvärt.",
+      "Ett svagt nattljus tänds i hallen utan att resten av familjen vaknar.",
+      "Godnatt-knappen stänger kökslampor och lämnar bara en liten väg till badrummet."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "smart-hem-for-hundagare",
@@ -828,8 +1318,26 @@
       [
         "Undvik",
         "Bygg inte ett larmsystem runt hunden om problemet egentligen är otydliga rutiner."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "guide",
+      "hund"
+    ],
+    "examples": [
+      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
+      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
+      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "smart-kok-for-barnfamiljer",
@@ -862,8 +1370,26 @@
       [
         "4–5. Ljus och städ",
         "Morgonljus och robotdammsugarschema ger liten men återkommande avlastning."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
       ]
-    ]
+    ],
+    "tags": [
+      "guide",
+      "kok"
+    ],
+    "examples": [
+      "En knapp vid kylen lägger till standardvaror på listan utan att någon tar fram mobilen.",
+      "Köksskärmen visar middag och nästa kalenderhändelse medan maten lagas.",
+      "Diskmaskinsensor och vattenlarm ligger där skadan faktiskt börjar."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
   },
   {
     "slug": "smarta-hem-prylar-att-inte-kopa-forst",
@@ -894,6 +1420,270 @@
       [
         "Köp först",
         "Lampor, knappar och en enkel sensor. Tråkigt, men oftast rätt."
+      ],
+      [
+        "Så märker du att lösningen fungerar",
+        "En bra lösning blir använd utan att någon behöver påminna familjen om den. Den syns på rätt plats, går att förstå snabbt och fortsätter fungera även när veckan är rörig."
+      ],
+      [
+        "Vanligt misstag",
+        "Det vanligaste misstaget är att automatisera för mycket. Börja med en signal, en knapp eller en sensor och bygg vidare först när den första lösningen faktiskt används."
+      ]
+    ],
+    "tags": [
+      "guide"
+    ],
+    "examples": [
+      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
+      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
+      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+    ],
+    "intro": "Guiden utgår från situationer som ofta händer hemma: någon är sen, något glöms, en lampa står fel eller en pryl kräver mer uppmärksamhet än den sparar. Målet är att välja färre saker som gör tydlig nytta."
+  },
+  {
+    "slug": "hallkaos-smart-hem-skola-forskola",
+    "title": "Hallkaos före skola och förskola: smart hem som hjälper",
+    "description": "Konkreta lösningar för väskor, ytterkläder, tider och sista-minuten-panik i hallen.",
+    "category": "guide",
+    "products": [
+      "smart-button",
+      "smart-bulb",
+      "tablet-wall"
+    ],
+    "tags": [
+      "guide",
+      "morgon",
+      "dashboard",
+      "knappar",
+      "belysning"
+    ],
+    "intro": "Hallen är ofta hemmets flaskhals. Alla ska ut samtidigt, någon saknar vantar, någon annan vill visa en teckning och en vuxen försöker komma ihåg jobbet. Smarta hem-lösningen ska därför vara synlig och fysisk, inte gömd i en app.",
+    "examples": [
+      "Lampan i hallen byter färg när det är tio minuter kvar.",
+      "En checklista på väggskärmen visar väska, matlåda, nycklar och gympapåse.",
+      "En knapp vid dörren släcker huset och markerar att alla gått."
+    ],
+    "sections": [
+      [
+        "Börja med fyra saker",
+        "Visa bara det som faktiskt stoppar er: väska, ytterkläder, nycklar och dagens specialgrej. Mer än så blir lätt en vägg av text."
+      ],
+      [
+        "Fysisk knapp vid dörren",
+        "När sista personen trycker på knappen kan lampor släckas, robotdammsugaren starta senare och dashboarden markera hemifrån-läge."
+      ],
+      [
+        "Ljus som tidssignal",
+        "En färg eller ljusstyrka räcker. Grönt: gott om tid. Varmt gult: börja klä på. Rött eller starkare ljus: nu går vi."
+      ],
+      [
+        "Gör det mindre tjatigt",
+        "Poängen är inte att barnen ska styras av teknik. Poängen är att familjen får en gemensam signal som inte låter som ännu en vuxen som ropar."
+      ]
+    ]
+  },
+  {
+    "slug": "tvattstuga-sensorer-familj",
+    "title": "Smart tvättstuga: sensorer som faktiskt gör nytta",
+    "description": "Vattenlarm, smart plug och enkla påminnelser för tvättmaskin, torktumlare och glömda kläder.",
+    "category": "guide",
+    "products": [
+      "water-leak-sensor",
+      "smart-plug",
+      "smart-button"
+    ],
+    "tags": [
+      "guide",
+      "vattenlackage",
+      "sensorer",
+      "pluggar",
+      "notiser"
+    ],
+    "intro": "Tvättstugan är ett av de bästa rummen att börja i eftersom problemen är konkreta: vatten, fukt, glömda maskiner och kläder som behöver flyttas innan kvällen.",
+    "examples": [
+      "Vattenlarm under maskinen skickar larm direkt.",
+      "Smart plug kan påminna när tvättmaskinen slutat dra ström.",
+      "En knapp vid tvättkorgen kan lägga till tvättmedel på inköpslistan."
+    ],
+    "sections": [
+      [
+        "Vatten först",
+        "Lägg en vattenläckagesensor där vatten faktiskt hamnar: under maskin, vid golvbrunn eller under vask."
+      ],
+      [
+        "Påminnelse utan tjat",
+        "Mät strömförbrukning med smart plug om maskinen tillåter det. När förbrukningen faller efter ett program skickas en lugn påminnelse."
+      ],
+      [
+        "Undvik onödigt komplicerat",
+        "Du behöver inte automatisera varje tvättläge. Börja med läckage och 'tvätten är klar'."
+      ],
+      [
+        "När det blir vardagsnytta",
+        "Lösningen är bra när färre maskiner glöms över natten och fuktiga handdukar inte ligger kvar i mörker."
+      ]
+    ]
+  },
+  {
+    "slug": "matplanering-dashboard-smart-kok",
+    "title": "Matplanering på köksskärmen: enklare vardagsmiddag",
+    "description": "Så kan en enkel dashboard visa middagar, inköpslista och vad som måste tas fram ur frysen.",
+    "category": "guide",
+    "products": [
+      "tablet-wall",
+      "smart-button"
+    ],
+    "tags": [
+      "guide",
+      "kok",
+      "dashboard",
+      "kalender"
+    ],
+    "intro": "Middagsstress handlar sällan om brist på recept. Ofta är problemet att ingen ser planen förrän alla redan är hungriga.",
+    "examples": [
+      "Köksskärmen visar dagens middag redan på morgonen.",
+      "En rad säger 'ta fram kyckling ur frysen' innan det är för sent.",
+      "Knappen vid kylen lägger till standardvaror direkt."
+    ],
+    "sections": [
+      [
+        "Visa mindre",
+        "Dagens middag, morgondagens middag och tre viktigaste inköpen räcker långt."
+      ],
+      [
+        "Placera där beslutet tas",
+        "Skärmen ska synas där någon öppnar kyl, packar varor eller lagar mat."
+      ],
+      [
+        "Gör listan enkel",
+        "En knapp för mjölk, bröd eller blöjor kan vara mer användbar än en avancerad receptintegration."
+      ],
+      [
+        "Koppla till kalendern",
+        "Om träning slutar sent ska middagen vara enkel. En bra dashboard gör den kopplingen synlig."
+      ]
+    ]
+  },
+  {
+    "slug": "barnens-skarmtid-smarta-hem-signaler",
+    "title": "Skärmtid utan bråk: använd lampor och rutiner som signaler",
+    "description": "Inte en magisk lösning, men tydliga övergångar kan göra avslut mindre laddade.",
+    "category": "guide",
+    "products": [
+      "smart-bulb",
+      "smart-button",
+      "tablet-wall"
+    ],
+    "tags": [
+      "guide",
+      "barnrum",
+      "rutiner",
+      "belysning"
+    ],
+    "intro": "Smarta hem ska inte uppfostra barn. Men tydliga signaler kan göra övergången från skärm till mat, läxa eller läggning mindre plötslig.",
+    "examples": [
+      "Lampan blir varm gul tio minuter före avslut.",
+      "Dashboarden visar nästa steg: kvällsmål, pyjamas, tandborste.",
+      "En knapp markerar när skärmen är undanlagd och tänder läslampan."
+    ],
+    "sections": [
+      [
+        "Förvarna visuellt",
+        "En mild ljusförändring fungerar ofta bättre än att ropa från köket."
+      ],
+      [
+        "Gör nästa steg tydligt",
+        "Barn fastnar lätt i avslutet om nästa aktivitet är vag. Visa konkret vad som händer efter skärmen."
+      ],
+      [
+        "Undvik straffkänsla",
+        "Tekniken ska inte kännas som övervakning. Den ska göra övergången förutsägbar."
+      ],
+      [
+        "När det fungerar",
+        "Du märker det när färre avslut blir diskussioner och fler blir rutiner."
+      ]
+    ]
+  },
+  {
+    "slug": "basta-smarta-pluggar-energi-familj",
+    "title": "Bästa smarta pluggarna för familjer: energi, lampor och påminnelser",
+    "description": "Vad en smart plug kan göra hemma och när den inte är rätt val.",
+    "category": "köpguide",
+    "products": [
+      "smart-plug",
+      "smart-button"
+    ],
+    "tags": [
+      "kopguide",
+      "pluggar",
+      "budget",
+      "kok"
+    ],
+    "intro": "Smarta pluggar är billiga och lockande, men de ska användas där de faktiskt gör vardagen enklare: lampor, kaffehörna, tvättmaskinspåminnelser och energikoll.",
+    "examples": [
+      "En plugg vid kaffemaskinen stänger av efter morgonruschen.",
+      "En energimätande plugg kan se när tvättmaskinen är klar.",
+      "En vanlig golvlampa blir del av kvällsläget utan att byta armatur."
+    ],
+    "sections": [
+      [
+        "Välj rätt typ",
+        "För lampor räcker ofta enkel av/på. För tvätt eller energikoll behövs energimätning."
+      ],
+      [
+        "Tänk säkerhet",
+        "Använd inte billiga pluggar till tunga laster om de inte är tydligt specade för det."
+      ],
+      [
+        "Bra första användning",
+        "Gör en gammal lampa smart och styr den med knapp. Då märks nyttan direkt."
+      ],
+      [
+        "När du ska låta bli",
+        "Om apparaten har känslig elektronik eller kräver fysisk knapptryckning efter strömavbrott är smart plug ofta fel väg."
+      ]
+    ]
+  },
+  {
+    "slug": "sensorer-i-badrum-natt-och-vatten",
+    "title": "Sensorer i badrum: nattljus, fukt och vattenlarm",
+    "description": "Så gör du badrummet smartare utan att göra det komplicerat.",
+    "category": "guide",
+    "products": [
+      "motion-sensor",
+      "water-leak-sensor",
+      "smart-bulb"
+    ],
+    "tags": [
+      "guide",
+      "sensorer",
+      "vattenlackage",
+      "belysning",
+      "laggdags"
+    ],
+    "intro": "Badrummet har två tydliga smart hem-problem: ingen vill bli bländad på natten och ingen vill upptäcka vatten för sent.",
+    "examples": [
+      "Rörelsesensor tänder svagt ljus efter 22.00.",
+      "Vattenlarm ligger under handfatet eller vid toalettens anslutning.",
+      "Fläkten kan påminnas via fuktnivå om systemet redan stödjer det."
+    ],
+    "sections": [
+      [
+        "Nattläge",
+        "Låt badrumsljuset tändas svagt på natten och normalt på dagen."
+      ],
+      [
+        "Vattenlarm där det börjar",
+        "Sensorer gör mest nytta under vask, vid rörkopplingar och nära maskiner."
+      ],
+      [
+        "Fukt utan överbygge",
+        "Fuktsensor kan vara bra, men börja inte med avancerad ventilation om ett enkelt larm löser behovet."
+      ],
+      [
+        "Familjetestet",
+        "Om barnen kan gå på toaletten utan att väcka alla har lösningen redan gjort nytta."
       ]
     ]
   }

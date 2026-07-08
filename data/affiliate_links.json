@@ -57,5 +57,15 @@
       "/artiklar/vattenlackage-sensor-barnfamilj.html",
       "/artiklar/basta-vattenlackagesensorer-smart-hem.html"
     ]
+  },
+  "smart-plug": {
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=smart+plug+energim%C3%A4tning&tag=smartahemmet-21",
+    "label": "Se smarta pluggar på Amazon",
+    "target_pages": [
+      "/artiklar/smarta-pluggar-barnfamilj.html",
+      "/artiklar/basta-smarta-pluggar-energi-familj.html"
+    ]
   }
 }

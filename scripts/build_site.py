@@ -5,6 +5,7 @@ import html
 import json
 import re
 import shutil
+from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -32,100 +33,231 @@ MONEY_SLUGS = {
     "basta-smarta-nattljus-for-barn",
     "smart-kok-for-barnfamiljer",
     "smart-hem-i-hyresratt-utan-att-borra",
+    "smarta-hem-prylar-att-inte-kopa-forst",
+}
+
+PHOTO_BY_SLUG = {
+    "basta-smarta-hem-prylar-barnfamiljer": "family-living.jpg",
+    "home-assistant-for-familjer-nyborjarguide": "tech-desk.jpg",
+    "bygg-familjedashboard-surfplatta": "tablet-kitchen.jpg",
+    "adhd-vanliga-morgonrutiner-smarta-hem": "morning-hall.jpg",
+    "basta-smarta-lampor-barnsovrum": "kids-bedroom.jpg",
+    "smarta-knappar-10-anvandningar-hemma": "switch-wall.jpg",
+    "familjekalender-pa-vaggskarm": "family-calendar.jpg",
+    "robotdammsugare-schema-barnfamilj": "vacuum-room.jpg",
+    "smarta-hem-for-laggdags": "bedroom-night.jpg",
+    "automatisera-inkopslistor-hemma": "grocery-kitchen.jpg",
+    "smarta-hem-notiser-utan-stress": "phone-table.jpg",
+    "basta-robotdammsugare-barnfamiljer": "robot-floor.jpg",
+    "home-assistant-dashboard-koket": "tablet-desk.jpg",
+    "smarta-paminnelser-skola-medicin-laggdags": "school-bag.jpg",
+    "zigbee-vs-wifi-smarta-prylar": "zigbee-desk.jpg",
+    "familjens-veckovy-idag-plus-sex-dagar": "weekly-planner.jpg",
+    "smarta-hem-misstag-barnfamiljer": "messy-table.jpg",
+    "billigt-smart-hem-under-100-euro": "budget-home.jpg",
+    "basta-zigbee-hubbar-for-familjer": "hub-table.jpg",
+    "basta-vattenlackagesensorer-smart-hem": "water-sink.jpg",
+    "vattenlackage-sensor-barnfamilj": "laundry-sensor.jpg",
+    "smarta-pluggar-barnfamilj": "smart-plug.jpg",
+    "aqara-ikea-philips-hue-vad-ska-familjer-valja": "smart-bulbs.jpg",
+    "narvarosensor-vs-rorelsesensor": "hallway.jpg",
+    "smart-hem-i-hyresratt-utan-att-borra": "apartment.jpg",
+    "home-assistant-green-eller-raspberry-pi": "green-pi.jpg",
+    "basta-smarta-nattljus-for-barn": "night-light.jpg",
+    "smart-hem-for-hundagare": "dog-hall.jpg",
+    "smart-kok-for-barnfamiljer": "kitchen.jpg",
+    "smarta-hem-prylar-att-inte-kopa-forst": "shopping-basket.jpg",
+    "hallkaos-smart-hem-skola-forskola": "morning-hall.jpg",
+    "tvattstuga-sensorer-familj": "laundry-sensor.jpg",
+    "matplanering-dashboard-smart-kok": "tablet-kitchen.jpg",
+    "barnens-skarmtid-smarta-hem-signaler": "kids-bedroom.jpg",
+    "basta-smarta-pluggar-energi-familj": "smart-plug.jpg",
+    "sensorer-i-badrum-natt-och-vatten": "water-sink.jpg",
+}
+
+TAG_LABELS = {
+    "home-assistant": "Home Assistant",
+    "kopguide": "Köpguide",
+    "guide": "Guide",
+    "ideer": "Idéer",
+    "idéer": "Idéer",
+    "sakerhet": "Säkerhet",
+    "jamforelse": "Jämförelse",
+    "sensorer": "Sensorer",
+    "belysning": "Belysning",
+    "dashboard": "Dashboard",
+    "rutiner": "Rutiner",
+    "barnrum": "Barnrum",
+    "kok": "Kök",
+    "zigbee": "Zigbee",
+    "städning": "Städning",
+    "vattenlackage": "Vattenläcka",
+    "budget": "Budget",
+    "hyresratt": "Hyresrätt",
+    "hund": "Hund",
+    "morgon": "Morgon",
+    "laggdags": "Läggdags",
+    "kalender": "Kalender",
+    "notiser": "Notiser",
+    "knappar": "Knappar",
+    "pluggar": "Pluggar",
 }
 
 
 def slugify(text: str) -> str:
-    text = text.lower().replace("å", "a").replace("ä", "a").replace("ö", "o")
-    text = re.sub(r"[^a-z0-9]+", "-", text).strip("-")
-    return text
+    text = text.lower().replace("å", "a").replace("ä", "a").replace("ö", "o").replace("é", "e")
+    return re.sub(r"[^a-z0-9]+", "-", text).strip("-")
+
+
+def normalize_tag(tag: str) -> str:
+    tag = str(tag).strip().lower()
+    if tag == "köpguide":
+        return "kopguide"
+    return slugify(tag)
+
+
+def esc(value: str) -> str:
+    return html.escape(str(value), quote=True)
 
 
 def render_page(title: str, description: str, body: str, out: Path) -> None:
-    page = BASE.replace("{{ title }}", html.escape(title)).replace("{{ description }}", html.escape(description)).replace("{{ body }}", body)
+    page = BASE.replace("{{ title }}", esc(title)).replace("{{ description }}", esc(description)).replace("{{ body }}", body)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page, encoding="utf-8")
+
+
+def is_money(article: dict) -> bool:
+    return article.get("slug") in MONEY_SLUGS or article.get("category") == "köpguide"
+
+
+def tag_label(tag: str) -> str:
+    return TAG_LABELS.get(tag, tag.replace("-", " ").title())
+
+
+def article_tags(article: dict) -> list[str]:
+    tags = [normalize_tag(t) for t in article.get("tags", []) if normalize_tag(t)]
+    cat = article.get("category", "").strip().lower()
+    if cat:
+        tags.append("kopguide" if cat == "köpguide" else normalize_tag(cat))
+    slug = article.get("slug", "")
+    title = article.get("title", "").lower()
+    checks = {
+        "home-assistant": ["home-assistant", "home assistant"],
+        "sensorer": ["sensor", "narvaro", "rörelse", "rorelse"],
+        "belysning": ["lampa", "lampor", "ljus", "nattljus"],
+        "barnrum": ["sovrum", "nattljus", "barnsovrum"],
+        "kok": ["kok", "kök", "inkop", "inköp", "diskmaskin"],
+        "zigbee": ["zigbee", "aqara", "ikea", "hue", "hub"],
+        "städning": ["robot", "dammsugare", "städ"],
+        "vattenlackage": ["vatten", "läck", "lack"],
+        "budget": ["budget", "100-euro", "billigt"],
+        "hyresratt": ["hyresratt", "hyresrätt"],
+        "hund": ["hund"],
+        "morgon": ["morgon"],
+        "laggdags": ["lägg", "lagg", "natt"],
+        "kalender": ["kalender", "veckovy"],
+        "notiser": ["notis", "påminn", "paminn"],
+        "knappar": ["knapp"],
+        "pluggar": ["plug"],
+    }
+    hay = f"{slug} {title}"
+    for tag, needles in checks.items():
+        if any(n in hay for n in needles):
+            tags.append(tag)
+    return sorted(dict.fromkeys(tags))[:8]
+
+
+def thumb_for(article: dict) -> str:
+    filename = PHOTO_BY_SLUG.get(article.get("slug"), "living-room.jpg")
+    return f"/assets/photos/{filename}"
+
+
+def tag_links(article: dict) -> str:
+    tags = article_tags(article)
+    if not tags:
+        return ""
+    return "<div class='tags'>" + "".join(f"<a href='/tag/{slugify(t)}.html'>#{esc(tag_label(t))}</a>" for t in tags[:6]) + "</div>"
 
 
 def product_cards(products: list[dict], ids: list[str], affiliate_links: dict) -> str:
     by_id = {p["id"]: p for p in products}
     cards = []
+    seen_links = set()
     for pid in ids:
         p = by_id.get(pid)
         if not p:
             continue
         link = affiliate_links.get(pid, {})
         link_html = ""
-        if link.get("status") == "active" and link.get("url"):
-            link_html = f"<a class='buy-link' href='{html.escape(link['url'])}' rel='sponsored nofollow noopener' target='_blank'>{html.escape(link.get('label', 'Se alternativ'))}</a>"
+        url = link.get("url", "")
+        if link.get("status") == "active" and url and url not in seen_links:
+            seen_links.add(url)
+            link_html = f"<a class='buy-link' href='{esc(url)}' rel='sponsored nofollow noopener' target='_blank'>{esc(link.get('label', 'Se alternativ'))}</a>"
         cards.append(
             "<div class='mini-card'>"
-            f"<span class='pill'>{html.escape(p['category'])}</span>"
-            f"<h3>{html.escape(p['name'])}</h3>"
-            f"<p>{html.escape(p['best_for'])}</p>"
-            f"<small>Typiskt pris: {html.escape(p['price_hint'])}</small>"
+            f"<span class='pill'>{esc(p['category'])}</span>"
+            f"<h3>{esc(p['name'])}</h3>"
+            f"<p>{esc(p['best_for'])}</p>"
+            f"<small>Typiskt pris: {esc(p['price_hint'])}</small>"
             f"{link_html}"
             "</div>"
         )
     if not cards:
         return ""
-    return "<section class='related-products'><h2>Prylar som nämns i guiden</h2><p class='muted'>Länkar märkta som sponsrade kan ge sajten ersättning utan extra kostnad för dig.</p><div class='mini-grid'>" + "".join(cards) + "</div></section>"
+    return "<section class='related-products'><h2>Prylar som nämns</h2><div class='mini-grid'>" + "".join(cards) + "</div></section>"
 
 
-def ad_slot(label: str = "Annonsplats") -> str:
-    return f"<aside class='ad-slot'><span>{html.escape(label)}</span><p>Reserverad för relevant annons, inte aktiverad.</p></aside>"
+def everyday_block(article: dict) -> str:
+    examples = article.get("examples", [])
+    if not examples:
+        examples = [
+            "Morgonen går snabbare när samma signal betyder samma sak varje dag.",
+            "Hallen blir lugnare när lampor, påminnelser och knappar sitter där familjen faktiskt passerar.",
+            "Kvällen fungerar bättre när tekniken gör färre saker, men gör dem pålitligt.",
+        ]
+    items = "".join(f"<li>{esc(item)}</li>" for item in examples[:5])
+    return f"<section class='example-box'><h2>Exempel från vardagen</h2><ul>{items}</ul></section>"
 
 
 def article_html(article: dict, products: list[dict], affiliate_links: dict) -> str:
     parts = [
         "<article>",
-        f"<span class='pill'>{html.escape(article['category'])}</span>",
-        f"<h1>{html.escape(article['title'])}</h1>",
-        f"<p class='lead'>{html.escape(article['description'])}</p>",
+        f"<span class='pill'>{esc(article['category'])}</span>",
+        f"<h1>{esc(article['title'])}</h1>",
+        f"<p class='lead'>{esc(article['description'])}</p>",
+        tag_links(article),
         f"<img class='article-hero-image' src='{thumb_for(article)}' alt=''>",
     ]
+    intro = article.get("intro")
+    if intro:
+        parts.append(f"<p>{esc(intro)}</p>")
     for idx, (heading, text) in enumerate(article["sections"]):
-        parts.append(f"<h2>{html.escape(heading)}</h2><p>{html.escape(text)}</p>")
+        parts.append(f"<h2>{esc(heading)}</h2><p>{esc(text)}</p>")
+        if idx == 1:
+            parts.append(everyday_block(article))
     parts.append(product_cards(products, article.get("products", []), affiliate_links))
-    parts.append("<p class='fineprint'>Senast uppdaterad: juli 2026. Guiden är skriven för vanliga hem, inte för perfekta labbmiljöer.</p></article>")
+    parts.append("<p class='fineprint'>Senast uppdaterad: juli 2026.</p></article>")
     return "\n".join(parts)
 
 
-def thumb_for(article: dict) -> str:
-    slug = article.get("slug", "")
-    category = article.get("category", "")
-    if "vatten" in slug:
-        return "/assets/photos/kitchen.jpg"
-    if "robot" in slug:
-        return "/assets/photos/vacuum-room.jpg"
-    if "lampa" in slug or "nattljus" in slug or "laggdags" in slug or "barnsovrum" in slug:
-        return "/assets/photos/bedroom.jpg"
-    if "dashboard" in slug or "kalender" in slug or "kok" in slug:
-        return "/assets/photos/tablet-desk.jpg"
-    if "zigbee" in slug or "hub" in slug or "aqara" in slug or "ikea" in slug or "home-assistant" in slug:
-        return "/assets/photos/tech-desk.jpg"
-    if "knapp" in slug or "plug" in slug or "under-100" in slug:
-        return "/assets/photos/living-room.jpg"
-    if "hund" in slug or "hyresratt" in slug:
-        return "/assets/photos/hallway.jpg"
-    if "rutin" in slug or category == "rutiner":
-        return "/assets/photos/cozy-room.jpg"
-    return "/assets/photos/living-room.jpg"
-
-
-def card(article: dict, large: bool = False) -> str:
-    money = " money-card" if article.get("slug") in MONEY_SLUGS else ""
+def card(article: dict, large: bool = False, compact: bool = False) -> str:
     size = " card-large" if large else ""
+    compact_class = " card-compact" if compact else ""
     slug = article.get("slug", "")
-    category = article.get("category", "")
+    kind = "Köpråd" if is_money(article) else "Guide"
     return (
-        f"<div class='card{money}{size}'>"
+        f"<div class='card{size}{compact_class}'>"
         f"<a class='card-image' href='/artiklar/{slug}.html'><img src='{thumb_for(article)}' alt=''></a>"
-        f"<div class='card-body'><span class='pill'>{html.escape(category)}</span>"
-        f"<h2><a href='/artiklar/{slug}.html'>{html.escape(article['title'])}</a></h2>"
-        f"<p>{html.escape(article['description'])}</p></div>"
+        f"<div class='card-body'><span class='pill'>{kind}</span>"
+        f"<h2><a href='/artiklar/{slug}.html'>{esc(article['title'])}</a></h2>"
+        f"<p>{esc(article['description'])}</p>{tag_links(article)}</div>"
         "</div>"
     )
+
+
+def article_list_page(title: str, description: str, articles: list[dict], intro: str = "") -> str:
+    intro_html = f"<p class='lead page-lead'>{esc(intro)}</p>" if intro else ""
+    return f"<section><div class='section-title'><h1>{esc(title)}</h1></div>{intro_html}<div class='grid'>" + "".join(card(a) for a in articles) + "</div></section>"
 
 
 def main() -> None:
@@ -135,117 +267,111 @@ def main() -> None:
     assets_src = ROOT / "assets"
     if assets_src.exists():
         shutil.copytree(assets_src, SITE / "assets")
+
     articles = json.loads(ARTICLES.read_text(encoding="utf-8"))
     products = json.loads(PRODUCTS.read_text(encoding="utf-8"))
     affiliate_links = json.loads(AFFILIATE_LINKS.read_text(encoding="utf-8")) if AFFILIATE_LINKS.exists() else {}
     site_config = json.loads(SITE_CONFIG.read_text(encoding="utf-8")) if SITE_CONFIG.exists() else {}
 
-    cards = []
-    money_cards = []
-    by_slug = {}
+    by_slug = {a.get("slug"): a for a in articles}
+    buy_articles = [a for a in articles if is_money(a)]
+    guide_articles = [a for a in articles if not is_money(a)]
+
     for a in articles:
-        by_slug[a.get("slug")] = a
-        out = SITE / "artiklar" / f"{a['slug']}.html"
-        render_page(a["title"], a["description"], article_html(a, products, affiliate_links), out)
-        c = card(a)
-        cards.append(c)
-        if a.get("slug") in MONEY_SLUGS:
-            money_cards.append(c)
+        render_page(a["title"], a["description"], article_html(a, products, affiliate_links), SITE / "artiklar" / f"{a['slug']}.html")
 
-    featured_slugs = [
-        "basta-vattenlackagesensorer-smart-hem",
-        "smart-kok-for-barnfamiljer",
-        "basta-smarta-nattljus-for-barn",
-    ]
-    featured_cards = "".join(card(by_slug[s], large=True) for s in featured_slugs if s in by_slug)
+    # Tags and tag pages
+    tag_map: dict[str, list[dict]] = defaultdict(list)
+    for a in articles:
+        for t in article_tags(a):
+            tag_map[t].append(a)
+    for tag, tagged_articles in tag_map.items():
+        body = article_list_page(f"#{tag_label(tag)}", f"Artiklar taggade med {tag_label(tag)}.", tagged_articles, "Filtrera artiklar efter det problem eller rum du vill lösa först.")
+        render_page(f"Tagg: {tag_label(tag)}", f"Artiklar om {tag_label(tag)}.", body, SITE / "tag" / f"{slugify(tag)}.html")
+    popular_tags = [t for t, _ in Counter({k: len(v) for k, v in tag_map.items()}).most_common()]
+    tag_page = "<section><div class='section-title'><h1>Taggar</h1></div><p class='lead page-lead'>Välj ämne i stället för att gå via rum. Det passar bättre när du vet problemet men inte vilken pryl som löser det.</p><div class='tag-cloud'>" + "".join(
+        f"<a href='/tag/{slugify(t)}.html'>#{esc(tag_label(t))}<span>{len(tag_map[t])}</span></a>" for t in popular_tags
+    ) + "</div></section>"
+    render_page("Taggar", "Hitta guider via taggar.", tag_page, SITE / "taggar.html")
 
-    home = """
-    <section class='hero'>
-      <div class='hero-main'>
-        <img src='/assets/photos/hero-home.jpg' alt='Ljust skandinaviskt hem'>
-        <div class='hero-copy'>
-          <span class='kicker'>Smart hem för barnfamiljer</span>
-          <h1>Smarta prylar som löser vardagsproblem.</h1>
-          <p class='lead'>Köpguider, jämförelser och Home Assistant-idéer för kök, barnrum, hall, nattljus, läckor och robotdammsugare.</p>
-          <div class='actions'><a class='cta' href='/artiklar.html'>Läs bloggen</a><a class='ghost' href='/koprad.html'>Gå till köpråd</a></div>
-        </div>
-      </div>
-      <div class='hero-side'>
-        <a class='side-card' href='/artiklar/basta-vattenlackagesensorer-smart-hem.html'><img src='/assets/photos/kitchen.jpg' alt='Kök'><div><span class='kicker'>Säkerhet</span><h2>Vattenläckagesensorer</h2></div></a>
-        <a class='side-card' href='/artiklar/basta-smarta-nattljus-for-barn.html'><img src='/assets/photos/cozy-room.jpg' alt='Vardagsrum i kvällsljus'><div><span class='kicker'>Barnrum</span><h2>Nattljus som inte väcker alla</h2></div></a>
+    lead = by_slug.get("home-assistant-for-familjer-nyborjarguide", articles[0])
+    top_buy = [by_slug[s] for s in ["basta-vattenlackagesensorer-smart-hem", "basta-zigbee-hubbar-for-familjer", "basta-robotdammsugare-barnfamiljer"] if s in by_slug]
+    top_guides = [by_slug[s] for s in ["adhd-vanliga-morgonrutiner-smarta-hem", "familjekalender-pa-vaggskarm", "smarta-hem-for-laggdags"] if s in by_slug]
+    used_guide_slugs = {lead.get("slug"), *(a.get("slug") for a in top_guides)}
+    used_buy_slugs = {a.get("slug") for a in top_buy}
+    guide_home = top_guides + [a for a in guide_articles if a.get("slug") not in used_guide_slugs][:5]
+    buy_home = [a for a in buy_articles if a.get("slug") not in used_buy_slugs][:8]
+
+    home = f"""
+    <section class='hero hero-editorial'>
+      <a class='cover-story' href='/artiklar/{lead['slug']}.html'>
+        <img src='{thumb_for(lead)}' alt=''>
+        <div><span class='kicker'>Börja här</span><h1>{esc(lead['title'])}</h1><p class='lead'>{esc(lead['description'])}</p></div>
+      </a>
+      <div class='hero-stack'>
+        {''.join(card(a, compact=True) for a in top_buy[:2])}
       </div>
     </section>
 
-    <nav class='category-nav' aria-label='Kategorier'>
-      <a href='/koprad.html'>Köpguider</a>
-      <a href='/artiklar/basta-vattenlackagesensorer-smart-hem.html'>Säkerhet</a>
-      <a href='/artiklar/basta-smarta-nattljus-for-barn.html'>Barnrum</a>
-      <a href='/artiklar/smart-kok-for-barnfamiljer.html'>Kök</a>
-      <a href='/artiklar/bygg-familjedashboard-surfplatta.html'>Dashboard</a>
-      <a href='/artiklar/zigbee-vs-wifi-smarta-prylar.html'>Zigbee</a>
-      <a href='/artiklar/basta-robotdammsugare-barnfamiljer.html'>Städning</a>
+    <nav class='category-nav' aria-label='Huvudval'>
+      <a href='/guider.html'>Guider</a>
+      <a href='/koprad.html'>Köpråd</a>
+      <a href='/taggar.html'>Taggar</a>
+      <a href='/kom-igang.html'>Kom igång</a>
     </nav>
 
-    <section>
-      <div class='section-title'><h2>Utvalt</h2><a href='/artiklar.html'>Alla guider</a></div>
-      <div class='grid'>%s</div>
-    </section>
-
-    <section>
-      <div class='section-title'><h2>Ämnen</h2></div>
-      <div class='topic-strip'>
-        <a class='topic' href='/artiklar/basta-vattenlackagesensorer-smart-hem.html'><strong>Vattenläcka</strong><span>Kök, tvätt, badrum</span></a>
-        <a class='topic' href='/artiklar/basta-smarta-nattljus-for-barn.html'><strong>Nattljus</strong><span>Barnrum och hall</span></a>
-        <a class='topic' href='/artiklar/smart-kok-for-barnfamiljer.html'><strong>Smart kök</strong><span>Dashboard och listor</span></a>
-        <a class='topic' href='/artiklar/basta-robotdammsugare-barnfamiljer.html'><strong>Städning</strong><span>Robotar och schema</span></a>
-        <a class='topic' href='/artiklar/smarta-knappar-10-anvandningar-hemma.html'><strong>Knappar</strong><span>Fysiska genvägar</span></a>
+    <section class='split-section'>
+      <div>
+        <div class='section-title'><h2>Guider</h2><a href='/guider.html'>Alla guider</a></div>
+        <div class='compact-grid'>{''.join(card(a, compact=True) for a in guide_home)}</div>
+      </div>
+      <div>
+        <div class='section-title'><h2>Köpråd</h2><a href='/koprad.html'>Alla köpråd</a></div>
+        <div class='compact-grid'>{''.join(card(a, compact=True) for a in buy_home)}</div>
       </div>
     </section>
 
     <section>
-      <div class='section-title'><h2>Senaste</h2><a href='/artiklar.html'>Öppna blogg</a></div>
-      <div class='compact-grid'>%s</div>
+      <div class='section-title'><h2>Hitta via taggar</h2><a href='/taggar.html'>Visa alla</a></div>
+      <div class='tag-cloud tag-cloud-home'>{''.join(f"<a href='/tag/{slugify(t)}.html'>#{esc(tag_label(t))}<span>{len(tag_map[t])}</span></a>" for t in popular_tags[:14])}</div>
     </section>
 
-    <section>
-      <div class='section-title'><h2>Köpråd</h2><a href='/koprad.html'>Alla köpråd</a></div>
-      <div class='compact-grid'>%s</div>
+    <section class='text-feature'>
+      <h2>Exempel: en vanlig tisdag</h2>
+      <p>07.10 tänds hallen mjukt och köksskärmen visar skolväskor, gympapåse och vem som hämtar. 17.30 ligger inköpslistan synligt när någon går förbi kylen. 20.15 går barnrummet över till varmare ljus och en knapp vid sängen släcker resten.</p>
+      <p>Det är den typen av små lösningar sajten bygger runt: färre öppna appar, färre muntliga påminnelser och prylar som går att förstå när man redan är trött.</p>
     </section>
-
-    <section class='newsletter'><div><h2>Börja med rätt kategori.</h2><p>Välj ett problem hemma och läs guiden innan du köper.</p></div><a href='/kom-igang.html'>Kom igång</a></section>
-    """ % (featured_cards, "".join(cards[:12]), "".join(money_cards[:8]))
+    """
     render_page("Smart Familj Hemma", "Smarta hem-guider för barnfamiljer: Home Assistant, familjedashboard och vardagsrutiner.", home, SITE / "index.html")
 
-    start = """<article><span class='pill'>Börja här</span><h1>Kom igång utan att drunkna i prylar</h1>
-    <p class='lead'>Det vanligaste felet är att köpa femton smarta saker och sedan försöka hitta problem åt dem. Gör tvärtom.</p>
-    <h2>Välj en jobbig stund</h2><p>Ta morgonen, läggningen eller hallen. Bara en. Skriv ner vad som faktiskt går fel där: glömda väskor, fel ljus, barn som inte ser nästa steg, vuxna som tjatar tills alla blir trötta.</p>
-    <h2>Bygg en lösning som syns</h2><p>För familjer vinner synliga signaler över notiser. En skärm i köket, en färg på lampan eller en knapp vid dörren gör mer nytta än en automation som bara finns i en app.</p>
-    <h2>Köp inte allt direkt</h2><p>En bra första runda är en smart knapp, en lampa, en sensor och en gammal surfplatta. Om det inte hjälper i vardagen efter två veckor var problemet fel valt.</p>
-    <p><a class='cta' href='/koprad.html'>Se första köpråden</a></p></article>"""
+    start = """<article><span class='pill'>Börja här</span><h1>Kom igång utan att köpa halva elektronikbutiken</h1>
+    <p class='lead'>Välj en jobbig stund hemma och bygg runt den.</p>
+    <h2>1. Skriv ner friktionen</h2><p>Exempel: alla frågar vad som händer idag, nattlampan väcker syskonet, diskmaskinsläckan upptäcks för sent eller hallen blir kaos fem minuter före skolan.</p>
+    <h2>2. Välj en synlig signal</h2><p>En lampa, knapp, väggskärm eller sensor är ofta bättre än ännu en notis. Familjen ska förstå lösningen utan att öppna en app.</p>
+    <h2>3. Testa i två veckor</h2><p>Om lösningen inte används efter två veckor: förenkla. Flytta knappen, ta bort steg eller byt till en tydligare signal.</p>
+    <p><a class='cta' href='/guider.html'>Läs guider</a> <a class='ghost' href='/koprad.html'>Se köpråd</a></p></article>"""
     render_page("Kom igång", "Börja med smart hem hemma utan att köpa fel prylar.", start, SITE / "kom-igang.html")
 
-    render_page("Alla guider", "Alla guider från Smart Familj Hemma.", "<section><div class='section-title'><h1>Alla guider</h1></div><div class='grid'>" + "".join(cards) + "</div></section>", SITE / "artiklar.html")
-
-    render_page("Köpråd", "Köpguider för smart hem i barnfamiljer.", "<section><div class='section-title'><h1>Köpråd</h1></div><div class='grid'>" + "".join(money_cards) + "</div></section>", SITE / "koprad.html")
+    render_page("Blogg", "Alla artiklar från Smart Familj Hemma.", article_list_page("Blogg", "Alla artiklar", articles, "Här finns både längre guider och rena köpråd. Vill du slippa blandningen finns separata sidor för guider och köpråd."), SITE / "artiklar.html")
+    render_page("Guider", "Praktiska smart hem-guider för barnfamiljer.", article_list_page("Guider", "Praktiska guider", guide_articles, "Rutiner, dashboards, Home Assistant och vardagsexempel utan produktlistor i centrum."), SITE / "guider.html")
+    render_page("Köpråd", "Köpguider för smart hem i barnfamiljer.", article_list_page("Köpråd", "Köpguider", buy_articles, "Här samlas sidor där produktvalet är huvudfrågan. Guiderna ligger separat."), SITE / "koprad.html")
 
     product_bits = []
     for p in products:
         link = affiliate_links.get(p["id"], {})
         link_html = ""
         if link.get("status") == "active" and link.get("url"):
-            link_html = f"<a class='buy-link' href='{html.escape(link['url'])}' rel='sponsored nofollow noopener' target='_blank'>{html.escape(link.get('label', 'Se alternativ'))}</a>"
+            link_html = f"<a class='buy-link' href='{esc(link['url'])}' rel='sponsored nofollow noopener' target='_blank'>{esc(link.get('label', 'Se alternativ'))}</a>"
         product_bits.append(
             "<div class='card product-card'>"
-            f"<span class='pill'>{html.escape(p['category'])}</span>"
-            f"<h2>{html.escape(p['name'])}</h2>"
-            f"<p>{html.escape(p['best_for'])}</p>"
-            f"<p class='muted'>Typiskt pris: {html.escape(p['price_hint'])}</p>"
-            f"<p class='fineprint'>{html.escape(p.get('note', ''))}</p>"
-            f"{link_html}"
-            "</div>"
+            f"<div class='card-body'><span class='pill'>{esc(p['category'])}</span>"
+            f"<h2>{esc(p['name'])}</h2>"
+            f"<p>{esc(p['best_for'])}</p>"
+            f"<p class='muted'>Typiskt pris: {esc(p['price_hint'])}</p>"
+            f"<p class='fineprint'>{esc(p.get('note', ''))}</p>"
+            f"{link_html}</div></div>"
         )
-    product_html = "".join(product_bits)
-    products_page = "<section><div class='section-title'><h1>Prylar</h1></div><div class='grid'>" + product_html + "</div></section>"
+    products_page = "<section><div class='section-title'><h1>Produktkategorier</h1></div><div class='grid'>" + "".join(product_bits) + "</div></section>"
     render_page("Produktkategorier", "Prylar för smart hem i barnfamiljer.", products_page, SITE / "produkter.html")
 
     about = """<article><h1>Om Smart Familj Hemma</h1>
@@ -257,8 +383,8 @@ def main() -> None:
     disclosure = """<article><h1>Transparens</h1>
     <p>Smart Familj Hemma använder affiliate-länkar, bland annat via Amazon Associates. Som Amazon-partner tjänar sajten pengar på kvalificerade köp.</p>
     <p>Det kostar inte extra för dig att använda en sådan länk.</p>
-    <p>Rekommendationer ska bygga på praktisk nytta i ett familjehem: stabilitet, pris, enkelhet och hur lite underhåll produkten kräver.</p>
-    <h2>Annonser</h2><p>Annonser ska märkas tydligt och får inte blandas ihop med redaktionella rekommendationer.</p></article>"""
+    <h2>Reklam</h2><p>Displayannonser kan bli aktuella när sajten har stabil trafik. Först krävs normalt egen domän, integritetstext, cookiehantering om annonsnätverket kräver det och tillräckligt med innehåll för att bli godkänd.</p>
+    <p>Reklam ska märkas tydligt och inte blandas ihop med köpråd.</p></article>"""
     render_page("Transparens", "Transparens om länkar, annonser och rekommendationer.", disclosure, SITE / "affiliate.html")
 
     privacy = """<article><h1>Integritet</h1>
@@ -266,7 +392,9 @@ def main() -> None:
     <p>Om analys, annonser eller affiliate-nätverk läggs till senare ska den här sidan uppdateras först.</p></article>"""
     render_page("Integritet", "Integritetspolicy för Smart Familj Hemma.", privacy, SITE / "integritet.html")
 
-    paths = ["/", "/kom-igang.html", "/artiklar.html", "/koprad.html", "/produkter.html", "/om.html", "/affiliate.html", "/integritet.html"] + [f"/artiklar/{a['slug']}.html" for a in articles]
+    paths = ["/", "/kom-igang.html", "/artiklar.html", "/guider.html", "/koprad.html", "/taggar.html", "/produkter.html", "/om.html", "/affiliate.html", "/integritet.html"]
+    paths += [f"/artiklar/{a['slug']}.html" for a in articles]
+    paths += [f"/tag/{slugify(t)}.html" for t in tag_map]
     site_url = str(site_config.get("site_url", "")).rstrip("/")
     if site_url:
         sitemap = "\n".join([site_url + path for path in paths])
