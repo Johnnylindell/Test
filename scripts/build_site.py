@@ -56,7 +56,7 @@ PHOTO_BY_SLUG = {
     "smarta-hem-misstag-barnfamiljer": "messy-table.jpg",
     "billigt-smart-hem-under-100-euro": "budget-home.jpg",
     "basta-zigbee-hubbar-for-familjer": "hub-table.jpg",
-    "basta-vattenlackagesensorer-smart-hem": "water-sink.jpg",
+    "basta-vattenlackagesensorer-smart-hem": "commons-leaky-sink-valve.jpg",
     "vattenlackage-sensor-barnfamilj": "commons-laundry-room.jpg",
     "smarta-pluggar-barnfamilj": "smart-plug.jpg",
     "aqara-ikea-philips-hue-vad-ska-familjer-valja": "smart-bulbs.jpg",
@@ -232,8 +232,8 @@ def thumb_for(article: dict) -> str:
     hay = f"{slug} {title}"
     filename = PHOTO_BY_SLUG.get(slug)
     if not filename:
-        if any(x in hay for x in ["vatten", "diskmaskin", "badrum", "tvatt", "tvätt", "sommarstuga"]):
-            filename = "water-sink.jpg"
+        if any(x in hay for x in ["vatten", "läck", "lack", "fukt", "badrum", "tvatt", "tvätt"]):
+            filename = "commons-leaky-sink-valve.jpg"
         elif any(x in hay for x in ["dorr", "dörr", "hall", "regn", "lagenhet", "lägenhet"]):
             filename = "morning-hall.jpg"
         elif any(x in hay for x in ["temperatur", "fukt", "termostat", "varme", "värme", "vinter", "energi"]):
@@ -262,7 +262,7 @@ def tag_links(article: dict) -> str:
     return "<div class='tags'>" + "".join(f"<a href='/tag/{slugify(t)}.html'>#{esc(tag_label(t))}</a>" for t in tags[:6]) + "</div>"
 
 
-def product_cards(products: list[dict], ids: list[str], affiliate_links: dict) -> str:
+def product_cards(products: list[dict], ids: list[str], affiliate_links: dict, title: str = "Prylar som nämns", compact: bool = False) -> str:
     by_id = {p["id"]: p for p in products}
     cards = []
     seen_links = set()
@@ -275,7 +275,10 @@ def product_cards(products: list[dict], ids: list[str], affiliate_links: dict) -
         url = link.get("url", "")
         if link.get("status") == "active" and url and url not in seen_links:
             seen_links.add(url)
-            link_html = f"<a class='buy-link' href='{esc(url)}' rel='sponsored nofollow noopener' target='_blank'>{esc(link.get('label', 'Se alternativ'))}</a>"
+            label = link.get('label', 'Se alternativ')
+            if compact:
+                label = label.replace(" på Amazon", "")
+            link_html = f"<a class='buy-link' href='{esc(url)}' rel='sponsored nofollow noopener' target='_blank'>{esc(label)}</a>"
         cards.append(
             "<div class='mini-card'>"
             f"<span class='pill'>{esc(p['category'])}</span>"
@@ -287,7 +290,86 @@ def product_cards(products: list[dict], ids: list[str], affiliate_links: dict) -
         )
     if not cards:
         return ""
-    return "<section class='related-products'><h2>Prylar som nämns</h2><div class='mini-grid'>" + "".join(cards) + "</div></section>"
+    compact_class = " related-products-compact" if compact else ""
+    return f"<section class='related-products{compact_class}'><h2>{esc(title)}</h2><div class='mini-grid'>" + "".join(cards) + "</div></section>"
+
+
+def buying_summary_box(article: dict, products: list[dict]) -> str:
+    if not is_money(article):
+        return ""
+    tags = set(article_tags(article))
+    product_ids = article.get("products", [])
+    by_id = {p["id"]: p for p in products}
+    first_product = by_id.get(product_ids[0], {}) if product_ids else {}
+    best = "Börja med den produktkategori som löser problemet varje vecka, inte den som verkar mest avancerad."
+    avoid = "Undvik paket där allt kräver en separat app om målet är Home Assistant och låg friktion."
+    budget = first_product.get("price_hint", "börja billigt och bygg vidare")
+    works = "Home Assistant, Zigbee eller vanliga app-lösningar beroende på hur mycket du vill pilla."
+    if "vattenlackage" in tags:
+        best = "Om du bara köper en sak: sätt ett vattenlarm under diskmaskin, vask eller tvättmaskin."
+        avoid = "Undvik sensorer som bara larmar i en app ingen öppnar."
+        works = "Bäst med Zigbee och lokala notiser i Home Assistant."
+    elif "budget" in tags or "hyresratt" in tags:
+        best = "Välj flyttbara prylar: lampa, knapp, sensor eller plug utan fast installation."
+        avoid = "Undvik fasta installationer och dyra startpaket innan ni vet vad som används."
+    elif "home-assistant" in tags or "zigbee" in tags:
+        best = "Börja med hubb, en knapp och 2–3 sensorer som löser tydliga vardagsproblem."
+        avoid = "Undvik att köpa tio olika ekosystem samtidigt."
+        works = "Bäst med Zigbee, lokal styrning och enkel backup."
+    elif "energi" in tags:
+        best = "Mät först: smart plug med energimätning ger mest värde där den ändrar ett beteende."
+        avoid = "Undvik att styra värme aggressivt så familjen börjar överstyra allt manuellt."
+    elif "barnrum" in tags or "belysning" in tags:
+        best = "Börja med en enkel lampa eller knapp barnet förstår utan app."
+        avoid = "Undvik för starkt ljus och för många färgscener."
+    return (
+        "<section class='buying-summary'><h2>Snabbval</h2><div class='summary-grid'>"
+        f"<div><strong>Välj detta om</strong><p>{esc(best)}</p></div>"
+        f"<div><strong>Undvik om</strong><p>{esc(avoid)}</p></div>"
+        f"<div><strong>Rimlig budget</strong><p>{esc(budget)}</p></div>"
+        f"<div><strong>Funkar bäst med</strong><p>{esc(works)}</p></div>"
+        "</div></section>"
+    )
+
+
+def decision_table(article: dict, products: list[dict]) -> str:
+    if not is_money(article) or not article.get("products"):
+        return ""
+    by_id = {p["id"]: p for p in products}
+    rows = []
+    for pid in article.get("products", [])[:5]:
+        p = by_id.get(pid)
+        if not p:
+            continue
+        rows.append(
+            "<tr>"
+            f"<td>{esc(p['category'])}</td>"
+            f"<td>{esc(p['name'])}</td>"
+            f"<td>{esc(p['price_hint'])}</td>"
+            f"<td>{esc(p['best_for'])}</td>"
+            "</tr>"
+        )
+    if not rows:
+        return ""
+    return (
+        "<section class='decision-table-wrap'><h2>Saker att jämföra</h2>"
+        "<table class='decision-table'><thead><tr><th>Behov</th><th>Titta efter</th><th>Prisnivå</th><th>Passar bäst för</th></tr></thead><tbody>"
+        + "".join(rows) + "</tbody></table></section>"
+    )
+
+
+def problem_chips() -> str:
+    chips = [
+        ("Morgonrutin", "/tag/morgon.html"),
+        ("Barnrum", "/tag/barnrum.html"),
+        ("Vattenläcka", "/tag/vattenlackage.html"),
+        ("Billigt startpaket", "/tag/budget.html"),
+        ("Home Assistant", "/tag/home-assistant.html"),
+        ("Hyresrätt", "/tag/hyresratt.html"),
+        ("Energi", "/tag/energi.html"),
+        ("Säkerhet", "/tag/sakerhet.html"),
+    ]
+    return "<nav class='problem-chips' aria-label='Välj problem'>" + "".join(f"<a href='{href}'>{esc(label)}</a>" for label, href in chips) + "</nav>"
 
 
 def everyday_block(article: dict) -> str:
@@ -393,6 +475,10 @@ def article_html(article: dict, products: list[dict], affiliate_links: dict, all
     intro = article.get("intro")
     if intro:
         parts.append(f"<p>{esc(intro)}</p>")
+    if is_money(article):
+        parts.append(buying_summary_box(article, products))
+        parts.append(decision_table(article, products))
+        parts.append(product_cards(products, article.get("products", []), affiliate_links, title="Relevanta produktkategorier", compact=True))
     for idx, (heading, text) in enumerate(article["sections"]):
         parts.append(f"<h2>{esc(heading)}</h2><p>{esc(text)}</p>")
         if idx == 1:
@@ -421,6 +507,27 @@ def card(article: dict, large: bool = False, compact: bool = False) -> str:
 def article_list_page(title: str, description: str, articles: list[dict], intro: str = "") -> str:
     intro_html = f"<p class='lead page-lead'>{esc(intro)}</p>" if intro else ""
     return f"<section><div class='section-title'><h1>{esc(title)}</h1></div>{intro_html}<div class='grid'>" + "".join(card(a) for a in articles) + "</div></section>"
+
+
+def buying_index_page(articles: list[dict]) -> str:
+    clusters = [
+        ("Börja billigt", "Under 100 euro, hyresrätt och prylar som går att flytta.", ["budget", "hyresratt"], "/tag/budget.html"),
+        ("Säkerhet", "Vattenlarm, brand, dörrar och frånvaro utan kamera.", ["sakerhet", "vattenlackage", "brand", "dorrar"], "/tag/sakerhet.html"),
+        ("Barnrum", "Ljus, gardiner, klimat och kvällsrutiner.", ["barnrum", "belysning", "klimat"], "/tag/barnrum.html"),
+        ("Home Assistant", "Hubb, Zigbee, sensorer och första inköpen.", ["home-assistant", "zigbee", "sensorer"], "/tag/home-assistant.html"),
+        ("Energi", "Pluggar, termostater och mätning som faktiskt används.", ["energi", "varme", "pluggar"], "/tag/energi.html"),
+    ]
+    cluster_cards = []
+    for title, text, tags, href in clusters:
+        count = sum(1 for a in articles if set(tags) & set(article_tags(a)))
+        cluster_cards.append(f"<a class='topic' href='{href}'><strong>{esc(title)}</strong><span>{esc(text)} · {count} sidor</span></a>")
+    body = (
+        "<section><div class='section-title'><h1>Köpråd</h1></div>"
+        "<p class='lead page-lead'>Köpguiderna är sorterade efter vardagsproblem. Börja där något skaver hemma, inte i en produktkategori.</p>"
+        "<div class='topic-strip buying-clusters'>" + "".join(cluster_cards) + "</div></section>"
+        "<section><div class='section-title'><h2>Alla köpråd</h2></div><div class='grid'>" + "".join(card(a) for a in articles) + "</div></section>"
+    )
+    return body
 
 
 def main() -> None:
@@ -493,6 +600,11 @@ def main() -> None:
       <a href='/kom-igang.html'>Kom igång</a>
     </nav>
 
+    <section class='problem-section'>
+      <div class='section-title'><h2>Vad vill du lösa?</h2></div>
+      {problem_chips()}
+    </section>
+
     <section class='split-section'>
       <div>
         <div class='section-title'><h2>Guider</h2><a href='/guider.html'>Alla guider</a></div>
@@ -527,7 +639,7 @@ def main() -> None:
 
     render_page("Blogg", "Alla artiklar från Smart Familj Hemma.", article_list_page("Blogg", "Alla artiklar", articles, "Här finns både längre guider och rena köpråd. Vill du slippa blandningen finns separata sidor för guider och köpråd."), SITE / "artiklar.html")
     render_page("Guider", "Praktiska smart hem-guider för barnfamiljer.", article_list_page("Guider", "Praktiska guider", guide_articles, "Rutiner, dashboards, Home Assistant och vardagsexempel utan produktlistor i centrum."), SITE / "guider.html")
-    render_page("Köpråd", "Köpguider för smart hem i barnfamiljer.", article_list_page("Köpråd", "Köpguider", buy_articles, "Här samlas sidor där produktvalet är huvudfrågan. Guiderna ligger separat."), SITE / "koprad.html")
+    render_page("Köpråd", "Köpguider för smart hem i barnfamiljer.", buying_index_page(buy_articles), SITE / "koprad.html")
 
     product_by_id = {p["id"]: p for p in products}
 
