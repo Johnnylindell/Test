@@ -73,6 +73,24 @@ PHOTO_BY_SLUG = {
     "barnens-skarmtid-smarta-hem-signaler": "kids-bedroom.jpg",
     "basta-smarta-pluggar-energi-familj": "smart-plug.jpg",
     "sensorer-i-badrum-natt-och-vatten": "water-sink.jpg",
+    "basta-luftkvalitetssensorer-barnrum": "commons-co2-monitor.jpg",
+    "co2-sensor-home-assistant": "commons-co2-monitor.jpg",
+    "smart-brandvarnare-familj": "commons-smoke-detector.jpg",
+    "basta-smarta-las-barnfamilj": "commons-smart-lock.jpg",
+    "fryslarm-med-temperatursensor": "commons-thermostat.jpg",
+    "smart-brevlada-dorrsensor": "commons-mailbox.jpg",
+    "smart-forrad-garage-sensorer": "morning-hall.jpg",
+    "integritet-smart-hem-familj": "zigbee-desk.jpg",
+    "backup-home-assistant-familj": "green-pi.jpg",
+    "forbattra-zigbee-mesh-hemma": "zigbee-desk.jpg",
+    "smarta-gardiner-barnrum": "commons-roller-blinds.jpg",
+    "basta-smarta-gardiner-familj": "commons-roller-blinds.jpg",
+    "smart-hem-utan-abonnemang": "family-living.jpg",
+    "matter-vs-zigbee-familj": "zigbee-desk.jpg",
+    "smarta-hem-for-laxa-och-fokus": "kids-bedroom.jpg",
+    "smart-hem-for-medicinpaminnelser": "tablet-kitchen.jpg",
+    "smart-hem-for-familj-med-skiftarbete": "bedroom-night.jpg",
+    "kopguide-smarta-hem-presenter": "smart-plug.jpg",
 }
 
 TAG_LABELS = {
@@ -109,6 +127,18 @@ TAG_LABELS = {
     "energi": "Energi",
     "checklista": "Checklista",
     "faq": "FAQ",
+    "co2": "CO₂",
+    "luftkvalitet": "Luftkvalitet",
+    "brand": "Brand",
+    "las": "Lås",
+    "lås": "Lås",
+    "frys": "Frys",
+    "forrad": "Förråd",
+    "garage": "Garage",
+    "integritet": "Integritet",
+    "backup": "Backup",
+    "matter": "Matter",
+    "presenter": "Presenter",
 }
 
 
@@ -128,8 +158,13 @@ def esc(value: str) -> str:
     return html.escape(str(value), quote=True)
 
 
-def render_page(title: str, description: str, body: str, out: Path) -> None:
-    page = BASE.replace("{{ title }}", esc(title)).replace("{{ description }}", esc(description)).replace("{{ body }}", body)
+def render_page(title: str, description: str, body: str, out: Path, extra_head: str = "") -> None:
+    page = (
+        BASE.replace("{{ title }}", esc(title))
+        .replace("{{ description }}", esc(description))
+        .replace("{{ extra_head }}", extra_head)
+        .replace("{{ body }}", body)
+    )
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page, encoding="utf-8")
 
@@ -251,8 +286,87 @@ def everyday_block(article: dict) -> str:
     return f"<section class='example-box'><h2>Exempel från vardagen</h2><ul>{items}</ul></section>"
 
 
-def article_html(article: dict, products: list[dict], affiliate_links: dict) -> str:
+def related_articles(article: dict, all_articles: list[dict], limit: int = 4) -> list[dict]:
+    current_slug = article.get("slug")
+    current_tags = set(article_tags(article))
+    scored = []
+    for candidate in all_articles:
+        if candidate.get("slug") == current_slug:
+            continue
+        overlap = len(current_tags & set(article_tags(candidate)))
+        if is_money(article) == is_money(candidate):
+            overlap += 1
+        if overlap:
+            scored.append((overlap, candidate.get("title", ""), candidate))
+    scored.sort(key=lambda item: (-item[0], item[1]))
+    return [item[2] for item in scored[:limit]]
+
+
+def related_articles_html(article: dict, all_articles: list[dict]) -> str:
+    related = related_articles(article, all_articles)
+    if not related:
+        return ""
+    links = []
+    for item in related:
+        kind = "Köpråd" if is_money(item) else "Guide"
+        links.append(
+            f"<a class='related-link' href='/artiklar/{esc(item['slug'])}.html'>"
+            f"<strong>{esc(item['title'])}</strong><span>{kind} · {esc(item['description'])}</span></a>"
+        )
+    return "<section class='related-articles'><h2>Läs vidare</h2><div class='related-list'>" + "".join(links) + "</div></section>"
+
+
+def breadcrumb_html(article: dict) -> str:
+    section = "Köpråd" if is_money(article) else "Guider"
+    href = "/koprad.html" if is_money(article) else "/guider.html"
+    return f"<nav class='breadcrumb' aria-label='Brödsmulor'><a href='/'>Start</a> / <a href='{href}'>{section}</a> / {esc(article['title'])}</nav>"
+
+
+def json_ld(data: dict) -> str:
+    return "<script type='application/ld+json'>" + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "</script>"
+
+
+def article_extra_head(article: dict, site_url: str) -> str:
+    slug = article.get("slug", "")
+    url = f"{site_url}/artiklar/{slug}.html" if site_url else f"/artiklar/{slug}.html"
+    image = f"{site_url}{thumb_for(article)}" if site_url else thumb_for(article)
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": article.get("title", ""),
+        "description": article.get("description", ""),
+        "inLanguage": "sv-SE",
+        "dateModified": "2026-07-08",
+        "datePublished": "2026-07-08",
+        "author": {"@type": "Organization", "name": "Smart Familj Hemma"},
+        "publisher": {"@type": "Organization", "name": "Smart Familj Hemma"},
+        "mainEntityOfPage": {"@type": "WebPage", "@id": url},
+        "image": [image],
+        "keywords": [tag_label(t) for t in article_tags(article)],
+    }
+    breadcrumb = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Start", "item": site_url + "/" if site_url else "/"},
+            {"@type": "ListItem", "position": 2, "name": "Köpråd" if is_money(article) else "Guider", "item": site_url + ("/koprad.html" if is_money(article) else "/guider.html") if site_url else ("/koprad.html" if is_money(article) else "/guider.html")},
+            {"@type": "ListItem", "position": 3, "name": article.get("title", ""), "item": url},
+        ],
+    }
+    og = "\n".join([
+        f"<link rel='canonical' href='{esc(url)}'>",
+        f"<meta property='og:title' content='{esc(article.get('title', ''))}'>",
+        f"<meta property='og:description' content='{esc(article.get('description', ''))}'>",
+        f"<meta property='og:type' content='article'>",
+        f"<meta property='og:url' content='{esc(url)}'>",
+        f"<meta property='og:image' content='{esc(image)}'>",
+    ])
+    return og + "\n" + json_ld(schema) + "\n" + json_ld(breadcrumb)
+
+
+def article_html(article: dict, products: list[dict], affiliate_links: dict, all_articles: list[dict]) -> str:
     parts = [
+        breadcrumb_html(article),
         "<article>",
         f"<span class='pill'>{esc(article['category'])}</span>",
         f"<h1>{esc(article['title'])}</h1>",
@@ -268,6 +382,7 @@ def article_html(article: dict, products: list[dict], affiliate_links: dict) -> 
         if idx == 1:
             parts.append(everyday_block(article))
     parts.append(product_cards(products, article.get("products", []), affiliate_links))
+    parts.append(related_articles_html(article, all_articles))
     parts.append("<p class='fineprint'>Senast uppdaterad: juli 2026.</p></article>")
     return "\n".join(parts)
 
@@ -307,12 +422,20 @@ def main() -> None:
     affiliate_links = json.loads(AFFILIATE_LINKS.read_text(encoding="utf-8")) if AFFILIATE_LINKS.exists() else {}
     site_config = json.loads(SITE_CONFIG.read_text(encoding="utf-8")) if SITE_CONFIG.exists() else {}
 
+    site_url = str(site_config.get("site_url", "")).rstrip("/")
+
     by_slug = {a.get("slug"): a for a in articles}
     buy_articles = [a for a in articles if is_money(a)]
     guide_articles = [a for a in articles if not is_money(a)]
 
     for a in articles:
-        render_page(a["title"], a["description"], article_html(a, products, affiliate_links), SITE / "artiklar" / f"{a['slug']}.html")
+        render_page(
+            a["title"],
+            a["description"],
+            article_html(a, products, affiliate_links, articles),
+            SITE / "artiklar" / f"{a['slug']}.html",
+            extra_head=article_extra_head(a, site_url),
+        )
 
     # Tags and tag pages
     tag_map: dict[str, list[dict]] = defaultdict(list)

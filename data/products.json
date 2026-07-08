@@ -86,5 +86,37 @@
     "price_hint": "30–100 €",
     "best_for": "jämnare temperatur i sovrum och hemmakontor",
     "note": "Börja med ett rum där temperaturen faktiskt skapar problem."
+  },
+  {
+    "id": "air-quality-sensor",
+    "name": "Luftkvalitets- eller CO2-sensor",
+    "category": "klimat",
+    "price_hint": "40–180 €",
+    "best_for": "sovrum, hemmakontor och klassisk vädra-påminnelse",
+    "note": "Köp bara om värdet leder till handling. CO2 är mest användbart där flera personer vistas länge."
+  },
+  {
+    "id": "smart-smoke-detector",
+    "name": "Smart brandvarnare / rökdetektor",
+    "category": "säkerhet",
+    "price_hint": "25–100 €",
+    "best_for": "varningar när du inte är i samma rum",
+    "note": "Ersätter inte kravet på godkända brandvarnare. Se smart funktion som extra lager, inte enda skydd."
+  },
+  {
+    "id": "smart-lock",
+    "name": "Smart lås",
+    "category": "lås",
+    "price_hint": "120–300 €",
+    "best_for": "tillfälliga koder, barnvakt och koll på låst dörr",
+    "note": "Bör väljas försiktigt. Mekanisk kvalitet och reservväg är viktigare än appfunktioner."
+  },
+  {
+    "id": "smart-blinds",
+    "name": "Smarta gardiner eller rullgardinsmotor",
+    "category": "belysning",
+    "price_hint": "50–250 €",
+    "best_for": "morgonljus, värme och mörkläggning",
+    "note": "Bra i ett eller två rum. Dyrt och onödigt att börja med överallt."
   }
 ]

@@ -3102,5 +3102,872 @@
         "Bygg inte runt undantagsdagen. Börja med det som händer flera gånger i veckan och gör lösningen så enkel att den fungerar även när alla är trötta."
       ]
     ]
+  },
+  {
+    "slug": "basta-luftkvalitetssensorer-barnrum",
+    "title": "Bästa luftkvalitetssensorer för barnrum och sovrum",
+    "description": "CO2, temperatur och fukt – när luftdata faktiskt hjälper hemma.",
+    "category": "köpguide",
+    "products": [
+      "air-quality-sensor",
+      "temperature-sensor"
+    ],
+    "tags": [
+      "kopguide",
+      "luftkvalitet",
+      "co2",
+      "klimat",
+      "barnrum"
+    ],
+    "intro": "Luftkvalitet låter avancerat, men i praktiken handlar det ofta om en enkel fråga: behöver vi vädra? I sovrum, barnrum och hemmakontor kan CO2 och fukt ge tydliga mönster som annars bara känns som trötthet eller dålig luft.",
+    "examples": [
+      "CO2 stiger i barnrummet efter läggning och dashboarden visar vädra-symbol på morgonen.",
+      "Fukt i badrummet ligger kvar för länge och familjen öppnar dörren tidigare.",
+      "Hemmakontoret får en diskret signal efter två timmars möte."
+    ],
+    "sections": [
+      [
+        "CO2 är mest konkret",
+        "CO2-värde är ofta lättare att agera på än vaga luftkvalitetsindex. Högt värde betyder oftast: vädra."
+      ],
+      [
+        "Fukt är praktiskt",
+        "Fukt hjälper i badrum, tvättstuga och kalla rum där mögelrisk eller instängd lukt kan bli problem."
+      ],
+      [
+        "Undvik notisbrus",
+        "Visa värdet på dashboard eller ge en enda tydlig signal. Ingen behöver löpande luftnotiser hela dagen."
+      ],
+      [
+        "Köpguide",
+        "Prioritera tydlig display, Home Assistant-stöd om du använder det och rimlig kalibrering."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "co2-sensor-home-assistant",
+    "title": "CO2-sensor i Home Assistant: så använder du den vettigt",
+    "description": "Från siffra till handling: vädra, dashboard och diskreta signaler.",
+    "category": "guide",
+    "products": [
+      "air-quality-sensor",
+      "tablet-wall"
+    ],
+    "tags": [
+      "guide",
+      "co2",
+      "home-assistant",
+      "dashboard",
+      "klimat"
+    ],
+    "intro": "En CO2-sensor blir användbar först när värdet kopplas till något familjen förstår. Siffran i sig säger lite för barn, gäster och trötta vuxna. En tydlig färg eller vädra-symbol fungerar bättre.",
+    "examples": [
+      "Köksskärmen visar gul symbol när luften i vardagsrummet blir tung.",
+      "Efter läggning loggas sovrummets CO2 så ni ser om dörren behöver stå på glänt.",
+      "Hemmakontoret får en liten lampa som byter färg före huvudvärken kommer."
+    ],
+    "sections": [
+      [
+        "Visa zoner",
+        "Visa inte alla mätvärden överallt. Sovrum, vardagsrum och kontor räcker för de flesta."
+      ],
+      [
+        "Automatisera försiktigt",
+        "Om du har ventilation kan CO2 styra den, men börja med påminnelse innan du gör automatisk styrning."
+      ],
+      [
+        "Färg före siffror",
+        "Grön, gul och röd signal är lättare att förstå än ppm-tal."
+      ],
+      [
+        "Historik är viktig",
+        "Titta på mönster över flera kvällar innan du drar slutsatser."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "smart-brandvarnare-familj",
+    "title": "Smart brandvarnare i familjehem: extra trygghet, inte ersättning",
+    "description": "Vad smarta rökdetektorer kan göra och vad de inte ska ersätta.",
+    "category": "guide",
+    "products": [
+      "smart-smoke-detector"
+    ],
+    "tags": [
+      "guide",
+      "brand",
+      "säkerhet"
+    ],
+    "intro": "Brandvarnare är inte platsen för tekniklek. Smarta funktioner kan vara bra som extra lager, särskilt notiser när du inte är hemma, men de ersätter inte godkända och korrekt placerade vanliga brandvarnare.",
+    "examples": [
+      "Larmet i hallen hörs lokalt och skickar dessutom notis.",
+      "Batteristatus syns innan pipandet börjar mitt i natten.",
+      "Familjen testar brandvarnare samma datum varje månad."
+    ],
+    "sections": [
+      [
+        "Börja med grundskydd",
+        "Se först till att hemmet har godkända brandvarnare på rätt platser."
+      ],
+      [
+        "Smart funktion som extra lager",
+        "Notiser, batteristatus och koppling till lampor kan vara hjälpsamt, men får inte vara enda skyddet."
+      ],
+      [
+        "Tänk på natt",
+        "Om larm går nattetid kan lampor tändas svagt för väg ut, men det ska testas ordentligt."
+      ],
+      [
+        "Underhåll",
+        "Planera test och batteribyte. En smart brandvarnare utan underhåll är inte smart."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "basta-smarta-las-barnfamilj",
+    "title": "Bästa smarta lås för barnfamiljer: när är det värt det?",
+    "description": "Kod, nycklar, barnvakt och risker med att göra ytterdörren smart.",
+    "category": "köpguide",
+    "products": [
+      "smart-lock",
+      "door-window-sensor"
+    ],
+    "tags": [
+      "kopguide",
+      "lås",
+      "säkerhet",
+      "dorrar"
+    ],
+    "intro": "Smarta lås kan vara praktiska, men de ska väljas mer försiktigt än lampor och knappar. Ytterdörren är kritisk. Mekanisk kvalitet, reservöppning och familjens rutiner är viktigast.",
+    "examples": [
+      "Barnvakten får tidsbegränsad kod i stället för extra nyckel.",
+      "Dörrsensor visar om dörren är stängd även om låset är separat.",
+      "Familjen har alltid fysisk reservväg."
+    ],
+    "sections": [
+      [
+        "När det passar",
+        "Smart lås passar bäst när nyckellogistik är ett återkommande problem."
+      ],
+      [
+        "När du ska vänta",
+        "Om låset är gammalt, dörren kärvar eller familjen är osäker: lös mekaniken först."
+      ],
+      [
+        "Koddisciplin",
+        "Tillfälliga koder ska tas bort när de inte behövs."
+      ],
+      [
+        "Kombinera med dörrsensor",
+        "Låst betyder inte alltid stängd. En dörrsensor kan ge bättre status."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "fryslarm-med-temperatursensor",
+    "title": "Fryslarm med temperatursensor: rädda maten innan det är för sent",
+    "description": "Så använder du enkel temperatursensor i frys, förråd eller källare.",
+    "category": "guide",
+    "products": [
+      "temperature-sensor"
+    ],
+    "tags": [
+      "guide",
+      "klimat",
+      "sensorer",
+      "frys"
+    ],
+    "intro": "En temperatursensor i eller nära frysen är inte glamorös, men kan vara väldigt praktisk. Särskilt i förråd, garage eller källare där ingen märker att något blivit fel förrän långt senare.",
+    "examples": [
+      "Frysen i förrådet blir för varm och skickar varning.",
+      "Källaren sjunker mot frostnivå och dashboarden visar tydligt larm.",
+      "Sommarstugans temperatur kollas utan att någon åker dit."
+    ],
+    "sections": [
+      [
+        "Placera rätt",
+        "Alla sensorer klarar inte minusgrader inuti frysen. Ibland räcker det att mäta nära eller använda modell som tål miljön."
+      ],
+      [
+        "Larma långsamt",
+        "Skicka inte larm vid varje dörröppning. Larma om temperaturen är för hög för länge."
+      ],
+      [
+        "Batteri i kyla",
+        "Kyla kan påverka batteri. Kontrollera status oftare."
+      ],
+      [
+        "Testa gränser",
+        "Sätt gränsen så att familjen hinner agera innan maten är förstörd."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "smart-brevlada-dorrsensor",
+    "title": "Smart brevlåda med dörrsensor",
+    "description": "En enkel sensor kan säga när posten kommit utan kamera eller krånglig installation.",
+    "category": "guide",
+    "products": [
+      "door-window-sensor"
+    ],
+    "tags": [
+      "guide",
+      "dorrar",
+      "sensorer"
+    ],
+    "intro": "En dörrsensor i brevlådan är ett typiskt litet smart hem-projekt: billigt, konkret och lätt att förstå. Det behövs ingen kamera, bara en signal när luckan öppnas.",
+    "examples": [
+      "Dashboarden visar 'posten har kommit'.",
+      "En notis skickas bara en gång per dag.",
+      "Sensorn sitter skyddad från regn och testas innan den limmas fast."
+    ],
+    "sections": [
+      [
+        "Välj rätt sensor",
+        "Sensor och magnet måste kunna sitta så att luckans rörelse registreras."
+      ],
+      [
+        "Skydda mot väder",
+        "Brevlådor kan vara kalla och fuktiga. Placera sensorn så torrt som möjligt."
+      ],
+      [
+        "Undvik spam",
+        "Skicka inte notis varje gång luckan rör sig om den kan blåsa."
+      ],
+      [
+        "Bra familjenytta",
+        "Barn kan se på skärmen om posten redan hämtats."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "smart-forrad-garage-sensorer",
+    "title": "Förråd och garage: sensorer som ger koll utan kamera",
+    "description": "Dörrsensor, temperatur och vattenlarm för utrymmen du inte tittar i varje dag.",
+    "category": "guide",
+    "products": [
+      "door-window-sensor",
+      "temperature-sensor",
+      "water-leak-sensor"
+    ],
+    "tags": [
+      "guide",
+      "forrad",
+      "garage",
+      "sensorer",
+      "klimat"
+    ],
+    "intro": "Förråd och garage är bra platser för enkla sensorer eftersom problemen ofta upptäcks sent: öppen dörr, kyla, fukt eller vatten.",
+    "examples": [
+      "Garageporten står öppen längre än tio minuter.",
+      "Förrådet blir för kallt för färg eller elektronik.",
+      "Vattenlarm i källarförråd reagerar innan kartonger blir blöta."
+    ],
+    "sections": [
+      [
+        "Dörr först",
+        "En dörrsensor löser ofta det tydligaste problemet: står något öppet?"
+      ],
+      [
+        "Temperatur för saker",
+        "Mät där du förvarar sådant som kan skadas av kyla eller värme."
+      ],
+      [
+        "Vatten i källare",
+        "Källarutrymmen bör ha vattenlarm om det finns golvbrunn, rör eller tidigare fuktproblem."
+      ],
+      [
+        "Kamera behövs sällan",
+        "Börja med status. Kamera skapar mer integritets- och underhållsfrågor."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "integritet-smart-hem-familj",
+    "title": "Integritet i smarta hem: vad ska barnfamiljer tänka på?",
+    "description": "Kameror, mikrofoner, molntjänster och vad som bör hållas lokalt.",
+    "category": "guide",
+    "products": [
+      "zigbee-hub",
+      "smart-button"
+    ],
+    "tags": [
+      "guide",
+      "integritet",
+      "säkerhet",
+      "home-assistant"
+    ],
+    "intro": "Ett smart hem samlar lätt fler signaler än man tänker på. För familjer är det viktigt att skilja på praktisk automation och övervakning.",
+    "examples": [
+      "Familjen väljer knapp i hallen i stället för kamera.",
+      "Barnrum får inga mikrofonbaserade lösningar.",
+      "Lokala sensorer används för rutiner som inte behöver molnet."
+    ],
+    "sections": [
+      [
+        "Undvik kameror som första lösning",
+        "Många vardagsproblem kan lösas med dörrsensor, knapp eller dashboard."
+      ],
+      [
+        "Barnrum kräver extra eftertanke",
+        "Teknik i barnrum ska vara begriplig och motiverad, inte dold."
+      ],
+      [
+        "Konton och lösenord",
+        "Använd starka konton och tvåfaktor där molntjänster behövs."
+      ],
+      [
+        "Lokalt när det går",
+        "Home Assistant och Zigbee kan minska mängden data som skickas utanför hemmet."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "backup-home-assistant-familj",
+    "title": "Backup i Home Assistant: så slipper familjen teknikpanik",
+    "description": "En enkel backup-rutin för hem där smarta funktioner faktiskt används.",
+    "category": "guide",
+    "products": [
+      "zigbee-hub"
+    ],
+    "tags": [
+      "guide",
+      "home-assistant",
+      "backup"
+    ],
+    "intro": "När Home Assistant börjar styra riktiga vardagsrutiner blir backup viktigt. Inte för att allt ska vara perfekt, utan för att familjen inte ska tappa lampor, knappar och dashboards vid ett misstag.",
+    "examples": [
+      "Backup tas innan större uppdatering.",
+      "En enkel lista visar vilka knappar som styr vad.",
+      "Vanliga lampor går fortfarande att tända manuellt."
+    ],
+    "sections": [
+      [
+        "Automatisk backup",
+        "Se till att backup skapas regelbundet och gärna kopieras utanför enheten."
+      ],
+      [
+        "Dokumentera det viktiga",
+        "Skriv ner Zigbee-adapter, viktiga integrationer och vad som måste återställas först."
+      ],
+      [
+        "Testa återställning",
+        "En backup som aldrig testats är en gissning."
+      ],
+      [
+        "Manuell fallback",
+        "Familjen ska kunna leva hemma även om Home Assistant är nere en kväll."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "forbattra-zigbee-mesh-hemma",
+    "title": "Förbättra Zigbee-mesh hemma: stabilare sensorer och knappar",
+    "description": "Så placerar du hubb, routrar och lampor för färre tappade signaler.",
+    "category": "guide",
+    "products": [
+      "zigbee-hub",
+      "smart-bulb",
+      "smart-plug"
+    ],
+    "tags": [
+      "guide",
+      "zigbee",
+      "sensorer"
+    ],
+    "intro": "Många Zigbee-problem handlar inte om dåliga sensorer utan om svagt mesh. Batteriprylar behöver fasta Zigbee-enheter som hjälper nätet.",
+    "examples": [
+      "Knappen i hallen slutar tappa kontakt när en smart plug placeras nära.",
+      "Hubben flyttas bort från wifi-router och metallskåp.",
+      "Lampor och pluggar bygger mesh mellan våningar."
+    ],
+    "sections": [
+      [
+        "Hubben ska stå fritt",
+        "Undvik att gömma hubben bakom router, tv eller metall."
+      ],
+      [
+        "Fasta enheter hjälper",
+        "Nätanslutna lampor och pluggar kan fungera som routrar i Zigbee-nätet."
+      ],
+      [
+        "Batterisensorer routar inte",
+        "Små sensorer sparar batteri och hjälper normalt inte andra enheter."
+      ],
+      [
+        "Ändra en sak i taget",
+        "Flytta hubb eller lägg till router och testa innan du byter allt."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "smarta-gardiner-barnrum",
+    "title": "Smarta gardiner i barnrum: morgonljus och mörkläggning",
+    "description": "När automatiska gardiner är praktiska och när de bara är dyrt lullull.",
+    "category": "guide",
+    "products": [
+      "smart-blinds",
+      "smart-button"
+    ],
+    "tags": [
+      "guide",
+      "barnrum",
+      "belysning",
+      "morgon"
+    ],
+    "intro": "Smarta gardiner kan hjälpa med morgonljus och kvällsmörker, men de är ofta dyrare och mer mekaniska än lampor. Börja bara där problemet är tydligt.",
+    "examples": [
+      "Rullgardinen öppnas lite på vardagsmorgnar.",
+      "Barnrummet mörkläggs automatiskt före läggning.",
+      "En knapp vid dörren stoppar gardinen manuellt."
+    ],
+    "sections": [
+      [
+        "Bra användning",
+        "Morgonljus i mörka perioder och mörkläggning vid läggning är de tydligaste fallen."
+      ],
+      [
+        "Kolla ljudnivå",
+        "En högljudd motor i barnrum kan förstöra poängen."
+      ],
+      [
+        "Manuell kontroll",
+        "Gardinen måste kunna stoppas och styras utan app."
+      ],
+      [
+        "Börja med ett rum",
+        "Testa i ett rum innan du köper till hela hemmet."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "basta-smarta-gardiner-familj",
+    "title": "Bästa smarta gardiner för familjer",
+    "description": "Köpguide för rullgardinsmotorer, gardinskenor och automationer som faktiskt används.",
+    "category": "köpguide",
+    "products": [
+      "smart-blinds",
+      "smart-button"
+    ],
+    "tags": [
+      "kopguide",
+      "belysning",
+      "morgon",
+      "barnrum"
+    ],
+    "intro": "Smarta gardiner kan vara vardagsnytta i rätt rum: barnrum, sovrum eller vardagsrum med stark sol. Men det är en kategori där felköp snabbt blir dyrt.",
+    "examples": [
+      "Sovrummet får långsam öppning på vardagsmorgnar.",
+      "Vardagsrummet stänger för stark eftermiddagssol.",
+      "Barnrummet har knapp som alltid överstyr automatik."
+    ],
+    "sections": [
+      [
+        "Välj efter gardintyp",
+        "Rullgardin, gardinskena och persienn kräver olika lösningar."
+      ],
+      [
+        "Batteri eller sladd",
+        "Batteri är enklare men kräver laddning. Sladd är stabilare men svårare att installera snyggt."
+      ],
+      [
+        "Integration",
+        "Kontrollera stöd för Home Assistant eller den hubb du redan använder."
+      ],
+      [
+        "Säkerhet",
+        "I barnrum är mekanisk säkerhet och snören viktigare än smarta funktioner."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "smart-hem-utan-abonnemang",
+    "title": "Smart hem utan abonnemang: välj prylar med låg löpande kostnad",
+    "description": "Undvik lösningar som ser billiga ut men kräver moln, hubbavgift eller extra tjänst.",
+    "category": "guide",
+    "products": [
+      "zigbee-hub",
+      "smart-button",
+      "smart-bulb"
+    ],
+    "tags": [
+      "guide",
+      "budget",
+      "home-assistant",
+      "zigbee"
+    ],
+    "intro": "Ett smart hem ska inte kännas som ännu en prenumeration. Många funktioner går att få utan abonnemang om du väljer rätt typ av prylar och undviker onödiga molnberoenden.",
+    "examples": [
+      "Zigbee-knappar fungerar utan månadsavgift.",
+      "Lokala automationer fortsätter även om en app ändrar villkor.",
+      "Familjen köper färre prylar men behåller kontrollen."
+    ],
+    "sections": [
+      [
+        "Läs innan köp",
+        "Kolla om funktioner kräver premiumkonto eller molnlagring."
+      ],
+      [
+        "Välj standarder",
+        "Zigbee, Matter och lokal Home Assistant-styrning kan minska inlåsning."
+      ],
+      [
+        "Kameror är vanlig fälla",
+        "Många kameror kräver abonnemang för historik. Fråga om du verkligen behöver kamera."
+      ],
+      [
+        "Billigt över tid",
+        "En dyrare pryl utan abonnemang kan bli billigare efter ett år."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "matter-vs-zigbee-familj",
+    "title": "Matter eller Zigbee för barnfamiljer?",
+    "description": "Vad skillnaden betyder när du köper lampor, sensorer och knappar.",
+    "category": "guide",
+    "products": [
+      "zigbee-hub",
+      "smart-bulb",
+      "smart-button"
+    ],
+    "tags": [
+      "guide",
+      "matter",
+      "zigbee",
+      "kopguide"
+    ],
+    "intro": "Matter och Zigbee blandas ofta ihop i köpråd. För familjen är den praktiska frågan enklare: kommer prylarna fungera stabilt med systemet du faktiskt använder?",
+    "examples": [
+      "Zigbee-sensorer används för batterisnåla nattljus.",
+      "Matter-lampa köps där enkel plattformsstöd är viktigare.",
+      "Home Assistant samlar båda när stödet är moget."
+    ],
+    "sections": [
+      [
+        "Zigbee i korthet",
+        "Zigbee är vanligt för batterisensorer, knappar och lampor. Det kräver ofta hubb eller adapter."
+      ],
+      [
+        "Matter i korthet",
+        "Matter ska göra kompatibilitet enklare mellan ekosystem, men allt stöd är inte lika moget."
+      ],
+      [
+        "Köp inte på logga ensam",
+        "Kontrollera verkligt stöd med din hubb och andra användares erfarenheter."
+      ],
+      [
+        "Familjens prioritet",
+        "Stabilitet, manuell kontroll och rimlig felsökning är viktigare än trendord."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "smarta-hem-for-laxa-och-fokus",
+    "title": "Smart hem för läxa och fokus",
+    "description": "Ljus, timer och störningsfria signaler för eftermiddag utan tjat.",
+    "category": "guide",
+    "products": [
+      "smart-button",
+      "smart-bulb",
+      "tablet-wall"
+    ],
+    "tags": [
+      "guide",
+      "rutiner",
+      "belysning",
+      "knappar"
+    ],
+    "intro": "Läxläsning behöver inte mer skärm. Ofta räcker en tydlig startsignal, rätt ljus och en timer som inte känns som vuxentjat.",
+    "examples": [
+      "En knapp på skrivbordet tänder fokusljus och startar 25 minuter.",
+      "Dashboarden visar bara läxa, paus och nästa aktivitet.",
+      "Lampan byter färg när det är dags för paus."
+    ],
+    "sections": [
+      [
+        "Gör starten fysisk",
+        "En knapp är bättre än att öppna en app när barnet redan ska fokusera."
+      ],
+      [
+        "Ljus som rumssignal",
+        "Samma ljus varje gång hjälper kroppen förstå att det är fokusläge."
+      ],
+      [
+        "Kort timer",
+        "Börja med korta pass. För långa fokuspass blir bara ännu en konflikt."
+      ],
+      [
+        "Avslut är viktigt",
+        "Visa när passet är klart. Annars känns rutinen som oändlig."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "smart-hem-for-medicinpaminnelser",
+    "title": "Smarta medicinpåminnelser hemma utan stress",
+    "description": "Diskreta påminnelser för medicin, vitaminer eller återkommande rutiner.",
+    "category": "guide",
+    "products": [
+      "smart-button",
+      "tablet-wall",
+      "smart-bulb"
+    ],
+    "tags": [
+      "guide",
+      "notiser",
+      "rutiner",
+      "dashboard"
+    ],
+    "intro": "Medicinpåminnelser ska vara tydliga men inte skambeläggande. Smarta hem kan hjälpa genom synliga signaler och enkel kvittens, men ska inte ersätta medicinsk rådgivning eller säkra rutiner.",
+    "examples": [
+      "Köksskärmen visar en diskret rad vid rätt tid.",
+      "En knapp markerar att dosen är tagen.",
+      "Lampan blinkar inte, utan ändrar lugnt färg tills någon kvitterar."
+    ],
+    "sections": [
+      [
+        "Synligt där rutinen sker",
+        "Placera signalen i kök, badrum eller annan plats där medicinen faktiskt tas."
+      ],
+      [
+        "Kvittens",
+        "En knapp kan markera klart och ta bort påminnelsen från dashboarden."
+      ],
+      [
+        "Undvik höga larm",
+        "Stressiga ljud gör att familjen vill stänga av systemet."
+      ],
+      [
+        "Ha backup",
+        "Viktiga mediciner ska ha en reservrutin om tekniken fallerar."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "smart-hem-for-familj-med-skiftarbete",
+    "title": "Smart hem när familjen har skiftarbete",
+    "description": "Rutiner som tar hänsyn till olika sovtider, lämningar och hämtningar.",
+    "category": "guide",
+    "products": [
+      "smart-bulb",
+      "smart-button",
+      "tablet-wall"
+    ],
+    "tags": [
+      "guide",
+      "rutiner",
+      "morgon",
+      "laggdags"
+    ],
+    "intro": "Skiftarbete gör vanliga automationer svårare. Alla vaknar inte samtidigt och läggning kan betyda olika saker olika dagar.",
+    "examples": [
+      "Nattljus tänds svagare när någon sover efter kvällsskift.",
+      "Dashboarden visar vem som hämtar utan att väcka den som sover.",
+      "Godmorgon-läge startas med knapp, inte fast tid."
+    ],
+    "sections": [
+      [
+        "Undvik fasta tider",
+        "Knappstyrda lägen fungerar ofta bättre än klockslag när schemat varierar."
+      ],
+      [
+        "Sovläge per person",
+        "Om någon sover dagtid ska hall och kök kunna vara tystare."
+      ],
+      [
+        "Dashboard för logistik",
+        "Visa hämtning, mat och aktiviteter så färre frågor behöver ställas."
+      ],
+      [
+        "Ljusscener",
+        "Mjukt ljus kan hjälpa familjen röra sig utan att väcka den som sover."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
+  },
+  {
+    "slug": "kopguide-smarta-hem-presenter",
+    "title": "Köpguide: smarta hem-presenter som inte blir liggande",
+    "description": "Små prylar som är lätta att ge bort och faktiskt använda.",
+    "category": "köpguide",
+    "products": [
+      "smart-button",
+      "smart-bulb",
+      "water-leak-sensor",
+      "smart-plug"
+    ],
+    "tags": [
+      "kopguide",
+      "budget",
+      "presenter"
+    ],
+    "intro": "Smarta hem-presenter blir lätt fel om de kräver konto, hubb eller tålamod. Välj sådant som löser ett enkelt problem och går att förstå direkt.",
+    "examples": [
+      "En smart plug gör en gammal adventslampa enkel att styra.",
+      "En vattenläckagesensor är tråkig men användbar under diskmaskinen.",
+      "En knapp blir genväg till kvällsläge."
+    ],
+    "sections": [
+      [
+        "Bäst som present",
+        "Smarta pluggar, lampor och vattenlarm är lättare än avancerade hubbar."
+      ],
+      [
+        "Undvik låsta ekosystem",
+        "Ge inte bort något som bara passar ett system du inte vet att mottagaren har."
+      ],
+      [
+        "Skriv användningsidé",
+        "En lapp med tre konkreta exempel gör presenten mer användbar."
+      ],
+      [
+        "Håll budgeten rimlig",
+        "En dyr pryl som kräver installation blir ofta liggande."
+      ],
+      [
+        "När det är värt att bygga vidare",
+        "Bygg vidare först när den enkla versionen används flera gånger i veckan. Om familjen går runt lösningen är nästa steg inte fler prylar utan bättre placering, enklare signal eller mindre automation."
+      ],
+      [
+        "Det som ofta avgör",
+        "Placering, batteribyten och tydlig manuell kontroll avgör mer än avancerade appfunktioner. En lösning som andra i hemmet förstår vinner över en snygg men skör automation."
+      ]
+    ]
   }
 ]

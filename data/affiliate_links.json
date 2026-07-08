@@ -95,5 +95,33 @@
     "url": "https://www.amazon.se/s?k=smart+termostat+zigbee&tag=smartahemmet-21",
     "label": "Se smarta termostater på Amazon",
     "target_pages": []
+  },
+  "air-quality-sensor": {
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=co2+sensor+luftkvalitet+smart+hem&tag=smartahemmet-21",
+    "label": "Se luftkvalitets- och CO2-sensorer på Amazon",
+    "target_pages": []
+  },
+  "smart-smoke-detector": {
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=smart+brandvarnare+r%C3%B6kdetektor&tag=smartahemmet-21",
+    "label": "Se smarta brandvarnare på Amazon",
+    "target_pages": []
+  },
+  "smart-lock": {
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=smart+l%C3%A5s+d%C3%B6rr&tag=smartahemmet-21",
+    "label": "Se smarta lås på Amazon",
+    "target_pages": []
+  },
+  "smart-blinds": {
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=smarta+gardiner+rullgardinsmotor&tag=smartahemmet-21",
+    "label": "Se smarta gardiner på Amazon",
+    "target_pages": []
   }
 }
