@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import html
 import json
+import os
 import re
 import shutil
 from collections import Counter, defaultdict
@@ -16,6 +17,9 @@ PRODUCTS = ROOT / "data" / "products.json"
 AFFILIATE_LINKS = ROOT / "data" / "affiliate_links.json"
 SITE_CONFIG = ROOT / "config" / "site.json"
 BASE = (ROOT / "templates" / "base.html").read_text(encoding="utf-8")
+BASE_PATH = os.environ.get("BASE_PATH", "").strip().rstrip("/")
+if BASE_PATH and not BASE_PATH.startswith("/"):
+    BASE_PATH = "/" + BASE_PATH
 
 MONEY_SLUGS = {
     "basta-smarta-hem-prylar-barnfamiljer",
@@ -182,6 +186,11 @@ def render_page(title: str, description: str, body: str, out: Path, extra_head: 
         .replace("{{ extra_head }}", extra_head)
         .replace("{{ body }}", body)
     )
+    if BASE_PATH:
+        page = page.replace("href='/", f"href='{BASE_PATH}/")
+        page = page.replace('href="/', f'href="{BASE_PATH}/')
+        page = page.replace("src='/", f"src='{BASE_PATH}/")
+        page = page.replace('src="/', f'src="{BASE_PATH}/')
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page, encoding="utf-8")
 
@@ -595,7 +604,7 @@ def main() -> None:
     affiliate_links = json.loads(AFFILIATE_LINKS.read_text(encoding="utf-8")) if AFFILIATE_LINKS.exists() else {}
     site_config = json.loads(SITE_CONFIG.read_text(encoding="utf-8")) if SITE_CONFIG.exists() else {}
 
-    site_url = str(site_config.get("site_url", "")).rstrip("/")
+    site_url = str(os.environ.get("SITE_URL") or site_config.get("site_url", "")).rstrip("/")
 
     by_slug = {a.get("slug"): a for a in articles}
     buy_articles = [a for a in articles if is_money(a)]
@@ -750,7 +759,7 @@ def main() -> None:
     paths = ["/", "/kom-igang.html", "/artiklar.html", "/guider.html", "/koprad.html", "/taggar.html", "/produkter.html", "/om.html", "/affiliate.html", "/integritet.html"]
     paths += [f"/artiklar/{a['slug']}.html" for a in articles]
     paths += [f"/tag/{slugify(t)}.html" for t in tag_map]
-    site_url = str(site_config.get("site_url", "")).rstrip("/")
+    site_url = str(os.environ.get("SITE_URL") or site_config.get("site_url", "")).rstrip("/")
     if site_url:
         sitemap = "\n".join([site_url + path for path in paths])
         robots = f"User-agent: *\nAllow: /\nSitemap: {site_url}/sitemap.txt\n"

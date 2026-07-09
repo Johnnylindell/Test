@@ -23,6 +23,9 @@ jobs:
         with:
           python-version: '3.11'
       - name: Build site
+        env:
+          BASE_PATH: /Test
+          SITE_URL: https://johnnylindell.github.io/Test
         run: python3 scripts/build_site.py
       - uses: actions/upload-pages-artifact@v3
         with:
