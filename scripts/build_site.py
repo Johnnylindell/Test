@@ -37,76 +37,76 @@ MONEY_SLUGS = {
 }
 
 PHOTO_BY_SLUG = {
-    "basta-smarta-hem-prylar-barnfamiljer": "family-living.jpg",
-    "home-assistant-for-familjer-nyborjarguide": "tech-desk.jpg",
+    "basta-smarta-hem-prylar-barnfamiljer": "generated/startpaket-smart-hem.jpg",
+    "home-assistant-for-familjer-nyborjarguide": "generated/hub-sensorer-bord.jpg",
     "bygg-familjedashboard-surfplatta": "generated/familjedashboard-kok.jpg",
     "adhd-vanliga-morgonrutiner-smarta-hem": "generated/morgonhall-smart-knapp.jpg",
-    "basta-smarta-lampor-barnsovrum": "kids-bedroom.jpg",
-    "smarta-knappar-10-anvandningar-hemma": "switch-wall.jpg",
-    "familjekalender-pa-vaggskarm": "family-calendar.jpg",
-    "robotdammsugare-schema-barnfamilj": "vacuum-room.jpg",
-    "smarta-hem-for-laggdags": "bedroom-night.jpg",
-    "automatisera-inkopslistor-hemma": "grocery-kitchen.jpg",
-    "smarta-hem-notiser-utan-stress": "phone-table.jpg",
-    "basta-robotdammsugare-barnfamiljer": "robot-floor.jpg",
-    "home-assistant-dashboard-koket": "tablet-desk.jpg",
-    "smarta-paminnelser-skola-medicin-laggdags": "school-bag.jpg",
-    "zigbee-vs-wifi-smarta-prylar": "zigbee-desk.jpg",
-    "familjens-veckovy-idag-plus-sex-dagar": "weekly-planner.jpg",
+    "basta-smarta-lampor-barnsovrum": "generated/barnrum-varmt-nattljus.jpg",
+    "smarta-knappar-10-anvandningar-hemma": "generated/morgonhall-smart-knapp.jpg",
+    "familjekalender-pa-vaggskarm": "generated/familjedashboard-kok.jpg",
+    "robotdammsugare-schema-barnfamilj": "generated/robotdammsugare-kok-hall.jpg",
+    "smarta-hem-for-laggdags": "generated/barnrum-varmt-nattljus.jpg",
+    "automatisera-inkopslistor-hemma": "generated/familjedashboard-kok.jpg",
+    "smarta-hem-notiser-utan-stress": "generated/familjedashboard-kok.jpg",
+    "basta-robotdammsugare-barnfamiljer": "generated/robotdammsugare-kok-hall.jpg",
+    "home-assistant-dashboard-koket": "generated/familjedashboard-kok.jpg",
+    "smarta-paminnelser-skola-medicin-laggdags": "generated/morgonhall-smart-knapp.jpg",
+    "zigbee-vs-wifi-smarta-prylar": "generated/hub-sensorer-bord.jpg",
+    "familjens-veckovy-idag-plus-sex-dagar": "generated/familjedashboard-kok.jpg",
     "smarta-hem-misstag-barnfamiljer": "messy-table.jpg",
-    "billigt-smart-hem-under-100-euro": "budget-home.jpg",
-    "basta-zigbee-hubbar-for-familjer": "hub-table.jpg",
+    "billigt-smart-hem-under-100-euro": "generated/startpaket-smart-hem.jpg",
+    "basta-zigbee-hubbar-for-familjer": "generated/hub-sensorer-bord.jpg",
     "basta-vattenlackagesensorer-smart-hem": "generated/lackage-diskmaskin-sensor.jpg",
-    "vattenlackage-sensor-barnfamilj": "commons-laundry-room.jpg",
-    "smarta-pluggar-barnfamilj": "smart-plug.jpg",
-    "aqara-ikea-philips-hue-vad-ska-familjer-valja": "smart-bulbs.jpg",
+    "vattenlackage-sensor-barnfamilj": "generated/tvattstuga-sensor.jpg",
+    "smarta-pluggar-barnfamilj": "generated/startpaket-smart-hem.jpg",
+    "aqara-ikea-philips-hue-vad-ska-familjer-valja": "generated/barnrum-varmt-nattljus.jpg",
     "narvarosensor-vs-rorelsesensor": "hallway.jpg",
-    "smart-hem-i-hyresratt-utan-att-borra": "apartment.jpg",
-    "home-assistant-green-eller-raspberry-pi": "green-pi.jpg",
-    "basta-smarta-nattljus-for-barn": "night-light.jpg",
-    "smart-hem-for-hundagare": "dog-hall.jpg",
-    "smart-kok-for-barnfamiljer": "kitchen.jpg",
-    "smarta-hem-prylar-att-inte-kopa-forst": "shopping-basket.jpg",
-    "hallkaos-smart-hem-skola-forskola": "morning-hall.jpg",
-    "tvattstuga-sensorer-familj": "commons-laundry-room.jpg",
-    "matplanering-dashboard-smart-kok": "tablet-kitchen.jpg",
-    "barnens-skarmtid-smarta-hem-signaler": "kids-bedroom.jpg",
-    "basta-smarta-pluggar-energi-familj": "smart-plug.jpg",
-    "sensorer-i-badrum-natt-och-vatten": "water-sink.jpg",
-    "basta-luftkvalitetssensorer-barnrum": "commons-co2-monitor.jpg",
-    "co2-sensor-home-assistant": "commons-co2-monitor.jpg",
+    "smart-hem-i-hyresratt-utan-att-borra": "generated/morgonhall-smart-knapp.jpg",
+    "home-assistant-green-eller-raspberry-pi": "generated/hub-sensorer-bord.jpg",
+    "basta-smarta-nattljus-for-barn": "generated/barnrum-varmt-nattljus.jpg",
+    "smart-hem-for-hundagare": "generated/robotdammsugare-kok-hall.jpg",
+    "smart-kok-for-barnfamiljer": "generated/familjedashboard-kok.jpg",
+    "smarta-hem-prylar-att-inte-kopa-forst": "generated/startpaket-smart-hem.jpg",
+    "hallkaos-smart-hem-skola-forskola": "generated/morgonhall-smart-knapp.jpg",
+    "tvattstuga-sensorer-familj": "generated/tvattstuga-sensor.jpg",
+    "matplanering-dashboard-smart-kok": "generated/familjedashboard-kok.jpg",
+    "barnens-skarmtid-smarta-hem-signaler": "generated/barnrum-varmt-nattljus.jpg",
+    "basta-smarta-pluggar-energi-familj": "generated/startpaket-smart-hem.jpg",
+    "sensorer-i-badrum-natt-och-vatten": "generated/lackage-diskmaskin-sensor.jpg",
+    "basta-luftkvalitetssensorer-barnrum": "generated/hub-sensorer-bord.jpg",
+    "co2-sensor-home-assistant": "generated/hub-sensorer-bord.jpg",
     "smart-brandvarnare-familj": "commons-smoke-detector.jpg",
-    "basta-smarta-las-barnfamilj": "commons-smart-lock.jpg",
-    "fryslarm-med-temperatursensor": "commons-thermostat.jpg",
-    "smart-brevlada-dorrsensor": "commons-mailbox.jpg",
-    "smart-forrad-garage-sensorer": "morning-hall.jpg",
-    "integritet-smart-hem-familj": "zigbee-desk.jpg",
-    "backup-home-assistant-familj": "green-pi.jpg",
-    "forbattra-zigbee-mesh-hemma": "zigbee-desk.jpg",
-    "smarta-gardiner-barnrum": "commons-roller-blinds.jpg",
-    "basta-smarta-gardiner-familj": "commons-roller-blinds.jpg",
-    "smart-hem-utan-abonnemang": "family-living.jpg",
-    "matter-vs-zigbee-familj": "zigbee-desk.jpg",
-    "smarta-hem-for-laxa-och-fokus": "kids-bedroom.jpg",
-    "smart-hem-for-medicinpaminnelser": "tablet-kitchen.jpg",
-    "smart-hem-for-familj-med-skiftarbete": "bedroom-night.jpg",
-    "kopguide-smarta-hem-presenter": "smart-plug.jpg",
-    "tvattmaskinen-klar-smart-paminnelse": "commons-laundry-room.jpg",
-    "smart-hem-delad-vardnad-packlista": "family-calendar.jpg",
-    "barn-glommer-saker-smart-checklista": "school-bag.jpg",
-    "smart-hall-vinterfamilj": "morning-hall.jpg",
-    "god-natt-knapp-familj-home-assistant": "bedroom-night.jpg",
-    "smart-kyl-frys-utan-dyrt-kylskap": "commons-thermostat.jpg",
-    "barnrum-utan-appkaos-tre-lagen": "kids-bedroom.jpg",
-    "barn-ensamma-hemma-smart-hem-utan-kamera": "commons-smart-lock.jpg",
-    "robotdammsugare-stadzoner-kok-hall-matbord": "robot-floor.jpg",
-    "familjens-krislage-dashboard-vatten-brand-strom": "water-sink.jpg",
-    "produktguide-forsta-zigbee-sensorerna-rum-for-rum": "zigbee-desk.jpg",
-    "spara-el-home-assistant-familj": "budget-home.jpg",
-    "smart-plug-energimatning-vad-kan-man-mata": "smart-plug.jpg",
-    "home-assistant-startpaket-vad-behover-man-kopa": "green-pi.jpg",
-    "smart-hem-hyresratt-startpaket-under-100-euro": "apartment.jpg",
-    "vackningsljus-barn-smart-lampa-eller-vackarklocka": "night-light.jpg",
+    "basta-smarta-las-barnfamilj": "generated/ytterdorr-smart-las-sensor.jpg",
+    "fryslarm-med-temperatursensor": "generated/startpaket-smart-hem.jpg",
+    "smart-brevlada-dorrsensor": "generated/ytterdorr-smart-las-sensor.jpg",
+    "smart-forrad-garage-sensorer": "generated/morgonhall-smart-knapp.jpg",
+    "integritet-smart-hem-familj": "generated/hub-sensorer-bord.jpg",
+    "backup-home-assistant-familj": "generated/hub-sensorer-bord.jpg",
+    "forbattra-zigbee-mesh-hemma": "generated/hub-sensorer-bord.jpg",
+    "smarta-gardiner-barnrum": "generated/barnrum-varmt-nattljus.jpg",
+    "basta-smarta-gardiner-familj": "generated/barnrum-varmt-nattljus.jpg",
+    "smart-hem-utan-abonnemang": "generated/startpaket-smart-hem.jpg",
+    "matter-vs-zigbee-familj": "generated/hub-sensorer-bord.jpg",
+    "smarta-hem-for-laxa-och-fokus": "generated/barnrum-varmt-nattljus.jpg",
+    "smart-hem-for-medicinpaminnelser": "generated/familjedashboard-kok.jpg",
+    "smart-hem-for-familj-med-skiftarbete": "generated/barnrum-varmt-nattljus.jpg",
+    "kopguide-smarta-hem-presenter": "generated/startpaket-smart-hem.jpg",
+    "tvattmaskinen-klar-smart-paminnelse": "generated/tvattstuga-sensor.jpg",
+    "smart-hem-delad-vardnad-packlista": "generated/familjedashboard-kok.jpg",
+    "barn-glommer-saker-smart-checklista": "generated/morgonhall-smart-knapp.jpg",
+    "smart-hall-vinterfamilj": "generated/morgonhall-smart-knapp.jpg",
+    "god-natt-knapp-familj-home-assistant": "generated/barnrum-varmt-nattljus.jpg",
+    "smart-kyl-frys-utan-dyrt-kylskap": "generated/startpaket-smart-hem.jpg",
+    "barnrum-utan-appkaos-tre-lagen": "generated/barnrum-varmt-nattljus.jpg",
+    "barn-ensamma-hemma-smart-hem-utan-kamera": "generated/ytterdorr-smart-las-sensor.jpg",
+    "robotdammsugare-stadzoner-kok-hall-matbord": "generated/robotdammsugare-kok-hall.jpg",
+    "familjens-krislage-dashboard-vatten-brand-strom": "generated/lackage-diskmaskin-sensor.jpg",
+    "produktguide-forsta-zigbee-sensorerna-rum-for-rum": "generated/hub-sensorer-bord.jpg",
+    "spara-el-home-assistant-familj": "generated/startpaket-smart-hem.jpg",
+    "smart-plug-energimatning-vad-kan-man-mata": "generated/startpaket-smart-hem.jpg",
+    "home-assistant-startpaket-vad-behover-man-kopa": "generated/hub-sensorer-bord.jpg",
+    "smart-hem-hyresratt-startpaket-under-100-euro": "generated/morgonhall-smart-knapp.jpg",
+    "vackningsljus-barn-smart-lampa-eller-vackarklocka": "generated/barnrum-varmt-nattljus.jpg",
 }
 
 TAG_LABELS = {
@@ -235,23 +235,23 @@ def thumb_for(article: dict) -> str:
         if any(x in hay for x in ["vatten", "läck", "lack", "fukt", "badrum", "tvatt", "tvätt"]):
             filename = "commons-leaky-sink-valve.jpg"
         elif any(x in hay for x in ["dorr", "dörr", "hall", "regn", "lagenhet", "lägenhet"]):
-            filename = "morning-hall.jpg"
+            filename = "generated/morgonhall-smart-knapp.jpg"
         elif any(x in hay for x in ["temperatur", "fukt", "termostat", "varme", "värme", "vinter", "energi"]):
-            filename = "budget-home.jpg"
+            filename = "generated/startpaket-smart-hem.jpg"
         elif any(x in hay for x in ["dashboard", "kalender", "veckovy", "barnvakt"]):
-            filename = "tablet-kitchen.jpg"
+            filename = "generated/familjedashboard-kok.jpg"
         elif any(x in hay for x in ["knapp", "button"]):
-            filename = "switch-wall.jpg"
+            filename = "generated/morgonhall-smart-knapp.jpg"
         elif any(x in hay for x in ["zigbee", "aqara", "ikea", "hue", "green", "internet", "moln", "lokalt"]):
-            filename = "zigbee-desk.jpg"
+            filename = "generated/hub-sensorer-bord.jpg"
         elif any(x in hay for x in ["robot", "dammsugare", "husdjur", "hund"]):
-            filename = "robot-floor.jpg"
+            filename = "generated/robotdammsugare-kok-hall.jpg"
         elif any(x in hay for x in ["barnrum", "natt", "skarmtid", "skärmtid", "tonaring", "tonåring"]):
-            filename = "kids-bedroom.jpg"
+            filename = "generated/barnrum-varmt-nattljus.jpg"
         elif any(x in hay for x in ["kok", "kök", "mat", "inkop", "inköp"]):
-            filename = "kitchen.jpg"
+            filename = "generated/familjedashboard-kok.jpg"
         else:
-            filename = "family-living.jpg"
+            filename = "generated/startpaket-smart-hem.jpg"
     return f"/assets/photos/{filename}"
 
 
