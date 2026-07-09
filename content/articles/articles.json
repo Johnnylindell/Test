@@ -71,9 +71,9 @@
       "home-assistant"
     ],
     "examples": [
-      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
-      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
-      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+      "Köket visar veckovy och nattläget utan att någon öppnar tre olika appar.",
+      "Hallknappen fungerar som vanligt även när mobilen ligger på laddning.",
+      "En vuxen kan ändra en rutin utan att resten av hemmet slutar fungera."
     ]
   },
   {
@@ -220,9 +220,9 @@
       "knappar"
     ],
     "examples": [
-      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
-      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
-      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+      "Knappen vid dörren kör hemifrån-läge när sista personen går.",
+      "Sängknappen släcker kök och hall men lämnar nattljus till badrummet.",
+      "Kylknappen lägger till mjölk eller bröd när det tar slut."
     ]
   },
   {
@@ -313,7 +313,7 @@
       ],
       [
         "Snabb input",
-        "Placera en knapp eller QR-kod i köket. Målet är att lägga till mjölk på två sekunder, inte öppna tre appar."
+        "Placera en knapp eller QR-kod i köket. Mjölk ska gå att lägga till på två sekunder, inte efter tre apptryck."
       ],
       [
         "Familjeregler",
@@ -387,7 +387,7 @@
     "sections": [
       [
         "Målet med 100 euro",
-        "Med en liten budget ska du inte försöka automatisera hela hemmet. Målet är att skapa två till tre rutiner som används varje dag."
+        "Med en liten budget ska du inte försöka automatisera hela hemmet. Sikta på två till tre rutiner som faktiskt används varje dag."
       ],
       [
         "Startpaket",
@@ -407,9 +407,9 @@
       "kopguide"
     ],
     "examples": [
-      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
-      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
-      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+      "En begagnad knapp och två lampor räcker för hall och barnrum.",
+      "Vattenlarmet under diskmaskinen prioriteras före dekorationsljus.",
+      "Budgeten sparas genom att köpa en sak, testa platsen och först därefter köpa nästa."
     ]
   },
   {
@@ -634,9 +634,9 @@
       "guide"
     ],
     "examples": [
-      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
-      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
-      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+      "Lampan går bara att styra från en vuxens telefon och barnvakten får famla i mörker.",
+      "Dashboarden visar vädergrafer men inte vem som hämtar på förskolan.",
+      "En rörelsesensor släcker badrummet medan någon borstar tänderna."
     ]
   },
   {
@@ -671,9 +671,9 @@
       "rutiner"
     ],
     "examples": [
-      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
-      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
-      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+      "Vattenläcka skickas direkt som pushnotis till vuxna.",
+      "Tvätten klar visas först på köksskärmen och påminner igen om luckan inte öppnas.",
+      "Läggdags signaleras med ljus i stället för ännu ett pling."
     ]
   },
   {
@@ -715,47 +715,6 @@
       "Sensorn ligger under diskmaskinen och skickar larm innan vattnet hunnit ut i hallen.",
       "En extra sensor under handfatet fångar droppet som annars märks först när lådan luktar fukt.",
       "När barnen badar kan ett larm i tvättstugan vara skillnaden mellan handduk och försäkringsärende."
-    ]
-  },
-  {
-    "slug": "smarta-pluggar-barnfamilj",
-    "title": "Smarta pluggar i barnfamilj: när de är vettiga och när de är onödiga",
-    "description": "Smart plug är ofta första köpet, men den är inte alltid bästa köpet. Här är vad den faktiskt är bra till.",
-    "category": "köpguide",
-    "products": [
-      "smart-button",
-      "smart-bulb"
-    ],
-    "sections": [
-      [
-        "Vad en smart plug gör bra",
-        "Den gör en dum lampa, kaffebryggare eller julbelysning lite smartare. Det är användbart när saken bara behöver av/på."
-      ],
-      [
-        "När den är fel val",
-        "Om du vill dimra ljus, ändra färg eller få bra läggningsrutin är en smart lampa bättre. En plug kan bara bryta strömmen."
-      ],
-      [
-        "Barnfamiljsnytta",
-        "Julbelysning, fönsterlampor, fläkt, laddstation och en 'allt av'-rutin vid läggning. Håll det enkelt."
-      ],
-      [
-        "Säkerhet",
-        "Kolla maxbelastning. Använd inte billig okänd plug till värmeelement eller annat som drar mycket ström."
-      ],
-      [
-        "Min rekommendation",
-        "Köp smart plug när du redan vet exakt vad den ska styra. Köp den inte bara för att den är billig."
-      ]
-    ],
-    "tags": [
-      "kopguide",
-      "pluggar"
-    ],
-    "examples": [
-      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
-      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
-      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
     ]
   },
   {
@@ -836,9 +795,9 @@
       "sensorer"
     ],
     "examples": [
-      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
-      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
-      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+      "Rörelsesensor räcker i hallen där alla bara passerar.",
+      "Närvarosensor passar bättre i köket när läxorna görs vid bordet.",
+      "Badrummet behöver testas så lampan inte slocknar mitt i tandborstningen."
     ]
   },
   {
@@ -879,9 +838,9 @@
       "hyresratt"
     ],
     "examples": [
-      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
-      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
-      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+      "En knapp sitter med försiktig tejp vid dörren och följer med vid flytt.",
+      "Surfplattan står på köksbänken första veckan innan någon bestämmer placering.",
+      "Lampor och sensorer återställs utan märken när kontraktet tar slut."
     ]
   },
   {
@@ -921,9 +880,9 @@
       "jämförelse"
     ],
     "examples": [
-      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
-      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
-      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+      "En färdig box gör att kvällsljuset fungerar innan projektlusten tar slut.",
+      "Raspberry Pi passar bättre om någon redan kan felsöka lagring och ström.",
+      "Familjen bryr sig mindre om hårdvaran än om knapparna svarar varje kväll."
     ]
   },
   {
@@ -963,9 +922,9 @@
       "hund"
     ],
     "examples": [
-      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
-      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
-      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+      "Hallampan tänds mjukt för kvällspromenaden utan att väcka barnen.",
+      "Dashboarden visar om hunden fått mat innan alla frågar varandra.",
+      "Kamera används bara om det finns tydligt behov och familjen är överens."
     ]
   },
   {
@@ -1046,9 +1005,9 @@
       "guide"
     ],
     "examples": [
-      "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
-      "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
-      "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
+      "Smart lås får vänta tills lampor, knappar och reservrutiner redan fungerar.",
+      "Kameror ersätts ofta av dörrsensor eller tydligare dashboardstatus.",
+      "Fler sensorer köps först när ett rum faktiskt har ett problem."
     ]
   },
   {
@@ -1498,48 +1457,6 @@
       [
         "Köp inte för många",
         "Två bra placerade knappar gör mer nytta än tio som ingen minns."
-      ]
-    ]
-  },
-  {
-    "slug": "smart-hem-for-lagenhet",
-    "title": "Smart hem i lägenhet: utan borrning och utan strul",
-    "description": "Hyresvänliga lösningar för lampor, sensorer, knappar och dashboard.",
-    "category": "guide",
-    "products": [
-      "smart-button",
-      "smart-bulb",
-      "door-window-sensor",
-      "tablet-wall"
-    ],
-    "tags": [
-      "guide",
-      "hyresratt",
-      "budget",
-      "knappar"
-    ],
-    "intro": "I lägenhet är det smart att välja lösningar som går att flytta, återställa och montera utan märken. Det gör också projektet billigare och lättare att ändra.",
-    "examples": [
-      "En knapp med dubbelhäftande tejp sitter vid dörren.",
-      "En gammal surfplatta står på köksbänken i stället för att skruvas upp.",
-      "En dörrsensor på balkongen varnar om den står öppen när det börjar regna."
-    ],
-    "sections": [
-      [
-        "Belysning först",
-        "Smarta lampor kräver ingen installation och kan följa med vid flytt."
-      ],
-      [
-        "Sensorer med tejp",
-        "Dörrsensorer och rörelsesensorer kan monteras försiktigt och tas ner utan större spår."
-      ],
-      [
-        "Undvik fasta ingrepp",
-        "Väggbrytare, elinstallation och inbyggnad är sällan rätt start i hyresrätt."
-      ],
-      [
-        "Gör det flyttbart",
-        "Om lösningen kan packas ner på en kväll är den oftast rätt nivå."
       ]
     ]
   },

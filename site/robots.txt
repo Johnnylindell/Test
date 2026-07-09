@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://johnnylindell.github.io/Test/sitemap.txt
+Sitemap: https://smarthahem.netlify.app/sitemap.txt
