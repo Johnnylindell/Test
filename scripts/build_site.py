@@ -7,6 +7,7 @@ import re
 import shutil
 from collections import Counter, defaultdict
 from pathlib import Path
+from urllib.parse import quote_plus
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
@@ -262,6 +263,51 @@ def tag_links(article: dict) -> str:
     return "<div class='tags'>" + "".join(f"<a href='/tag/{slugify(t)}.html'>#{esc(tag_label(t))}</a>" for t in tags[:6]) + "</div>"
 
 
+def amazon_search_url(query: str) -> str:
+    return f"https://www.amazon.se/s?k={quote_plus(query)}&tag=smartahemmet-21"
+
+
+def model_rows(product: dict, limit: int = 3) -> str:
+    rows = []
+    for model in product.get("models", [])[:limit]:
+        name = model.get("name", "")
+        if not name:
+            continue
+        rows.append(
+            "<li>"
+            f"<a href='{esc(amazon_search_url(name))}' rel='sponsored nofollow noopener' target='_blank'><strong>{esc(name)}</strong></a>"
+            f"<span>{esc(model.get('good', ''))}</span>"
+            f"<em>{esc(model.get('watch', ''))}</em>"
+            "</li>"
+        )
+    if not rows:
+        return ""
+    return "<ul class='model-list'>" + "".join(rows) + "</ul>"
+
+
+def model_comparison(products: list[dict], ids: list[str], title: str = "Faktiska modeller att jämföra") -> str:
+    by_id = {p["id"]: p for p in products}
+    blocks = []
+    for pid in ids[:5]:
+        p = by_id.get(pid)
+        if not p or not p.get("models"):
+            continue
+        blocks.append(
+            "<div class='model-block'>"
+            f"<h3>{esc(p['name'])}</h3>"
+            f"<p>{esc(p.get('note', p.get('best_for', '')))}</p>"
+            f"{model_rows(p)}"
+            "</div>"
+        )
+    if not blocks:
+        return ""
+    return (
+        f"<section class='model-comparison'><h2>{esc(title)}</h2>"
+        "<p class='fineprint'>Exemplen är modeller/kategorier som brukar gå att hitta i handeln. Kontrollera alltid pris, lager, region, elstandard och kompatibilitet innan köp.</p>"
+        "<div class='model-grid'>" + "".join(blocks) + "</div></section>"
+    )
+
+
 def product_cards(products: list[dict], ids: list[str], affiliate_links: dict, title: str = "Prylar som nämns", compact: bool = False) -> str:
     by_id = {p["id"]: p for p in products}
     cards = []
@@ -279,13 +325,17 @@ def product_cards(products: list[dict], ids: list[str], affiliate_links: dict, t
             if compact:
                 label = label.replace(" på Amazon", "")
             link_html = f"<a class='buy-link' href='{esc(url)}' rel='sponsored nofollow noopener' target='_blank'>{esc(label)}</a>"
+        examples = ""
+        if not compact and p.get("models"):
+            names = ", ".join(m.get("name", "") for m in p.get("models", [])[:3] if m.get("name"))
+            examples = f"<p class='model-teaser'><strong>Exempel:</strong> {esc(names)}</p>" if names else ""
         cards.append(
             "<div class='mini-card'>"
             f"<span class='pill'>{esc(p['category'])}</span>"
             f"<h3>{esc(p['name'])}</h3>"
             f"<p>{esc(p['best_for'])}</p>"
             f"<small>Typiskt pris: {esc(p['price_hint'])}</small>"
-            f"{link_html}"
+            f"{examples}{link_html}"
             "</div>"
         )
     if not cards:
@@ -478,6 +528,7 @@ def article_html(article: dict, products: list[dict], affiliate_links: dict, all
     if is_money(article):
         parts.append(buying_summary_box(article, products))
         parts.append(decision_table(article, products))
+        parts.append(model_comparison(products, article.get("products", [])))
         parts.append(product_cards(products, article.get("products", []), affiliate_links, title="Relevanta produktkategorier", compact=True))
     for idx, (heading, text) in enumerate(article["sections"]):
         parts.append(f"<h2>{esc(heading)}</h2><p>{esc(text)}</p>")
@@ -656,6 +707,7 @@ def main() -> None:
             f"<p>{esc(p['best_for'])}</p>"
             f"<p class='muted'>Typiskt pris: {esc(p['price_hint'])}</p>"
             f"<p class='fineprint'>{esc(p.get('note', ''))}</p>"
+            f"{model_rows(p, limit=3)}"
             f"{link_html}</div></div>"
         )
 

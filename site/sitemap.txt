@@ -23,10 +23,8 @@ https://smarthahem.netlify.app/artiklar/zigbee-vs-wifi-smarta-prylar.html
 https://smarthahem.netlify.app/artiklar/basta-zigbee-hubbar-for-familjer.html
 https://smarthahem.netlify.app/artiklar/home-assistant-dashboard-koket.html
 https://smarthahem.netlify.app/artiklar/smarta-hem-for-laggdags.html
-https://smarthahem.netlify.app/artiklar/vattenlackage-sensor-barnfamilj.html
 https://smarthahem.netlify.app/artiklar/familjens-veckovy-idag-plus-sex-dagar.html
 https://smarthahem.netlify.app/artiklar/smarta-hem-misstag-barnfamiljer.html
-https://smarthahem.netlify.app/artiklar/robotdammsugare-schema-barnfamilj.html
 https://smarthahem.netlify.app/artiklar/smarta-hem-notiser-utan-stress.html
 https://smarthahem.netlify.app/artiklar/basta-vattenlackagesensorer-smart-hem.html
 https://smarthahem.netlify.app/artiklar/smarta-pluggar-barnfamilj.html
@@ -34,7 +32,6 @@ https://smarthahem.netlify.app/artiklar/aqara-ikea-philips-hue-vad-ska-familjer-
 https://smarthahem.netlify.app/artiklar/narvarosensor-vs-rorelsesensor.html
 https://smarthahem.netlify.app/artiklar/smart-hem-i-hyresratt-utan-att-borra.html
 https://smarthahem.netlify.app/artiklar/home-assistant-green-eller-raspberry-pi.html
-https://smarthahem.netlify.app/artiklar/basta-smarta-nattljus-for-barn.html
 https://smarthahem.netlify.app/artiklar/smart-hem-for-hundagare.html
 https://smarthahem.netlify.app/artiklar/smart-kok-for-barnfamiljer.html
 https://smarthahem.netlify.app/artiklar/smarta-hem-prylar-att-inte-kopa-forst.html
@@ -105,7 +102,6 @@ https://smarthahem.netlify.app/artiklar/produktguide-forsta-zigbee-sensorerna-ru
 https://smarthahem.netlify.app/artiklar/spara-el-home-assistant-familj.html
 https://smarthahem.netlify.app/artiklar/smart-plug-energimatning-vad-kan-man-mata.html
 https://smarthahem.netlify.app/artiklar/home-assistant-startpaket-vad-behover-man-kopa.html
-https://smarthahem.netlify.app/artiklar/smart-hem-hyresratt-startpaket-under-100-euro.html
 https://smarthahem.netlify.app/artiklar/vackningsljus-barn-smart-lampa-eller-vackarklocka.html
 https://smarthahem.netlify.app/tag/kopguide.html
 https://smarthahem.netlify.app/tag/guide.html
@@ -125,7 +121,6 @@ https://smarthahem.netlify.app/tag/laggdags.html
 https://smarthahem.netlify.app/tag/notiser.html
 https://smarthahem.netlify.app/tag/budget.html
 https://smarthahem.netlify.app/tag/zigbee.html
-https://smarthahem.netlify.app/tag/sakerhet.html
 https://smarthahem.netlify.app/tag/sensorer.html
 https://smarthahem.netlify.app/tag/vattenlackage.html
 https://smarthahem.netlify.app/tag/pluggar.html
@@ -135,6 +130,7 @@ https://smarthahem.netlify.app/tag/hund.html
 https://smarthahem.netlify.app/tag/dorrar.html
 https://smarthahem.netlify.app/tag/hall.html
 https://smarthahem.netlify.app/tag/klimat.html
+https://smarthahem.netlify.app/tag/sakerhet.html
 https://smarthahem.netlify.app/tag/varme.html
 https://smarthahem.netlify.app/tag/energi.html
 https://smarthahem.netlify.app/tag/checklista.html

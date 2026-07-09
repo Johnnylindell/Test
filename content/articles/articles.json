@@ -568,47 +568,6 @@
     ]
   },
   {
-    "slug": "vattenlackage-sensor-barnfamilj",
-    "title": "Vattenläckagesensorer: liten pryl som kan spara mycket pengar",
-    "description": "Därför bör barnfamiljer överväga enkla läckagesensorer i kök, tvätt och badrum.",
-    "category": "säkerhet",
-    "products": [
-      "water-leak-sensor"
-    ],
-    "sections": [
-      [
-        "Inte lika roligt som lampor",
-        "Vattenläckagesensorer är tråkiga på exakt rätt sätt. De blinkar inte, de gör inte hemmet mysigare och barnen kommer inte bry sig. Men om diskmaskinen börjar läcka klockan 02:13 är det plötsligt den smartaste prylen i huset."
-      ],
-      [
-        "Placering",
-        "Sätt en sensor under diskmaskinen, vid tvättmaskinen, under handfatet och nära varmvattenberedaren om du har en. Det är platser där vatten kan börja rinna länge innan någon ser det."
-      ],
-      [
-        "Vad den ska göra",
-        "Den ska larma tydligt. Pushnotis räcker inte alltid. Tänd en lampa rött, skicka notis till vuxna och visa varningen på dashboarden. Det ska vara omöjligt att missa."
-      ],
-      [
-        "Köp inte för avancerat",
-        "En bra läckagesensor behöver vara liten, batterisnål och pålitlig. Extra funktioner spelar mindre roll än att den faktiskt vaknar när det blir blött."
-      ],
-      [
-        "Min tumregel",
-        "Köp hellre två enkla sensorer och placera dem rätt än en dyr sensor som hamnar på fel plats. Vatten bryr sig inte om specifikationer. Det rinner där det rinner."
-      ]
-    ],
-    "tags": [
-      "sensorer",
-      "säkerhet",
-      "vattenlackage"
-    ],
-    "examples": [
-      "Sensorn ligger under diskmaskinen och skickar larm innan vattnet hunnit ut i hallen.",
-      "En extra sensor under handfatet fångar droppet som annars märks först när lådan luktar fukt.",
-      "När barnen badar kan ett larm i tvättstugan vara skillnaden mellan handduk och försäkringsärende."
-    ]
-  },
-  {
     "slug": "familjens-veckovy-idag-plus-sex-dagar",
     "title": "Familjens veckovy: idag plus sex dagar",
     "description": "Varför en rullande 7-dagarsvy ofta är bättre än klassisk kalendervecka.",
@@ -678,41 +637,6 @@
       "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
       "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
       "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
-    ]
-  },
-  {
-    "slug": "robotdammsugare-schema-barnfamilj",
-    "title": "Bästa schemat för robotdammsugare i barnfamilj",
-    "description": "Så får du robotdammsugaren att hjälpa utan att störa.",
-    "category": "städning",
-    "products": [
-      "robot-vacuum"
-    ],
-    "sections": [
-      [
-        "Schema är halva värdet",
-        "En robotdammsugare som kör när golvet är fullt av leksaker gör ingen nytta. Schemat måste passa familjens rytm."
-      ],
-      [
-        "Bra tider",
-        "Efter frukost, efter lämning eller innan hämtning fungerar ofta bäst."
-      ],
-      [
-        "Zoner",
-        "Kök och hall kan köras oftare än sovrum. Börja där smutsen faktiskt samlas."
-      ],
-      [
-        "Barnens del",
-        "Gör en enkel plockrutin före körning. Dashboarden kan visa 'golvet klart'."
-      ]
-    ],
-    "tags": [
-      "städning"
-    ],
-    "examples": [
-      "Robotdammsugaren kör efter lämning när lego och strumpor hunnit plockas upp.",
-      "Köket får en kort extra körning efter middag, inte hela huset.",
-      "Hallen städas oftare under grusperioden och mer sällan på sommaren."
     ]
   },
   {
@@ -1000,49 +924,6 @@
       "Placera styrningen där vanan redan sker, inte där tekniken ser snyggast ut.",
       "Testa lösningen på en stressig vardag, inte bara när du har tid att pilla.",
       "Om familjen inte använder den efter två veckor behöver lösningen bli enklare."
-    ]
-  },
-  {
-    "slug": "basta-smarta-nattljus-for-barn",
-    "title": "Bästa smarta nattljus för barn",
-    "description": "Så väljer du nattljus som hjälper utan att väcka hela familjen.",
-    "category": "köpguide",
-    "products": [
-      "smart-bulb",
-      "motion-sensor"
-    ],
-    "sections": [
-      [
-        "Nattljus ska vara tråkigt",
-        "Det ska vara svagt, varmt och förutsägbart. Blinkande färger och effekter är kul i fem minuter och dåliga klockan tre på natten."
-      ],
-      [
-        "Sensor eller schema",
-        "Schema fungerar för läggning. Rörelsesensor fungerar för toalettbesök och hall. Kombinera om det behövs."
-      ],
-      [
-        "Placering",
-        "Sätt ljuset lågt eller indirekt. Målet är att hitta till badrummet, inte starta dagen."
-      ],
-      [
-        "Färg och styrka",
-        "Varmt ljus och låg ljusstyrka. Om barnet piggnar till är ljuset för starkt."
-      ],
-      [
-        "Bra första setup",
-        "En smart lampa i hallen och en rörelsesensor räcker ofta."
-      ]
-    ],
-    "tags": [
-      "barnrum",
-      "belysning",
-      "kopguide",
-      "laggdags"
-    ],
-    "examples": [
-      "Barnrummet får varmare ljus efter kvällsmat och släcks stegvis i stället för tvärt.",
-      "Ett svagt nattljus tänds i hallen utan att resten av familjen vaknar.",
-      "Godnatt-knappen stänger kökslampor och lämnar bara en liten väg till badrummet."
     ]
   },
   {
@@ -3911,48 +3792,6 @@
       [
         "Vänta med lyx",
         "Köp inte smarta gardiner, lås eller avancerade dashboards först."
-      ]
-    ]
-  },
-  {
-    "slug": "smart-hem-hyresratt-startpaket-under-100-euro",
-    "title": "Smart hem i hyresrätt: startpaket under 100 euro",
-    "description": "Flyttbara prylar utan borrning: lampor, knapp, sensor och vattenlarm.",
-    "category": "köpguide",
-    "products": [
-      "smart-bulb",
-      "smart-button",
-      "motion-sensor",
-      "water-leak-sensor"
-    ],
-    "tags": [
-      "kopguide",
-      "hyresratt",
-      "budget",
-      "zigbee"
-    ],
-    "intro": "I hyresrätt ska smart hem gå att ta bort utan märken och utan att ringa elektriker. Det gör små, flyttbara prylar mer värdefulla än fasta installationer.",
-    "examples": [
-      "En lampa i hallen tänds automatiskt utan att byta strömbrytare.",
-      "En knapp vid sängen styr nattläge utan kabeldragning.",
-      "Vattenlarm under diskmaskinen följer med vid flytt."
-    ],
-    "sections": [
-      [
-        "Börja utan borr",
-        "Lampor, pluggar, knappar och sensorer med tejp räcker långt."
-      ],
-      [
-        "Prioritera problem",
-        "Välj en mörk hall, en jobbig kvällsrutin eller risk för vattenläcka."
-      ],
-      [
-        "Budget",
-        "Under 100 euro räcker ofta till två lampor, en knapp och en sensor om du väljer enkelt."
-      ],
-      [
-        "Flyttbarhet",
-        "Spara originaldelar och undvik lösningar som kräver fast installation."
       ]
     ]
   },

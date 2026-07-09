@@ -5,7 +5,24 @@
     "category": "smarta knappar",
     "price_hint": "10–30 €",
     "best_for": "starta rutiner utan att öppna mobilen",
-    "note": "Bra första köp. Sätt den där beteendet redan händer: hallen, köket eller bredvid sängen."
+    "note": "Bra första köp. Sätt den där beteendet redan händer: hallen, köket eller bredvid sängen.",
+    "models": [
+      {
+        "name": "IKEA STYRBAR fjärrkontroll",
+        "good": "billig, lätt att förstå, bra för barnrum och kvällsläge",
+        "watch": "kräver IKEA/Zigbee-kompatibel hubb och är klumpigare än små knappar"
+      },
+      {
+        "name": "Aqara Wireless Mini Switch",
+        "good": "liten knapp med enkel/dubbel/lång tryckning i Home Assistant",
+        "watch": "bäst med bra Zigbee-mesh; kan kännas för liten för små barn"
+      },
+      {
+        "name": "Philips Hue Smart Button",
+        "good": "stabil för Hue-lampor och enkel scenstyrning",
+        "watch": "mindre flexibel om resten av hemmet inte kör Hue"
+      }
+    ]
   },
   {
     "id": "smart-bulb",
@@ -13,7 +30,24 @@
     "category": "belysning",
     "price_hint": "8–25 €",
     "best_for": "kvällsläge, nattljus och visuella påminnelser",
-    "note": "Välj hellre stabilitet än roliga effekter. Barnrum behöver fungera varje kväll."
+    "note": "Välj hellre stabilitet än roliga effekter. Barnrum behöver fungera varje kväll.",
+    "models": [
+      {
+        "name": "Philips Hue White Ambiance E27",
+        "good": "stabil, bra dimning och varm/kall vit ton för kväll och morgon",
+        "watch": "dyrare; bäst om du redan vill ha Hue"
+      },
+      {
+        "name": "IKEA TRÅDFRI LED E27",
+        "good": "prisvärd Zigbee-lampa för hall, sovrum och vardagsrum",
+        "watch": "färre premiumfunktioner och varierande lager/tillgänglighet"
+      },
+      {
+        "name": "TP-Link Tapo L530E",
+        "good": "billig Wi‑Fi-lampa utan separat hubb",
+        "watch": "Wi‑Fi/app-beroende; inte lika snyggt i lokalt Home Assistant-upplägg"
+      }
+    ]
   },
   {
     "id": "tablet-wall",
@@ -21,7 +55,24 @@
     "category": "dashboard",
     "price_hint": "50–150 €",
     "best_for": "veckovy, inköpslista och familjekalender",
-    "note": "Begagnat duger ofta. Lägg mer energi på placering och laddning än på senaste modellen."
+    "note": "Begagnat duger ofta. Lägg mer energi på placering och laddning än på senaste modellen.",
+    "models": [
+      {
+        "name": "Amazon Fire HD 10",
+        "good": "ofta billig väggskärm för dashboard och kalender",
+        "watch": "kräver pill för kiosk-läge och laddning"
+      },
+      {
+        "name": "Lenovo Tab M10",
+        "good": "rimlig Android-platta med stor skärm för köket",
+        "watch": "kontrollera laddplacering och skärmens ljusstyrka"
+      },
+      {
+        "name": "Samsung Galaxy Tab A9+",
+        "good": "stabilare premiumval om den ska sitta framme länge",
+        "watch": "dyrare än nödvändigt för en ren dashboard"
+      }
+    ]
   },
   {
     "id": "robot-vacuum",
@@ -29,7 +80,24 @@
     "category": "städning",
     "price_hint": "150–700 €",
     "best_for": "smulor, hall, kök och vardagsavlastning",
-    "note": "Värt att överväga när golven faktiskt går att hålla fria från småprylar."
+    "note": "Värt att överväga när golven faktiskt går att hålla fria från småprylar.",
+    "models": [
+      {
+        "name": "Roborock Q5 Pro",
+        "good": "bra mellanklass för zoner, hall och kök",
+        "watch": "ingen avancerad mopp; kräver att golvet hålls fritt"
+      },
+      {
+        "name": "Dreame L10s Ultra",
+        "good": "starkare automatik med docka för familjer som vill slippa mer manuellt",
+        "watch": "dyr och tar mer plats"
+      },
+      {
+        "name": "iRobot Roomba Combo j5",
+        "good": "enkelt varumärke och bra app för vanliga hem",
+        "watch": "jämför kartfunktioner och reservdelar mot Roborock/Dreame"
+      }
+    ]
   },
   {
     "id": "motion-sensor",
@@ -37,7 +105,24 @@
     "category": "sensorer",
     "price_hint": "10–35 €",
     "best_for": "nattljus, hall och badrum",
-    "note": "Börja med nattljus. Det är enkelt, begripligt och märks direkt."
+    "note": "Börja med nattljus. Det är enkelt, begripligt och märks direkt.",
+    "models": [
+      {
+        "name": "IKEA VALLHORN rörelsesensor",
+        "good": "billig sensor för hall, badrum och nattljus",
+        "watch": "kontrollera kompatibilitet med din hubb"
+      },
+      {
+        "name": "Aqara Motion Sensor P1",
+        "good": "populär Zigbee-sensor med bra batteritid",
+        "watch": "placering är viktig; rörelse är inte samma sak som närvaro"
+      },
+      {
+        "name": "Philips Hue Motion Sensor",
+        "good": "stabil med Hue och bra för belysning",
+        "watch": "dyrare om du bara behöver enkel rörelse i Home Assistant"
+      }
+    ]
   },
   {
     "id": "water-leak-sensor",
@@ -45,7 +130,24 @@
     "category": "säkerhet",
     "price_hint": "10–40 €",
     "best_for": "diskmaskin, tvättmaskin, handfat och varmvattenberedare",
-    "note": "Inte roligast att köpa, men ofta en av de mest vettiga sensorerna i ett hem."
+    "note": "Inte roligast att köpa, men ofta en av de mest vettiga sensorerna i ett hem.",
+    "models": [
+      {
+        "name": "Aqara Water Leak Sensor",
+        "good": "liten, billig och vanlig i Home Assistant/Zigbee-hem",
+        "watch": "kräver bra Zigbee-täckning under vask/diskmaskin"
+      },
+      {
+        "name": "Shelly Flood",
+        "good": "Wi‑Fi-alternativ med temperaturmätning",
+        "watch": "batteri och Wi‑Fi-täckning vid golv måste kontrolleras"
+      },
+      {
+        "name": "Eve Water Guard",
+        "good": "starkt val för Apple/HomeKit-hem med kabelsensor",
+        "watch": "dyrare och mindre relevant om du kör Zigbee/Home Assistant"
+      }
+    ]
   },
   {
     "id": "smart-plug",
@@ -53,7 +155,24 @@
     "category": "pluggar",
     "price_hint": "10–35 €",
     "best_for": "lampor, tvättmaskinspåminnelser och enkel energikoll",
-    "note": "Välj energimätning om du vill känna av när en maskin är klar. Kontrollera alltid maxlast."
+    "note": "Välj energimätning om du vill känna av när en maskin är klar. Kontrollera alltid maxlast.",
+    "models": [
+      {
+        "name": "TP-Link Tapo P110",
+        "good": "billig smart plug med energimätning och lätt app",
+        "watch": "Wi‑Fi-baserad; kontrollera Home Assistant-stöd för din region"
+      },
+      {
+        "name": "Shelly Plug S Gen3",
+        "good": "kompakt, lokal styrning och bra energimätning",
+        "watch": "dyrare än enkla pluggar"
+      },
+      {
+        "name": "IKEA TRETAKT smart plug",
+        "good": "billig Zigbee-plugg för lampor och enkla rutiner",
+        "watch": "saknar ofta energimätning; välj inte den för tvättmaskinsdetektering"
+      }
+    ]
   },
   {
     "id": "door-window-sensor",
@@ -61,7 +180,24 @@
     "category": "sensorer",
     "price_hint": "10–30 €",
     "best_for": "ytterdörr, balkongdörr, kylskåp och fönster",
-    "note": "Bra när du vill veta om något lämnats öppet, inte bara om någon rör sig i rummet."
+    "note": "Bra när du vill veta om något lämnats öppet, inte bara om någon rör sig i rummet.",
+    "models": [
+      {
+        "name": "Aqara Door and Window Sensor",
+        "good": "billig och vanlig för ytterdörr, kyl och förråd",
+        "watch": "kräver Zigbee-mesh nära dörren"
+      },
+      {
+        "name": "IKEA PARASOLL dörr-/fönstersensor",
+        "good": "prisvärd Zigbee-sensor i IKEA-ekosystemet",
+        "watch": "kontrollera stöd i din hubb/Home Assistant-version"
+      },
+      {
+        "name": "Shelly BLU Door/Window",
+        "good": "Bluetooth-alternativ för Shelly-hem",
+        "watch": "behöver Bluetooth-gateway/proxy för stabil automation"
+      }
+    ]
   },
   {
     "id": "temperature-sensor",
@@ -69,7 +205,24 @@
     "category": "klimat",
     "price_hint": "10–35 €",
     "best_for": "barnrum, badrum, källare och tvättstuga",
-    "note": "Mest användbar när värdet leder till en enkel handling: vädra, slå på fläkt eller flytta avfuktare."
+    "note": "Mest användbar när värdet leder till en enkel handling: vädra, slå på fläkt eller flytta avfuktare.",
+    "models": [
+      {
+        "name": "Aqara Temperature and Humidity Sensor",
+        "good": "billig Zigbee-sensor för barnrum, badrum och förråd",
+        "watch": "placera inte i direkt sol eller nära element"
+      },
+      {
+        "name": "Shelly H&T Gen3",
+        "good": "Wi‑Fi/Bluetooth-alternativ med tydlig displayvariant",
+        "watch": "större och dyrare än små Zigbee-sensorer"
+      },
+      {
+        "name": "Sonoff SNZB-02D",
+        "good": "Zigbee-sensor med display för rum där familjen vill se värdet",
+        "watch": "displayen behövs inte om värdet bara används i automationer"
+      }
+    ]
   },
   {
     "id": "zigbee-hub",
@@ -77,7 +230,24 @@
     "category": "hubb",
     "price_hint": "25–120 €",
     "best_for": "stabilare knappar, lampor och sensorer",
-    "note": "Välj hubb efter vilka prylar du vill använda, inte bara efter lägsta pris."
+    "note": "Välj hubb efter vilka prylar du vill använda, inte bara efter lägsta pris.",
+    "models": [
+      {
+        "name": "Home Assistant Green + SkyConnect/ZBT-1",
+        "good": "ren start för lokal styrning och Home Assistant",
+        "watch": "kräver mer pill än färdiga app-ekosystem"
+      },
+      {
+        "name": "Sonoff Zigbee 3.0 USB Dongle Plus",
+        "good": "billig och populär Zigbee-koordinator för Home Assistant",
+        "watch": "bör sitta i USB-förlängare, inte direkt bakom störig dator"
+      },
+      {
+        "name": "IKEA DIRIGERA",
+        "good": "enkel hubb om många prylar är IKEA",
+        "watch": "mindre frihet än ren Home Assistant/Zigbee2MQTT"
+      }
+    ]
   },
   {
     "id": "smart-thermostat",
@@ -85,7 +255,24 @@
     "category": "värme",
     "price_hint": "30–100 €",
     "best_for": "jämnare temperatur i sovrum och hemmakontor",
-    "note": "Börja med ett rum där temperaturen faktiskt skapar problem."
+    "note": "Börja med ett rum där temperaturen faktiskt skapar problem.",
+    "models": [
+      {
+        "name": "Tado Smart Radiator Thermostat",
+        "good": "starkt val för elementstyrning och scheman",
+        "watch": "kontrollera abonnemang/funktioner och ventilkompatibilitet"
+      },
+      {
+        "name": "Aqara Radiator Thermostat E1",
+        "good": "Zigbee-val för Home Assistant-hem",
+        "watch": "passar inte alla ventiler utan adapter"
+      },
+      {
+        "name": "Eve Thermo",
+        "good": "bra för Apple/HomeKit-hem",
+        "watch": "mindre relevant om resten kör Zigbee/Home Assistant"
+      }
+    ]
   },
   {
     "id": "air-quality-sensor",
@@ -93,7 +280,24 @@
     "category": "klimat",
     "price_hint": "40–180 €",
     "best_for": "sovrum, hemmakontor och klassisk vädra-påminnelse",
-    "note": "Köp bara om värdet leder till handling. CO2 är mest användbart där flera personer vistas länge."
+    "note": "Köp bara om värdet leder till handling. CO2 är mest användbart där flera personer vistas länge.",
+    "models": [
+      {
+        "name": "Airthings View Plus",
+        "good": "bred luftkoll med CO₂, VOC och partiklar",
+        "watch": "dyr; köp bara om värdena leder till vädring/åtgärd"
+      },
+      {
+        "name": "Netatmo Smart Indoor Air Quality Monitor",
+        "good": "enkel CO₂-luftkoll för sovrum och hemmakontor",
+        "watch": "app/moln kan väga emot lokalt smart hem"
+      },
+      {
+        "name": "IKEA VINDSTYRKA",
+        "good": "prisvärd sensor för luftkvalitet i IKEA/Zigbee-hem",
+        "watch": "kontrollera exakt Home Assistant-stöd för dina mätvärden"
+      }
+    ]
   },
   {
     "id": "smart-smoke-detector",
@@ -101,7 +305,24 @@
     "category": "säkerhet",
     "price_hint": "25–100 €",
     "best_for": "varningar när du inte är i samma rum",
-    "note": "Ersätter inte kravet på godkända brandvarnare. Se smart funktion som extra lager, inte enda skydd."
+    "note": "Ersätter inte kravet på godkända brandvarnare. Se smart funktion som extra lager, inte enda skydd.",
+    "models": [
+      {
+        "name": "Netatmo Smart Smoke Alarm",
+        "good": "välkänt smart brandvarnarval med appvarning",
+        "watch": "ersätter inte behovet av korrekt placerade godkända brandvarnare"
+      },
+      {
+        "name": "Google Nest Protect",
+        "good": "tydlig röstvarning och starkt ekosystem",
+        "watch": "tillgänglighet varierar och passar inte alla Home Assistant-upplägg"
+      },
+      {
+        "name": "Aqara Smoke Detector",
+        "good": "Zigbee-val för smarta notiser",
+        "watch": "kontrollera certifiering, region och larmkrav före köp"
+      }
+    ]
   },
   {
     "id": "smart-lock",
@@ -109,7 +330,24 @@
     "category": "lås",
     "price_hint": "120–300 €",
     "best_for": "tillfälliga koder, barnvakt och koll på låst dörr",
-    "note": "Bör väljas försiktigt. Mekanisk kvalitet och reservväg är viktigare än appfunktioner."
+    "note": "Bör väljas försiktigt. Mekanisk kvalitet och reservväg är viktigare än appfunktioner.",
+    "models": [
+      {
+        "name": "Nuki Smart Lock Pro",
+        "good": "populärt eftermonterat lås för kod, app och familjelogik",
+        "watch": "dyrt; kontrollera dörr/låscylinder och reservväg"
+      },
+      {
+        "name": "Yale Linus Smart Lock",
+        "good": "etablerat alternativ för lägenhet och hus",
+        "watch": "passform och dörrtyp avgör mer än appen"
+      },
+      {
+        "name": "SwitchBot Lock Pro",
+        "good": "kan passa där man vill undvika större installation",
+        "watch": "kräver noggrann montering och test av mekaniken"
+      }
+    ]
   },
   {
     "id": "smart-blinds",
@@ -117,6 +355,23 @@
     "category": "belysning",
     "price_hint": "50–250 €",
     "best_for": "morgonljus, värme och mörkläggning",
-    "note": "Bra i ett eller två rum. Dyrt och onödigt att börja med överallt."
+    "note": "Bra i ett eller två rum. Dyrt och onödigt att börja med överallt.",
+    "models": [
+      {
+        "name": "IKEA FYRTUR/TREDANSEN",
+        "good": "färdig smart rullgardin för barnrum och morgonljus",
+        "watch": "fasta mått; kontrollera fönsterstorlek noga"
+      },
+      {
+        "name": "Aqara Roller Shade Driver E1",
+        "good": "eftermontering för kedjestyrda rullgardiner",
+        "watch": "synlig motor och kräver rätt kedja/montering"
+      },
+      {
+        "name": "SwitchBot Curtain 3",
+        "good": "eftermontering för gardinskena/stång",
+        "watch": "kan bli klumpigt och behöver testas med dina gardiner"
+      }
+    ]
   }
 ]
