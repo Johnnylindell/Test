@@ -378,7 +378,20 @@ def buying_summary_box(article: dict, products: list[dict]) -> str:
     avoid = "Undvik paket där allt kräver en separat app om målet är Home Assistant och låg friktion."
     budget = first_product.get("price_hint", "börja billigt och bygg vidare")
     works = "Home Assistant, Zigbee eller vanliga app-lösningar beroende på hur mycket du vill pilla."
-    if "vattenlackage" in tags:
+    first_id = product_ids[0] if product_ids else ""
+    if first_id == "presence-sensor":
+        best = "Välj mmWave där någon sitter still länge: kök, kontor eller vardagsrum."
+        avoid = "Undvik mmWave som första sensor i hall och trappa; där räcker vanlig PIR-rörelse oftast."
+        works = "Fast ström, några dagars kalibrering och en fysisk knapp som reservväg."
+    elif first_id == "co2-sensor":
+        best = "Välj riktig CO₂-mätning om frågan är när sovrummet behöver vädras."
+        avoid = "Undvik att blanda ihop PM2.5, eCO₂ och riktig CO₂ – de svarar på olika frågor."
+        works = "Tydlig display och en enkel vädringsrutin, inte fler mobilnotiser."
+    elif first_id == "home-assistant-hardware":
+        best = "Välj Green för enkel drift; välj Raspberry Pi först när du vill ansvara för lagring och reservdelar."
+        avoid = "Undvik permanent drift på ett gammalt microSD-kort utan backup."
+        works = "Home Assistant OS, SSD eller färdig lagring och dokumenterad återställning."
+    elif "vattenlackage" in tags:
         best = "Om du bara köper en sak: sätt ett vattenlarm under diskmaskin, vask eller tvättmaskin."
         avoid = "Undvik sensorer som bara larmar i en app ingen öppnar."
         works = "Bäst med Zigbee och lokala notiser i Home Assistant."
