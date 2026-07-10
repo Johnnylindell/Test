@@ -44,11 +44,11 @@ MONEY_SLUGS = {
 
 PHOTO_BY_SLUG = {
     "basta-smarta-hem-prylar-barnfamiljer": "generated/startpaket-smart-hem.jpg",
-    "home-assistant-for-familjer-nyborjarguide": "generated/hub-sensorer-bord.jpg",
+    "home-assistant-for-familjer-nyborjarguide": "generated/hubb-pa-hylla.jpg",
     "bygg-familjedashboard-surfplatta": "generated/familjedashboard-kok.jpg",
     "adhd-vanliga-morgonrutiner-smarta-hem": "generated/morgonhall-smart-knapp.jpg",
     "basta-smarta-lampor-barnsovrum": "generated/barnrum-varmt-nattljus.jpg",
-    "smarta-knappar-10-anvandningar-hemma": "generated/morgonhall-smart-knapp.jpg",
+    "smarta-knappar-10-anvandningar-hemma": "generated/smart-knapp-narbild.jpg",
     "familjekalender-pa-vaggskarm": "generated/familjedashboard-kok.jpg",
     "robotdammsugare-schema-barnfamilj": "generated/robotdammsugare-kok-hall.jpg",
     "smarta-hem-for-laggdags": "generated/barnrum-varmt-nattljus.jpg",
@@ -68,29 +68,29 @@ PHOTO_BY_SLUG = {
     "aqara-ikea-philips-hue-vad-ska-familjer-valja": "generated/barnrum-varmt-nattljus.jpg",
     "narvarosensor-vs-rorelsesensor": "hallway.jpg",
     "smart-hem-i-hyresratt-utan-att-borra": "generated/morgonhall-smart-knapp.jpg",
-    "home-assistant-green-eller-raspberry-pi": "generated/hub-sensorer-bord.jpg",
+    "home-assistant-green-eller-raspberry-pi": "generated/hubb-pa-hylla.jpg",
     "basta-smarta-nattljus-for-barn": "generated/barnrum-varmt-nattljus.jpg",
-    "smart-hem-for-hundagare": "generated/robotdammsugare-kok-hall.jpg",
+    "smart-hem-for-hundagare": "generated/hund-hall-sensor.jpg",
     "smart-kok-for-barnfamiljer": "generated/familjedashboard-kok.jpg",
     "smarta-hem-prylar-att-inte-kopa-forst": "generated/startpaket-smart-hem.jpg",
     "hallkaos-smart-hem-skola-forskola": "generated/morgonhall-smart-knapp.jpg",
     "tvattstuga-sensorer-familj": "generated/tvattstuga-sensor.jpg",
     "matplanering-dashboard-smart-kok": "generated/familjedashboard-kok.jpg",
     "barnens-skarmtid-smarta-hem-signaler": "generated/barnrum-varmt-nattljus.jpg",
-    "basta-smarta-pluggar-energi-familj": "generated/startpaket-smart-hem.jpg",
+    "basta-smarta-pluggar-energi-familj": "generated/energiplugg-kok.jpg",
     "sensorer-i-badrum-natt-och-vatten": "generated/lackage-diskmaskin-sensor.jpg",
-    "basta-luftkvalitetssensorer-barnrum": "commons-co2-monitor.jpg",
-    "co2-sensor-home-assistant": "commons-co2-monitor.jpg",
+    "basta-luftkvalitetssensorer-barnrum": "generated/luftsensor-barnrum.jpg",
+    "co2-sensor-home-assistant": "generated/luftsensor-barnrum.jpg",
     "smart-brandvarnare-familj": "generated/brandvarnare-hall.jpg",
     "basta-smarta-las-barnfamilj": "generated/ytterdorr-smart-las-sensor.jpg",
     "fryslarm-med-temperatursensor": "generated/tvattstuga-sensor.jpg",
     "smart-brevlada-dorrsensor": "commons-mailbox.jpg",
     "smart-forrad-garage-sensorer": "generated/ytterdorr-smart-las-sensor.jpg",
-    "integritet-smart-hem-familj": "generated/hub-sensorer-bord.jpg",
-    "backup-home-assistant-familj": "generated/hub-sensorer-bord.jpg",
-    "forbattra-zigbee-mesh-hemma": "generated/hub-sensorer-bord.jpg",
-    "smarta-gardiner-barnrum": "generated/barnrum-varmt-nattljus.jpg",
-    "basta-smarta-gardiner-familj": "generated/barnrum-varmt-nattljus.jpg",
+    "integritet-smart-hem-familj": "generated/lokalt-natverk-router.jpg",
+    "backup-home-assistant-familj": "generated/backup-desk-usb.jpg",
+    "forbattra-zigbee-mesh-hemma": "generated/zigbee-mesh-lagenhet.jpg",
+    "smarta-gardiner-barnrum": "generated/gardiner-morgonljus.jpg",
+    "basta-smarta-gardiner-familj": "generated/gardiner-morgonljus.jpg",
     "smart-hem-utan-abonnemang": "generated/startpaket-smart-hem.jpg",
     "matter-vs-zigbee-familj": "generated/hub-sensorer-bord.jpg",
     "smarta-hem-for-laxa-och-fokus": "generated/barnrum-varmt-nattljus.jpg",
@@ -100,7 +100,7 @@ PHOTO_BY_SLUG = {
     "tvattmaskinen-klar-smart-paminnelse": "generated/tvattstuga-sensor.jpg",
     "smart-hem-delad-vardnad-packlista": "generated/familjedashboard-kok.jpg",
     "barn-glommer-saker-smart-checklista": "generated/morgonhall-smart-knapp.jpg",
-    "smart-hall-vinterfamilj": "generated/morgonhall-smart-knapp.jpg",
+    "smart-hall-vinterfamilj": "generated/termostat-vinter.jpg",
     "god-natt-knapp-familj-home-assistant": "generated/barnrum-varmt-nattljus.jpg",
     "smart-kyl-frys-utan-dyrt-kylskap": "generated/startpaket-smart-hem.jpg",
     "barnrum-utan-appkaos-tre-lagen": "generated/barnrum-varmt-nattljus.jpg",
@@ -109,10 +109,16 @@ PHOTO_BY_SLUG = {
     "familjens-krislage-dashboard-vatten-brand-strom": "generated/lackage-diskmaskin-sensor.jpg",
     "produktguide-forsta-zigbee-sensorerna-rum-for-rum": "generated/hub-sensorer-bord.jpg",
     "spara-el-home-assistant-familj": "generated/startpaket-smart-hem.jpg",
-    "smart-plug-energimatning-vad-kan-man-mata": "generated/startpaket-smart-hem.jpg",
+    "smart-plug-energimatning-vad-kan-man-mata": "generated/energiplugg-kok.jpg",
     "home-assistant-startpaket-vad-behover-man-kopa": "generated/hub-sensorer-bord.jpg",
     "smart-hem-hyresratt-startpaket-under-100-euro": "generated/morgonhall-smart-knapp.jpg",
     "vackningsljus-barn-smart-lampa-eller-vackarklocka": "generated/barnrum-varmt-nattljus.jpg",
+    "smart-hem-for-sommarstuga": "generated/sommarstuga-sensor.jpg",
+    "smart-hem-for-regniga-dagar": "generated/regnig-hall-tvatt.jpg",
+    "basta-smarta-termostater-familj": "generated/termostat-vinter.jpg",
+    "smart-hem-energispara-familj": "generated/energiplugg-kok.jpg",
+    "smart-hem-nar-internet-gar-ner": "generated/lokalt-natverk-router.jpg",
+    "smart-hem-utan-moln": "generated/lokalt-natverk-router.jpg",
 }
 
 TAG_LABELS = {
@@ -313,7 +319,7 @@ def model_comparison(products: list[dict], ids: list[str], title: str = "Faktisk
         return ""
     return (
         f"<section class='model-comparison'><h2>{esc(title)}</h2>"
-        "<p class='fineprint'>Exemplen är modeller/kategorier som brukar gå att hitta i handeln. Kontrollera alltid pris, lager, region, elstandard och kompatibilitet innan köp.</p>"
+        "<p class='fineprint'>Det här är jämförelseexempel, inte produkter vi har laboratorietestat. Pris, lager och kompatibilitet kan ändras.</p>"
         "<div class='model-grid'>" + "".join(blocks) + "</div></section>"
     )
 
@@ -433,15 +439,21 @@ def problem_chips() -> str:
 
 
 def everyday_block(article: dict) -> str:
-    examples = article.get("examples", [])
+    examples = [str(item).strip() for item in article.get("examples", []) if str(item).strip()]
     if not examples:
-        examples = [
-            "Morgonen går snabbare när samma signal betyder samma sak varje dag.",
-            "Hallen blir lugnare när lampor, påminnelser och knappar sitter där familjen faktiskt passerar.",
-            "Kvällen fungerar bättre när tekniken gör färre saker, men gör dem pålitligt.",
-        ]
-    items = "".join(f"<li>{esc(item)}</li>" for item in examples[:5])
-    return f"<section class='example-box'><h2>Exempel från vardagen</h2><ul>{items}</ul></section>"
+        return ""
+    items = "".join(f"<li>{esc(item)}</li>" for item in examples[:4])
+    return f"<section class='example-box'><h2>Så kan det se ut hemma</h2><ul>{items}</ul></section>"
+
+
+def reading_minutes(article: dict) -> int:
+    text = " ".join(
+        [article.get("description", ""), article.get("intro", "")]
+        + [str(part) for section in article.get("sections", []) for part in section[:2]]
+        + [str(item) for item in article.get("examples", [])]
+    )
+    word_count = len(re.findall(r"\w+", text))
+    return max(2, (word_count + 189) // 190)
 
 
 def related_articles(article: dict, all_articles: list[dict], limit: int = 4) -> list[dict]:
@@ -529,6 +541,7 @@ def article_html(article: dict, products: list[dict], affiliate_links: dict, all
         f"<span class='pill'>{esc(article['category'])}</span>",
         f"<h1>{esc(article['title'])}</h1>",
         f"<p class='lead'>{esc(article['description'])}</p>",
+        f"<div class='article-meta'><span>{reading_minutes(article)} min läsning</span><span>Uppdaterad juli 2026</span></div>",
         tag_links(article),
         f"<img class='article-hero-image' src='{thumb_for(article)}' alt=''>",
     ]
@@ -539,14 +552,14 @@ def article_html(article: dict, products: list[dict], affiliate_links: dict, all
         parts.append(buying_summary_box(article, products))
         parts.append(decision_table(article, products))
         parts.append(model_comparison(products, article.get("products", [])))
-        parts.append(product_cards(products, article.get("products", []), affiliate_links, title="Relevanta produktkategorier", compact=True))
     for idx, (heading, text) in enumerate(article["sections"]):
         parts.append(f"<h2>{esc(heading)}</h2><p>{esc(text)}</p>")
         if idx == 1:
             parts.append(everyday_block(article))
-    parts.append(product_cards(products, article.get("products", []), affiliate_links))
+    if not is_money(article):
+        parts.append(product_cards(products, article.get("products", []), affiliate_links))
     parts.append(related_articles_html(article, all_articles))
-    parts.append("<p class='fineprint'>Senast uppdaterad: juli 2026.</p></article>")
+    parts.append("</article>")
     return "\n".join(parts)
 
 
