@@ -39,6 +39,7 @@ MONEY_SLUGS = {
     "smart-kok-for-barnfamiljer",
     "smart-hem-i-hyresratt-utan-att-borra",
     "smarta-hem-prylar-att-inte-kopa-forst",
+    "matter-vs-zigbee-familj",
 }
 
 PHOTO_BY_SLUG = {
@@ -78,13 +79,13 @@ PHOTO_BY_SLUG = {
     "barnens-skarmtid-smarta-hem-signaler": "generated/barnrum-varmt-nattljus.jpg",
     "basta-smarta-pluggar-energi-familj": "generated/startpaket-smart-hem.jpg",
     "sensorer-i-badrum-natt-och-vatten": "generated/lackage-diskmaskin-sensor.jpg",
-    "basta-luftkvalitetssensorer-barnrum": "generated/hub-sensorer-bord.jpg",
-    "co2-sensor-home-assistant": "generated/hub-sensorer-bord.jpg",
-    "smart-brandvarnare-familj": "commons-smoke-detector.jpg",
+    "basta-luftkvalitetssensorer-barnrum": "commons-co2-monitor.jpg",
+    "co2-sensor-home-assistant": "commons-co2-monitor.jpg",
+    "smart-brandvarnare-familj": "generated/brandvarnare-hall.jpg",
     "basta-smarta-las-barnfamilj": "generated/ytterdorr-smart-las-sensor.jpg",
-    "fryslarm-med-temperatursensor": "generated/startpaket-smart-hem.jpg",
-    "smart-brevlada-dorrsensor": "generated/ytterdorr-smart-las-sensor.jpg",
-    "smart-forrad-garage-sensorer": "generated/morgonhall-smart-knapp.jpg",
+    "fryslarm-med-temperatursensor": "generated/tvattstuga-sensor.jpg",
+    "smart-brevlada-dorrsensor": "commons-mailbox.jpg",
+    "smart-forrad-garage-sensorer": "generated/ytterdorr-smart-las-sensor.jpg",
     "integritet-smart-hem-familj": "generated/hub-sensorer-bord.jpg",
     "backup-home-assistant-familj": "generated/hub-sensorer-bord.jpg",
     "forbattra-zigbee-mesh-hemma": "generated/hub-sensorer-bord.jpg",

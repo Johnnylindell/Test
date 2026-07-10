@@ -79,7 +79,7 @@
   {
     "slug": "bygg-familjedashboard-surfplatta",
     "title": "Så bygger du en familjedashboard på en surfplatta",
-    "description": "En praktisk guide till väggmonterad kalender, veckovy, inköp och påminnelser.",
+    "description": "Väggmonterad kalender, veckovy, inköp och påminnelser som hela familjen ser i köket.",
     "category": "dashboard",
     "products": [
       "tablet-wall",
@@ -386,8 +386,8 @@
     ],
     "sections": [
       [
-        "Målet med 100 euro",
-        "Med en liten budget ska du inte försöka automatisera hela hemmet. Sikta på två till tre rutiner som faktiskt används varje dag."
+        "Lägg pengarna där veckan skaver",
+        "Med en liten budget räcker det inte till hela hemmet. Välj två eller tre platser där vardagen ofta hakar upp sig: hallen, barnrummet eller diskmaskinen."
       ],
       [
         "Startpaket",
@@ -846,7 +846,7 @@
   {
     "slug": "home-assistant-green-eller-raspberry-pi",
     "title": "Home Assistant Green eller Raspberry Pi: vad passar bäst hemma?",
-    "description": "En enkel jämförelse för familjer som vill ha Home Assistant utan att fastna i serverkrångel.",
+    "description": "Skillnaden mellan färdig Home Assistant-box och Raspberry Pi när familjen behöver stabila rutiner.",
     "category": "jämförelse",
     "products": [
       "tablet-wall",
@@ -887,7 +887,7 @@
   },
   {
     "slug": "smart-hem-for-hundagare",
-    "title": "Smart hem för hundägare: lampor, kamera och rutiner utan krångel",
+    "title": "Smart hem för hundägare: lampor, kamera och rutiner som används",
     "description": "Små automationer som gör vardagen med hund lättare utan att bygga övervakningscentral.",
     "category": "guide",
     "products": [
@@ -1823,7 +1823,7 @@
       ],
       [
         "Små vinster räknas",
-        "Målet är inte att optimera allt, utan att ta bort onödigt spill som sker varje dag."
+        "Börja med onödigt spill som återkommer varje dag: standby på tv-hörnan, värme i tomt rum eller lampor som alltid lämnas tända."
       ]
     ]
   },
@@ -2333,7 +2333,7 @@
       "home-assistant",
       "dashboard"
     ],
-    "intro": "Home Assistant Green är intressant för familjer eftersom det gör starten enklare än att bygga allt själv. Men det är fortfarande ett system som kräver eftertanke.",
+    "intro": "Home Assistant Green passar bäst när familjen vill komma igång med lokal styrning utan att bygga server själv. Räkna ändå med beslut kring Zigbee-adapter, backup och vilka rutiner som faktiskt ska flyttas in.",
     "examples": [
       "Familjen får lokal styrning utan att en laptop står igång.",
       "Dashboarden i köket hämtar data från samma system.",
@@ -3748,7 +3748,7 @@
       ],
       [
         "Undvik för starkt ljus",
-        "Målet är signal, inte att blända ett sömnigt barn."
+        "Ljuset ska ge en tydlig signal utan att blända ett sömnigt barn."
       ]
     ]
   }
