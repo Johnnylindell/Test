@@ -109,6 +109,7 @@ https://johnnylindell.github.io/Test/tag/morgon.html
 https://johnnylindell.github.io/Test/tag/rutiner.html
 https://johnnylindell.github.io/Test/tag/barnrum.html
 https://johnnylindell.github.io/Test/tag/belysning.html
+https://johnnylindell.github.io/Test/tag/zigbee.html
 https://johnnylindell.github.io/Test/tag/ideer.html
 https://johnnylindell.github.io/Test/tag/knappar.html
 https://johnnylindell.github.io/Test/tag/kalender.html
@@ -118,7 +119,6 @@ https://johnnylindell.github.io/Test/tag/kok.html
 https://johnnylindell.github.io/Test/tag/laggdags.html
 https://johnnylindell.github.io/Test/tag/notiser.html
 https://johnnylindell.github.io/Test/tag/budget.html
-https://johnnylindell.github.io/Test/tag/zigbee.html
 https://johnnylindell.github.io/Test/tag/sensorer.html
 https://johnnylindell.github.io/Test/tag/vattenlackage.html
 https://johnnylindell.github.io/Test/tag/jamforelse.html

@@ -1,7 +1,7 @@
 [
   {
     "slug": "basta-smarta-hem-prylar-barnfamiljer",
-    "title": "Bästa smarta hem-prylarna för barnfamiljer",
+    "title": "Smarta hem-prylar som är värda att börja med",
     "description": "En praktisk startguide till smarta lampor, knappar, sensorer och robotdammsugare för familjer.",
     "category": "köpguide",
     "products": [
@@ -39,7 +39,7 @@
   },
   {
     "slug": "home-assistant-for-familjer-nyborjarguide",
-    "title": "Home Assistant för familjer: komplett nybörjarguide",
+    "title": "Home Assistant för familjer: börja med ett rum",
     "description": "En lugn start med Home Assistant: vad som behövs, vad som kan vänta och vilka tre automationer familjen faktiskt märker.",
     "category": "guide",
     "products": [
@@ -170,7 +170,7 @@
   },
   {
     "slug": "basta-smarta-lampor-barnsovrum",
-    "title": "Bästa smarta lampor för barnsovrum",
+    "title": "Smarta lampor i barnrum: IKEA, Hue eller Tapo?",
     "description": "IKEA, Philips Hue och Tapo jämförda för läsning, nattljus och lugnare kvällar i barnrum.",
     "category": "köpguide",
     "products": [
@@ -299,7 +299,7 @@
   },
   {
     "slug": "basta-robotdammsugare-barnfamiljer",
-    "title": "Bästa robotdammsugare för barnfamiljer",
+    "title": "Robotdammsugare för barnfamiljer: Q5 Pro eller L10s Ultra?",
     "description": "Roborock Q5 Pro och Dreame L10s Ultra bedömda för smulor, mattor, leksaker och husdjur. Utan låtsas-testvinnare.",
     "category": "köpguide",
     "products": [
@@ -506,7 +506,7 @@
   },
   {
     "slug": "basta-zigbee-hubbar-for-familjer",
-    "title": "Bästa Zigbee-hubbar för familjer",
+    "title": "Zigbee-hubb hemma: Green, Hue eller Dirigera?",
     "description": "Home Assistant Green, Hue Bridge och IKEA Dirigera jämförda för familjer som vill ha stabila knappar, lampor och sensorer.",
     "category": "köpguide",
     "products": [
@@ -729,7 +729,7 @@
   },
   {
     "slug": "basta-vattenlackagesensorer-smart-hem",
-    "title": "Bästa vattenläckagesensorer för smart hem",
+    "title": "Vattenläckagesensorer: Aqara, Shelly och Eve jämförda",
     "description": "Aqara, Shelly och Eve jämförda för diskmaskin, tvättstuga och varmvattenberedare. Med fokus på larmväg och placering.",
     "category": "köpguide",
     "products": [

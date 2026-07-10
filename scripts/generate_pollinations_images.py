@@ -40,6 +40,8 @@ PROMPTS = {
     "budgetprylar-bord": "Photorealistic Nordic dining table with three affordable unbranded smart home items separated clearly: smart plug, motion sensor and physical button, receipt turned face down, realistic daylight, no readable text, no logos",
     "lokalt-natverk-router": "Photorealistic Scandinavian home office shelf with an unbranded wifi router, small local smart home hub and ethernet cable, internet outage mood with laptop screen dark, warm room lighting, no readable text, no logos",
     "temperatursensor-frys": "Photorealistic Scandinavian kitchen freezer drawer slightly open with a small unbranded temperature sensor safely placed nearby, ordinary family kitchen, cool clean light, no readable text, no logos",
+    "veckoplan-magnetkort": "Photorealistic Scandinavian family kitchen wall with seven blank colored magnetic cards arranged as a weekly plan, absolutely no letters or numbers, school bag and fruit bowl nearby, natural daylight, editorial home photography, no logos",
+    "inkopslista-hogtalare": "Photorealistic Scandinavian kitchen counter with grocery bag, milk, bread and vegetables beside a small plain unbranded voice speaker, family home in natural daylight, no screens, no readable text, no logos",
 }
 
 
