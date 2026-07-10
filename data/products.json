@@ -22,7 +22,9 @@
         "good": "stabil för Hue-lampor och enkel scenstyrning",
         "watch": "mindre flexibel om resten av hemmet inte kör Hue"
       }
-    ]
+    ],
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Modeller valda för nordisk tillgänglighet, tydlig kompatibilitet och praktisk familjeanvändning; inget laboratorietest."
   },
   {
     "id": "smart-bulb",
@@ -47,7 +49,9 @@
         "good": "billig Wi‑Fi-lampa utan separat hubb",
         "watch": "Wi‑Fi/app-beroende; inte lika snyggt i lokalt Home Assistant-upplägg"
       }
-    ]
+    ],
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Modeller valda för nordisk tillgänglighet, tydlig kompatibilitet och praktisk familjeanvändning; inget laboratorietest."
   },
   {
     "id": "tablet-wall",
@@ -72,7 +76,9 @@
         "good": "stabilare premiumval om den ska sitta framme länge",
         "watch": "dyrare än nödvändigt för en ren dashboard"
       }
-    ]
+    ],
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Modeller valda för nordisk tillgänglighet, tydlig kompatibilitet och praktisk familjeanvändning; inget laboratorietest."
   },
   {
     "id": "robot-vacuum",
@@ -97,7 +103,9 @@
         "good": "enkelt varumärke och bra app för vanliga hem",
         "watch": "jämför kartfunktioner och reservdelar mot Roborock/Dreame"
       }
-    ]
+    ],
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Modeller valda för nordisk tillgänglighet, tydlig kompatibilitet och praktisk familjeanvändning; inget laboratorietest."
   },
   {
     "id": "motion-sensor",
@@ -122,7 +130,9 @@
         "good": "stabil med Hue och bra för belysning",
         "watch": "dyrare om du bara behöver enkel rörelse i Home Assistant"
       }
-    ]
+    ],
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Modeller valda för nordisk tillgänglighet, tydlig kompatibilitet och praktisk familjeanvändning; inget laboratorietest."
   },
   {
     "id": "water-leak-sensor",
@@ -147,7 +157,9 @@
         "good": "starkt val för Apple/HomeKit-hem med kabelsensor",
         "watch": "dyrare och mindre relevant om du kör Zigbee/Home Assistant"
       }
-    ]
+    ],
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Modeller valda för nordisk tillgänglighet, tydlig kompatibilitet och praktisk familjeanvändning; inget laboratorietest."
   },
   {
     "id": "smart-plug",
@@ -172,7 +184,9 @@
         "good": "billig Zigbee-plugg för lampor och enkla rutiner",
         "watch": "saknar ofta energimätning; välj inte den för tvättmaskinsdetektering"
       }
-    ]
+    ],
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Modeller valda för nordisk tillgänglighet, tydlig kompatibilitet och praktisk familjeanvändning; inget laboratorietest."
   },
   {
     "id": "door-window-sensor",
@@ -197,7 +211,9 @@
         "good": "Bluetooth-alternativ för Shelly-hem",
         "watch": "behöver Bluetooth-gateway/proxy för stabil automation"
       }
-    ]
+    ],
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Modeller valda för nordisk tillgänglighet, tydlig kompatibilitet och praktisk familjeanvändning; inget laboratorietest."
   },
   {
     "id": "temperature-sensor",
@@ -222,7 +238,9 @@
         "good": "Zigbee-sensor med display för rum där familjen vill se värdet",
         "watch": "displayen behövs inte om värdet bara används i automationer"
       }
-    ]
+    ],
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Modeller valda för nordisk tillgänglighet, tydlig kompatibilitet och praktisk familjeanvändning; inget laboratorietest."
   },
   {
     "id": "zigbee-hub",
@@ -233,9 +251,10 @@
     "note": "Välj hubb efter vilka prylar du vill använda, inte bara efter lägsta pris.",
     "models": [
       {
-        "name": "Home Assistant Green + SkyConnect/ZBT-1",
-        "good": "ren start för lokal styrning och Home Assistant",
-        "watch": "kräver mer pill än färdiga app-ekosystem"
+        "name": "Home Assistant Green + Connect ZBT-2",
+        "good": "lokal Home Assistant-start med aktuell officiell Zigbee/Thread-adapter",
+        "watch": "ZBT-2 kör antingen Zigbee eller Thread, inte båda samtidigt; Green kräver mer eget underhåll än en ren märkeshubb",
+        "source_url": "https://www.home-assistant.io/connect/zbt-2/"
       },
       {
         "name": "Sonoff Zigbee 3.0 USB Dongle Plus",
@@ -247,7 +266,9 @@
         "good": "enkel hubb om många prylar är IKEA",
         "watch": "mindre frihet än ren Home Assistant/Zigbee2MQTT"
       }
-    ]
+    ],
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Modeller valda för nordisk tillgänglighet, tydlig kompatibilitet och praktisk familjeanvändning; inget laboratorietest."
   },
   {
     "id": "smart-thermostat",
@@ -272,7 +293,9 @@
         "good": "bra för Apple/HomeKit-hem",
         "watch": "mindre relevant om resten kör Zigbee/Home Assistant"
       }
-    ]
+    ],
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Modeller valda för nordisk tillgänglighet, tydlig kompatibilitet och praktisk familjeanvändning; inget laboratorietest."
   },
   {
     "id": "air-quality-sensor",
@@ -294,10 +317,12 @@
       },
       {
         "name": "IKEA VINDSTYRKA",
-        "good": "prisvärd sensor för luftkvalitet i IKEA/Zigbee-hem",
-        "watch": "kontrollera exakt Home Assistant-stöd för dina mätvärden"
+        "good": "prisvärd display för PM2.5, temperatur och relativ luftkvalitet i IKEA-hem",
+        "watch": "mäter inte CO₂; välj en riktig CO₂-sensor om vädringsnivå är huvudfrågan"
       }
-    ]
+    ],
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Modeller valda för nordisk tillgänglighet, tydlig kompatibilitet och praktisk familjeanvändning; inget laboratorietest."
   },
   {
     "id": "smart-smoke-detector",
@@ -322,7 +347,9 @@
         "good": "Zigbee-val för smarta notiser",
         "watch": "kontrollera certifiering, region och larmkrav före köp"
       }
-    ]
+    ],
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Modeller valda för nordisk tillgänglighet, tydlig kompatibilitet och praktisk familjeanvändning; inget laboratorietest."
   },
   {
     "id": "smart-lock",
@@ -347,7 +374,9 @@
         "good": "kan passa där man vill undvika större installation",
         "watch": "kräver noggrann montering och test av mekaniken"
       }
-    ]
+    ],
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Modeller valda för nordisk tillgänglighet, tydlig kompatibilitet och praktisk familjeanvändning; inget laboratorietest."
   },
   {
     "id": "smart-blinds",
@@ -371,6 +400,98 @@
         "name": "SwitchBot Curtain 3",
         "good": "eftermontering för gardinskena/stång",
         "watch": "kan bli klumpigt och behöver testas med dina gardiner"
+      }
+    ],
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Modeller valda för nordisk tillgänglighet, tydlig kompatibilitet och praktisk familjeanvändning; inget laboratorietest."
+  },
+  {
+    "id": "presence-sensor",
+    "name": "mmWave-närvarosensor",
+    "category": "sensorer",
+    "price_hint": "30–90 €",
+    "best_for": "rum där någon sitter still, exempelvis kök, kontor och vardagsrum",
+    "note": "Närvaro via mmWave är känsligare än vanlig PIR-rörelse och kräver mer finjustering.",
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Valda för faktisk mmWave-närvaro, inte enbart rörelse; inget laboratorietest.",
+    "models": [
+      {
+        "name": "Aqara Presence Sensor FP2",
+        "good": "Wi‑Fi-mmWave med zoner, flera personer och lokal automation via stödda ekosystem",
+        "watch": "kräver fast USB-C-ström och noggrann zoninställning; ingen Aqara-hubb krävs",
+        "source_url": "https://www.aqara.com/en/product/presence-sensor-fp2/"
+      },
+      {
+        "name": "Aqara Presence Sensor FP1E",
+        "good": "Zigbee-baserad närvaro för ett rum och enklare automation än FP2",
+        "watch": "färre zonfunktioner och kompatibiliteten beror på hubb/integration",
+        "source_url": "https://www.aqara.com/en/product/presence-sensor-fp1e/"
+      },
+      {
+        "name": "SONOFF SNZB-06P",
+        "good": "prisvärd Zigbee-mmWave för enklare närvarostyrning",
+        "watch": "USB-ström och placering påverkar falska träffar; kontrollera stöd i din Zigbee-integration",
+        "source_url": "https://sonoff.tech/product/gateway-and-sensors/snzb-06p/"
+      }
+    ]
+  },
+  {
+    "id": "home-assistant-hardware",
+    "name": "Home Assistant-hårdvara",
+    "category": "hubb",
+    "price_hint": "100–250 €",
+    "best_for": "lokal styrning med egen server eller färdig Home Assistant-box",
+    "note": "Green är enklast. Raspberry Pi passar bättre när du accepterar eget lagrings- och underhållsansvar.",
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Jämför färdig Home Assistant-box med egenbyggd installation; inget prestandalaboratorietest.",
+    "models": [
+      {
+        "name": "Home Assistant Green",
+        "good": "färdig, tyst och enkel väg till Home Assistant OS",
+        "watch": "behöver separat Zigbee-adapter och har mindre expansionsutrymme än egen dator",
+        "source_url": "https://www.home-assistant.io/green/"
+      },
+      {
+        "name": "Raspberry Pi 5 med SSD",
+        "good": "flexibel och lätt att ersätta delar på om du redan kan Raspberry Pi",
+        "watch": "köp inte bara microSD för permanent drift; nätaggregat, kapsling och SSD höjer totalpriset",
+        "source_url": "https://www.home-assistant.io/installation/raspberrypi/"
+      },
+      {
+        "name": "Home Assistant Yellow",
+        "good": "mer integrerad och utbyggbar Home Assistant-hårdvara med Zigbee",
+        "watch": "dyrare och mindre självklar att få tag på än Green",
+        "source_url": "https://www.home-assistant.io/yellow/"
+      }
+    ]
+  },
+  {
+    "id": "co2-sensor",
+    "name": "CO₂-sensor med riktig mätning",
+    "category": "klimat",
+    "price_hint": "90–250 €",
+    "best_for": "sovrum och rum där flera personer vistas länge",
+    "note": "Skilj riktig CO₂-mätning från uppskattat eCO₂ och från partikelmätning.",
+    "models_verified_at": "2026-07-10",
+    "selection_basis": "Modeller med uttrycklig CO₂-mätning och begriplig lokal display/app; inget laboratorietest.",
+    "models": [
+      {
+        "name": "Aranet4 Home",
+        "good": "tydlig batteridriven display med CO₂, temperatur och luftfuktighet",
+        "watch": "premiumpris och Bluetooth räcker inte för alla automatiseringsupplägg",
+        "source_url": "https://aranet.com/en/home/products/aranet4-home"
+      },
+      {
+        "name": "Airthings Wave Plus",
+        "good": "mäter CO₂ tillsammans med radon, VOC, temperatur och fukt",
+        "watch": "saknar den omedelbara bordskänslan hos en stor display och kostar mer",
+        "source_url": "https://www.airthings.com/wave-plus"
+      },
+      {
+        "name": "Netatmo Smart Indoor Air Quality Monitor",
+        "good": "enkel CO₂-koll för sovrum och hemmakontor",
+        "watch": "app/moln och ekosystem bör vägas mot lokala alternativ",
+        "source_url": "https://www.netatmo.com/smart-indoor-air-quality-monitor"
       }
     ]
   }

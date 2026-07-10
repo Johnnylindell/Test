@@ -292,6 +292,7 @@ def model_rows(product: dict, limit: int = 3) -> str:
         rows.append(
             "<li>"
             f"<a href='{esc(amazon_search_url(name))}' rel='sponsored nofollow noopener' target='_blank'><strong>{esc(name)}</strong></a>"
+            "<small class='ad-link-label'>Annonslänk till Amazon</small>"
             f"<span>{esc(model.get('good', ''))}</span>"
             f"<em>{esc(model.get('watch', ''))}</em>"
             "</li>"
@@ -317,9 +318,15 @@ def model_comparison(products: list[dict], ids: list[str], title: str = "Faktisk
         )
     if not blocks:
         return ""
+    checked = sorted({
+        str(by_id[pid].get("models_verified_at", ""))
+        for pid in ids
+        if pid in by_id and by_id[pid].get("models_verified_at")
+    })
+    checked_text = checked[-1] if checked else "datum saknas"
     return (
         f"<section class='model-comparison'><h2>{esc(title)}</h2>"
-        "<p class='fineprint'>Det här är jämförelseexempel, inte produkter vi har laboratorietestat. Pris, lager och kompatibilitet kan ändras.</p>"
+        f"<aside class='method-note'><strong>Så gjorde vi urvalet</strong><p>Vi jämför publicerade specifikationer, nordisk tillgänglighet, kompatibilitet, lokal styrning och praktisk familjeanvändning. Vi har inte laboratorietestat produkterna. Modelluppgifterna granskades {esc(checked_text)}; pris och lager kan ändras.</p></aside>"
         "<div class='model-grid'>" + "".join(blocks) + "</div></section>"
     )
 
@@ -389,7 +396,7 @@ def buying_summary_box(article: dict, products: list[dict]) -> str:
         best = "Börja med en enkel lampa eller knapp barnet förstår utan app."
         avoid = "Undvik för starkt ljus och för många färgscener."
     return (
-        "<section class='buying-summary'><h2>Snabbval</h2><div class='summary-grid'>"
+        "<section class='buying-summary'><h2>Kort köpguide</h2><div class='summary-grid'>"
         f"<div><strong>Välj detta om</strong><p>{esc(best)}</p></div>"
         f"<div><strong>Undvik om</strong><p>{esc(avoid)}</p></div>"
         f"<div><strong>Rimlig budget</strong><p>{esc(budget)}</p></div>"
@@ -506,8 +513,8 @@ def article_extra_head(article: dict, site_url: str) -> str:
         "headline": article.get("title", ""),
         "description": article.get("description", ""),
         "inLanguage": "sv-SE",
-        "dateModified": "2026-07-08",
-        "datePublished": "2026-07-08",
+        "dateModified": article.get("updated_at", article.get("published_at", "2026-07-08")),
+        "datePublished": article.get("published_at", "2026-07-08"),
         "author": {"@type": "Organization", "name": "Smart Familj Hemma"},
         "publisher": {"@type": "Organization", "name": "Smart Familj Hemma"},
         "mainEntityOfPage": {"@type": "WebPage", "@id": url},
@@ -541,7 +548,7 @@ def article_html(article: dict, products: list[dict], affiliate_links: dict, all
         f"<span class='pill'>{esc(article['category'])}</span>",
         f"<h1>{esc(article['title'])}</h1>",
         f"<p class='lead'>{esc(article['description'])}</p>",
-        f"<div class='article-meta'><span>{reading_minutes(article)} min läsning</span><span>Uppdaterad juli 2026</span></div>",
+        f"<div class='article-meta'><span>{reading_minutes(article)} min läsning</span>" + (f"<span>Uppdaterad {esc(article['updated_at'])}</span>" if article.get("updated_at") else "") + "</div>",
         tag_links(article),
         f"<img class='article-hero-image' src='{thumb_for(article)}' alt=''>",
     ]
@@ -550,14 +557,11 @@ def article_html(article: dict, products: list[dict], affiliate_links: dict, all
         parts.append(f"<p>{esc(intro)}</p>")
     if is_money(article):
         parts.append(buying_summary_box(article, products))
-        parts.append(decision_table(article, products))
         parts.append(model_comparison(products, article.get("products", [])))
     for idx, (heading, text) in enumerate(article["sections"]):
         parts.append(f"<h2>{esc(heading)}</h2><p>{esc(text)}</p>")
         if idx == 1:
             parts.append(everyday_block(article))
-    if not is_money(article):
-        parts.append(product_cards(products, article.get("products", []), affiliate_links))
     parts.append(related_articles_html(article, all_articles))
     parts.append("</article>")
     return "\n".join(parts)

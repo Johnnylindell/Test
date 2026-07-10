@@ -83,7 +83,8 @@
       "Vattenlarmet säger 'vatten under diskmaskinen' i stället för ett kryptiskt sensornamn.",
       "Köksskärmen visar dagens tider och middag, inte fyrtio små tekniska mätvärden."
     ],
-    "intro": "Home Assistant blir lätt ett kvällsprojekt utan slut. För en familj är ett bättre mål att få en knapp, en sensor och en tydlig skärm att fungera även när ingen vill felsöka."
+    "intro": "Home Assistant blir lätt ett kvällsprojekt utan slut. För en familj är ett bättre mål att få en knapp, en sensor och en tydlig skärm att fungera även när ingen vill felsöka.",
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "bygg-familjedashboard-surfplatta",
@@ -166,7 +167,8 @@
       "På skärmen står bara 'frukost, tänder, väska' plus dagens gympapåse.",
       "Knappen vid skohyllan markerar klart och släcker köket när sista personen går."
     ],
-    "intro": "En morgon blir sällan lugnare av fler larm. Den blir lugnare när nästa steg syns där man står och när samma signal betyder samma sak varje vardag."
+    "intro": "En morgon blir sällan lugnare av fler larm. Den blir lugnare när nästa steg syns där man står och när samma signal betyder samma sak varje vardag.",
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "basta-smarta-lampor-barnsovrum",
@@ -213,7 +215,8 @@
       "Kvällsläget startar automatiskt men går alltid att ändra manuellt.",
       "Lampan tänds svagt på natten utan att takbelysningen väcker resten av rummet."
     ],
-    "intro": "I ett barnrum är en bra smart lampa först och främst en bra lampa: flimmerfri, tillräckligt varm på kvällen och enkel att tända utan mobil."
+    "intro": "I ett barnrum är en bra smart lampa först och främst en bra lampa: flimmerfri, tillräckligt varm på kvällen och enkel att tända utan mobil.",
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "smarta-knappar-10-anvandningar-hemma",
@@ -295,7 +298,8 @@
       "Gympapåsen syns bara de dagar den behövs.",
       "Kvällsläget dämpar skärmen automatiskt men lämnar morgondagens första tid läsbar."
     ],
-    "intro": "Det svåra är inte att visa kalendern på en skärm. Det svåra är att välja bort tillräckligt mycket för att någon ska titta på den."
+    "intro": "Det svåra är inte att visa kalendern på en skärm. Det svåra är att välja bort tillräckligt mycket för att någon ska titta på den.",
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "basta-robotdammsugare-barnfamiljer",
@@ -340,7 +344,8 @@
       "Barnrum ligger utanför schemat tills golvet markerats som klart.",
       "Dockan står där vatten och dammpåse kan hanteras utan att blockera hallen."
     ],
-    "intro": "Barnfamiljens viktigaste specifikation är inte maximal sugkraft. Det är hur ofta roboten kan köra utan att någon först måste rädda den från strumpor och sladdar."
+    "intro": "Barnfamiljens viktigaste specifikation är inte maximal sugkraft. Det är hur ofta roboten kan köra utan att någon först måste rädda den från strumpor och sladdar.",
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "automatisera-inkopslistor-hemma",
@@ -464,7 +469,8 @@
       "En enda fysisk knapp används oftare än tre nya appscener.",
       "Priset räknas inklusive hubb, fäste och batterier, inte bara produkten i kundvagnen."
     ],
-    "intro": "Hundra euro räcker om allt i paketet löser samma problem. Det räcker sämre om pengarna sprids på fem prylar som kräver varsin app."
+    "intro": "Hundra euro räcker om allt i paketet löser samma problem. Det räcker sämre om pengarna sprids på fem prylar som kräver varsin app.",
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "zigbee-vs-wifi-smarta-prylar",
@@ -510,14 +516,12 @@
     "description": "Home Assistant Green, Hue Bridge och IKEA Dirigera jämförda för familjer som vill ha stabila knappar, lampor och sensorer.",
     "category": "köpguide",
     "products": [
-      "smart-button",
-      "smart-bulb",
-      "motion-sensor"
+      "zigbee-hub"
     ],
     "sections": [
       [
-        "Home Assistant Green med Zigbee-radio",
-        "Green tillsammans med Home Assistant Connect ZBT-1 ger störst frihet och lokal kontroll. Det passar den som accepterar backup, uppdateringar och lite felsökning. Använd en USB-förlängningskabel så radion kommer bort från dator och USB 3-störningar. Green har inte inbyggd Zigbee-radio, så räkna in den i priset."
+        "Home Assistant Green med separat radio",
+        "Green tillsammans med Home Assistant Connect ZBT-2 ger störst frihet och lokal kontroll. Det passar den som accepterar backup, uppdateringar och lite felsökning. ZBT-2 kör antingen Zigbee eller Thread, så välj roll innan nätet byggs. Green har inte inbyggd Zigbee-radio; räkna in adaptern i priset."
       ],
       [
         "Philips Hue Bridge",
@@ -529,7 +533,7 @@
       ],
       [
         "Sonoff Dongle och andra koordinatorer",
-        "En Sonoff Zigbee 3.0 USB Dongle Plus kan vara ett prisvärt alternativ till ZBT-1 för Home Assistant. Modellvariant och firmware spelar roll. Köp från en seriös återförsäljare, använd förlängningskabel och dokumentera vilken port den sitter i innan du bygger ett stort nät."
+        "En Sonoff Zigbee 3.0 USB Dongle Plus kan vara ett prisvärt alternativ för Home Assistant. Modellvariant och firmware spelar roll. Köp från en seriös återförsäljare, använd USB-förlängningskabel och dokumentera vilken port den sitter i innan du bygger ett stort nät."
       ],
       [
         "Stabilitet byggs med nätanslutna noder",
@@ -549,7 +553,8 @@
       "Två nätanslutna pluggar skapar en stabil väg till sensorn längst bort i bostaden.",
       "Familjen kan fortfarande tända lamporna med en fysisk knapp när servern uppdateras."
     ],
-    "intro": "Rätt hubb beror mindre på antalet funktioner och mer på vem som ska sköta den när något slutar svara."
+    "intro": "Rätt hubb beror mindre på antalet funktioner och mer på vem som ska sköta den när något slutar svara.",
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "home-assistant-dashboard-koket",
@@ -771,7 +776,8 @@
       "Notisen säger både rum och apparat: 'Vatten under tvättmaskinen'.",
       "En lokal varningslampa tänds även om mobilen är på ljudlöst."
     ],
-    "intro": "En läckagesensor är bara bra om den ligger där vattnet börjar och om larmet når någon. Radioprotokoll och app är sekundärt."
+    "intro": "En läckagesensor är bara bra om den ligger där vattnet börjar och om larmet når någon. Radioprotokoll och app är sekundärt.",
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "aqara-ikea-philips-hue-vad-ska-familjer-valja",
@@ -818,6 +824,7 @@
     "description": "Skillnaden spelar roll i badrum, hall, barnrum och kök. Här är enkelversionen.",
     "category": "köpguide",
     "products": [
+      "presence-sensor",
       "motion-sensor"
     ],
     "sections": [
@@ -850,7 +857,8 @@
       "Rörelsesensor räcker i hallen där alla bara passerar.",
       "Närvarosensor passar bättre i köket när läxorna görs vid bordet.",
       "Badrummet behöver testas så lampan inte slocknar mitt i tandborstningen."
-    ]
+    ],
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "smart-hem-i-hyresratt-utan-att-borra",
@@ -901,9 +909,7 @@
     "description": "Skillnaden mellan färdig Home Assistant-box och Raspberry Pi när familjen behöver stabila rutiner.",
     "category": "jämförelse",
     "products": [
-      "tablet-wall",
-      "smart-button",
-      "motion-sensor"
+      "home-assistant-hardware"
     ],
     "sections": [
       [
@@ -923,8 +929,8 @@
         "När du vill lägga tiden på rutiner, dashboard och familjen, inte på SD-kort och nätaggregat."
       ],
       [
-        "Min linje",
-        "Börja med det som minskar risken att projektet dör halvvägs. För många är det en färdig Home Assistant-box."
+        "En enkel slutsats",
+        "Börja med alternativet som minskar risken att projektet stannar halvvägs. För de flesta familjer är Green enklare. Raspberry Pi är rimlig när hårdvaran redan finns och någon faktiskt vill äga lagring, reservdelar och felsökning."
       ]
     ],
     "tags": [
@@ -935,7 +941,8 @@
       "En färdig box gör att kvällsljuset fungerar innan projektlusten tar slut.",
       "Raspberry Pi passar bättre om någon redan kan felsöka lagring och ström.",
       "Familjen bryr sig mindre om hårdvaran än om knapparna svarar varje kväll."
-    ]
+    ],
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "smart-hem-for-hundagare",
@@ -1225,7 +1232,7 @@
   },
   {
     "slug": "basta-smarta-pluggar-energi-familj",
-    "title": "Bästa smarta pluggarna för familjer: energi, lampor och påminnelser",
+    "title": "Smarta pluggar: Tapo, Shelly eller IKEA?",
     "description": "Vad en smart plug kan göra hemma och när den inte är rätt val.",
     "category": "köpguide",
     "products": [
@@ -1261,7 +1268,8 @@
         "När du ska låta bli",
         "Om apparaten har känslig elektronik eller kräver fysisk knapptryckning efter strömavbrott är smart plug ofta fel väg."
       ]
-    ]
+    ],
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "sensorer-i-badrum-natt-och-vatten",
@@ -1307,7 +1315,7 @@
   },
   {
     "slug": "basta-dorrsensorer-for-smart-hem",
-    "title": "Bästa dörrsensorer för smart hem",
+    "title": "Dörrsensorer: Aqara, IKEA eller Shelly?",
     "description": "Dörr- och fönstersensorer för hall, balkong, kylskåp och barnsäkerhet.",
     "category": "köpguide",
     "products": [
@@ -1343,7 +1351,8 @@
         "Bra första automation",
         "När ytterdörren öppnas på morgonen kan hallen tändas och dashboarden visa dagens viktigaste tre saker."
       ]
-    ]
+    ],
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "temperatur-fuktsensor-barnrum",
@@ -1470,7 +1479,7 @@
   },
   {
     "slug": "basta-smarta-knappar-home-assistant",
-    "title": "Bästa smarta knapparna för Home Assistant",
+    "title": "Smarta knappar: IKEA, Aqara eller Hue?",
     "description": "Vad du ska välja när knappen ska fungera i hall, kök, barnrum och sovrum.",
     "category": "köpguide",
     "products": [
@@ -1506,7 +1515,8 @@
         "Köp inte för många",
         "Två bra placerade knappar gör mer nytta än tio som ingen minns."
       ]
-    ]
+    ],
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "smart-hem-for-vintermorgon",
@@ -1551,7 +1561,7 @@
   },
   {
     "slug": "basta-sensorer-home-assistant-nyborjare",
-    "title": "Bästa sensorerna för Home Assistant-nybörjare",
+    "title": "Sensorer att börja med i Home Assistant",
     "description": "Vilka sensorer är värda pengarna först: rörelse, dörr, vatten, temperatur eller närvaro?",
     "category": "köpguide",
     "products": [
@@ -1589,7 +1599,8 @@
         "Temperatursensor",
         "Bra när ett rum faktiskt är för kallt, varmt eller fuktigt och du vill följa mönster."
       ]
-    ]
+    ],
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "home-assistant-dashboard-barn",
@@ -1674,7 +1685,7 @@
   },
   {
     "slug": "basta-smarta-termostater-familj",
-    "title": "Bästa smarta termostaterna för familjer",
+    "title": "Smarta termostater: Tado, Aqara eller Eve?",
     "description": "När smart värmestyrning är värd pengarna och när en vanlig termostat räcker.",
     "category": "köpguide",
     "products": [
@@ -1710,7 +1721,8 @@
         "Kontrollera kompatibilitet",
         "Element, radiatorventiler och värmesystem skiljer sig mycket. Köp inte innan du vet vad som passar."
       ]
-    ]
+    ],
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "smarta-hem-rutiner-for-tonaringar",
@@ -1796,12 +1808,11 @@
   },
   {
     "slug": "basta-narvarosensorer-familj",
-    "title": "Bästa närvarosensorer för familjehem",
-    "description": "När närvarosensor är bättre än rörelsesensor och var den passar sämre.",
+    "title": "Närvarosensorer för familjehem: tre mmWave-modeller",
+    "description": "Aqara FP2, FP1E och Sonoff SNZB-06P jämförda för kök, kontor och rum där vanlig rörelse inte räcker.",
     "category": "köpguide",
     "products": [
-      "motion-sensor",
-      "zigbee-hub"
+      "presence-sensor"
     ],
     "tags": [
       "kopguide",
@@ -1809,7 +1820,7 @@
       "zigbee",
       "belysning"
     ],
-    "intro": "Närvarosensorer kan känna att någon är kvar i rummet, inte bara att någon rörde sig nyss. Det gör dem intressanta för kök, kontor och vardagsrum, men de är inte alltid rätt i hallen.",
+    "intro": "En mmWave-sensor kan se små rörelser när någon sitter kvar vid köksbordet eller skrivbordet. Det löser lampor som slocknar för tidigt, men tekniken kräver fast ström, rätt placering och mer finjustering än en vanlig PIR-sensor.",
     "examples": [
       "Kökslampan slocknar inte när någon sitter stilla vid läxorna.",
       "Kontorsljuset stannar på under videosamtal.",
@@ -1817,22 +1828,27 @@
     ],
     "sections": [
       [
-        "Närvaro vs rörelse",
-        "Rörelsesensor ser rörelse. Närvarosensor försöker se att någon fortfarande är där."
+        "Börja inte i hallen",
+        "Hall, trappa och förråd behöver oftast bara veta att någon passerar. Där är en billig PIR-rörelsesensor enklare och ofta mer pålitlig. mmWave gör mest nytta i rum där någon sitter still länge: kök, arbetsrum, vardagsrum eller badrum med långsam aktivitet."
       ],
       [
-        "Bra rum",
-        "Kök, kontor, vardagsrum och hobbyrum är bra kandidater."
+        "Aqara FP2 för flera zoner",
+        "FP2 passar när ett större rum behöver delas upp i exempelvis soffa, matbord och arbetsplats. Den använder Wi‑Fi, behöver ständig USB-C-ström och kan exponera zoner till stödda ekosystem. Fördelen är detaljnivån; nackdelen är att installation och kalibrering tar tid."
       ],
       [
-        "Sämre rum",
-        "Hall, förråd och trappor behöver ofta bara vanlig rörelse."
+        "FP1E eller Sonoff för enklare behov",
+        "Aqara FP1E och Sonoff SNZB-06P är mer begränsade men kan vara rimligare när hela rummet ska räknas som en zon. De passar bättre för en enkel regel som att hålla köksljuset tänt. Kontrollera stödet i just din Zigbee-hubb innan köp."
       ],
       [
-        "Tänk placering",
-        "Fel placering kan ge konstiga resultat. Testa tillfälligt innan du monterar permanent."
+        "Placering avgör resultatet",
+        "Fläktar, gardiner, robotdammsugare och rörelse genom en öppen dörr kan ge falsk närvaro. Ställ sensorn tillfälligt, studera loggen några dagar och justera känslighet och riktning innan den monteras permanent. Sätt aldrig en viktig säkerhetsfunktion enbart på mmWave-detektering."
+      ],
+      [
+        "Behåll en fysisk väg",
+        "När automatiken missar ska lampan fortfarande gå att styra med knapp eller vanlig brytare. Bra närvarostyrning känns inte magisk; den märks mest genom att ljuset stannar tänt när det behövs och slocknar först när rummet faktiskt är tomt."
       ]
-    ]
+    ],
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "smart-hem-energispara-familj",
@@ -1919,7 +1935,7 @@
   },
   {
     "slug": "basta-vattenlarm-diskmaskin",
-    "title": "Bästa vattenlarm under diskmaskin",
+    "title": "Vattenlarm under diskmaskin: tre modeller att jämföra",
     "description": "Vad du ska tänka på när sensorn ska ligga där läckan ofta börjar.",
     "category": "köpguide",
     "products": [
@@ -1954,7 +1970,8 @@
         "Testa med lite vatten",
         "Testa sensorn kontrollerat efter installation så du vet att larmet går fram."
       ]
-    ]
+    ],
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "ikea-tradfri-home-assistant-familj",
@@ -2373,8 +2390,7 @@
     "description": "När Home Assistant Green är rätt start och när du ska välja annat.",
     "category": "köpguide",
     "products": [
-      "zigbee-hub",
-      "tablet-wall"
+      "home-assistant-hardware"
     ],
     "tags": [
       "kopguide",
@@ -2404,7 +2420,8 @@
         "Alternativ",
         "Raspberry Pi, begagnad mini-PC eller färdiga hubbar kan vara bättre beroende på budget och intresse."
       ]
-    ]
+    ],
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "faq-smart-hem-barnfamilj",
@@ -2449,12 +2466,12 @@
   },
   {
     "slug": "basta-luftkvalitetssensorer-barnrum",
-    "title": "Bästa luftkvalitetssensorer för barnrum och sovrum",
-    "description": "CO2, temperatur och fukt – när luftdata faktiskt hjälper hemma.",
+    "title": "Luftsensor i barnrum: CO₂, partiklar eller fukt?",
+    "description": "Skillnaden mellan riktig CO₂-mätning, PM2.5 och fukt – plus modeller som ger data man faktiskt kan agera på.",
     "category": "köpguide",
     "products": [
-      "air-quality-sensor",
-      "temperature-sensor"
+      "co2-sensor",
+      "air-quality-sensor"
     ],
     "tags": [
       "kopguide",
@@ -2463,7 +2480,7 @@
       "klimat",
       "barnrum"
     ],
-    "intro": "Luftkvalitet låter avancerat, men i praktiken handlar det ofta om en enkel fråga: behöver vi vädra? I sovrum, barnrum och hemmakontor kan CO2 och fukt ge tydliga mönster som annars bara känns som trötthet eller dålig luft.",
+    "intro": "En luftsensors värde beror på vad den faktiskt mäter. CO₂ kan visa när ett sovrum behöver vädras, PM2.5 fångar partiklar och fukt hjälper mot kondens och mögelrisk. Ett allmänt “luftkvalitetsvärde” säger mindre om sensorn inte förklarar mätningen.",
     "examples": [
       "CO2 stiger i barnrummet efter läggning och dashboarden visar vädra-symbol på morgonen.",
       "Fukt i badrummet ligger kvar för länge och familjen öppnar dörren tidigare.",
@@ -2471,22 +2488,27 @@
     ],
     "sections": [
       [
-        "CO2 är mest konkret",
-        "CO2-värde är ofta lättare att agera på än vaga luftkvalitetsindex. Högt värde betyder oftast: vädra."
+        "Riktig CO₂ eller uppskattat eCO₂",
+        "För sovrum där flera personer sover är en sensor med riktig CO₂-mätning mest konkret: högt värde leder till vädring eller ändrad ventilation. Kontrollera att tillverkaren uttryckligen anger CO₂-sensor. eCO₂ är en uppskattning från andra gaser och bör inte behandlas som samma mätning."
       ],
       [
-        "Fukt är praktiskt",
-        "Fukt hjälper i badrum, tvättstuga och kalla rum där mögelrisk eller instängd lukt kan bli problem."
+        "PM2.5 svarar på en annan fråga",
+        "Partikelmätning är relevant vid matos, vedeldning, trafik eller pollenfiltrering. IKEA VINDSTYRKA visar bland annat PM2.5 men mäter inte CO₂. Den kan därför vara prisvärd för partiklar och temperatur, men är fel köp om målet är att veta när ett stängt sovrum behöver vädras."
       ],
       [
-        "Undvik notisbrus",
-        "Visa värdet på dashboard eller ge en enda tydlig signal. Ingen behöver löpande luftnotiser hela dagen."
+        "Placera i vistelsezonen",
+        "Ställ sensorn ungefär i andningshöjd, bort från direkt fönsterdrag, element och luftutsläpp. En CO₂-mätare precis vid ett öppet fönster visar hur uteluften ser ut, inte vad barnet andas vid sängen. Låt den stå några dygn innan gränser bestäms."
       ],
       [
-        "Köpguide",
-        "Prioritera tydlig display, Home Assistant-stöd om du använder det och rimlig kalibrering."
+        "Visa en enkel signal",
+        "En synlig display fungerar ofta bättre än upprepade mobilnotiser. Grönt kan betyda att inget behöver göras; en tydlig gul eller röd nivå kan betyda vädra. Automatisering bör komplettera ventilation och vardagsrutiner, inte ge falsk trygghet."
+      ],
+      [
+        "Välj efter handling",
+        "Köp CO₂ om familjen kommer vädra eller ändra ventilation. Köp PM2.5 om partiklar är problemet. Köp en temperatur- och fuktsensor om frågan gäller kalla rum, kondens eller tvätt. Fler mätvärden är inte bättre om ingen vet vad de ska leda till."
       ]
-    ]
+    ],
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "co2-sensor-home-assistant",
@@ -2494,8 +2516,7 @@
     "description": "Från siffra till handling: vädra, dashboard och diskreta signaler.",
     "category": "guide",
     "products": [
-      "air-quality-sensor",
-      "tablet-wall"
+      "co2-sensor"
     ],
     "tags": [
       "guide",
@@ -2527,7 +2548,8 @@
         "Historik är viktig",
         "Titta på mönster över flera kvällar innan du drar slutsatser."
       ]
-    ]
+    ],
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "smart-brandvarnare-familj",
@@ -2569,7 +2591,7 @@
   },
   {
     "slug": "basta-smarta-las-barnfamilj",
-    "title": "Bästa smarta lås för barnfamiljer: när är det värt det?",
+    "title": "Smarta lås: Nuki, Yale eller SwitchBot?",
     "description": "Kod, nycklar, barnvakt och risker med att göra ytterdörren smart.",
     "category": "köpguide",
     "products": [
@@ -2605,7 +2627,8 @@
         "Kombinera med dörrsensor",
         "Låst betyder inte alltid stängd. En dörrsensor kan ge bättre status."
       ]
-    ]
+    ],
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "fryslarm-med-temperatursensor",
@@ -2886,7 +2909,7 @@
   },
   {
     "slug": "basta-smarta-gardiner-familj",
-    "title": "Bästa smarta gardiner för familjer",
+    "title": "Smarta gardiner: IKEA, Aqara eller SwitchBot?",
     "description": "Köpguide för rullgardinsmotorer, gardinskenor och automationer som faktiskt används.",
     "category": "köpguide",
     "products": [
@@ -2922,7 +2945,8 @@
         "Säkerhet",
         "I barnrum är mekanisk säkerhet och snören viktigare än smarta funktioner."
       ]
-    ]
+    ],
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "smart-hem-utan-abonnemang",
@@ -3723,11 +3747,8 @@
     "description": "En rimlig första inköpslista för familjer: hubb, Zigbee, knapp, sensor och väggskärm.",
     "category": "köpguide",
     "products": [
-      "zigbee-hub",
-      "smart-button",
-      "motion-sensor",
-      "water-leak-sensor",
-      "tablet-wall"
+      "home-assistant-hardware",
+      "zigbee-hub"
     ],
     "tags": [
       "kopguide",
@@ -3758,7 +3779,8 @@
         "Vänta med lyx",
         "Köp inte smarta gardiner, lås eller avancerade dashboards först."
       ]
-    ]
+    ],
+    "updated_at": "2026-07-10"
   },
   {
     "slug": "vackningsljus-barn-smart-lampa-eller-vackarklocka",

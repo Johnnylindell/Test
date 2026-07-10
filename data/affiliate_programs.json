@@ -3,8 +3,8 @@
     "name": "Amazon Associates Sverige/EU",
     "url": "https://affiliate-program.amazon.com/",
     "fit": "Brett sortiment: lampor, robotdammsugare, surfplattor, sensorer.",
-    "status": "needs_user_signup",
-    "notes": "Kräver konto, skatte-/betalningsuppgifter och godkänd webbplats. Lägg in riktiga länkar först efter godkännande."
+    "status": "configured_unverified",
+    "notes": "Tracking-ID smartahemmet-21 är konfigurerat i sajten. Kontogodkännande, registrerad publiceringsdomän och utbetalningsstatus måste verifieras manuellt i Amazon Associates."
   },
   {
     "name": "Adtraction",

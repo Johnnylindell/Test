@@ -123,5 +123,26 @@
     "url": "https://www.amazon.se/s?k=smarta+gardiner+rullgardinsmotor&tag=smartahemmet-21",
     "label": "Se smarta gardiner på Amazon",
     "target_pages": []
+  },
+  "presence-sensor": {
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=mmwave+n%C3%A4rvarosensor+Aqara+FP2&tag=smartahemmet-21",
+    "label": "Se mmWave-närvarosensorer på Amazon",
+    "target_pages": []
+  },
+  "home-assistant-hardware": {
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=Home+Assistant+Green+Raspberry+Pi+5&tag=smartahemmet-21",
+    "label": "Se Home Assistant-hårdvara på Amazon",
+    "target_pages": []
+  },
+  "co2-sensor": {
+    "status": "active",
+    "network": "Amazon Associates",
+    "url": "https://www.amazon.se/s?k=CO2+sensor+Aranet4+Airthings&tag=smartahemmet-21",
+    "label": "Se CO₂-sensorer på Amazon",
+    "target_pages": []
   }
 }

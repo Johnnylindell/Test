@@ -11,6 +11,14 @@ ROOT = Path(__file__).resolve().parent.parent
 ARTICLES = ROOT / "content" / "articles" / "articles.json"
 PRODUCTS = ROOT / "data" / "products.json"
 STOP = {"bästa", "smart", "smarta", "hem", "för", "och", "med", "utan", "familj", "familjer", "barnfamilj", "guide", "så", "vad", "man", "att", "eller", "hemma"}
+EXPECTED_PRODUCTS = {
+    "basta-zigbee-hubbar-for-familjer": {"zigbee-hub"},
+    "basta-narvarosensorer-familj": {"presence-sensor"},
+    "narvarosensor-vs-rorelsesensor": {"presence-sensor", "motion-sensor"},
+    "home-assistant-green-eller-raspberry-pi": {"home-assistant-hardware"},
+    "basta-luftkvalitetssensorer-barnrum": {"co2-sensor", "air-quality-sensor"},
+    "co2-sensor-home-assistant": {"co2-sensor"},
+}
 
 
 def words(text: str) -> list[str]:
@@ -57,11 +65,17 @@ def main() -> None:
             if not product or not product.get("models"):
                 missing_models.append((article["slug"], product_id))
 
+    intent_mismatches = []
+    for article in articles:
+        expected = EXPECTED_PRODUCTS.get(article["slug"])
+        if expected is not None and set(article.get("products", [])) != expected:
+            intent_mismatches.append((article["slug"], sorted(expected), article.get("products", [])))
+
     thin = sorted((article_word_count(article), article["slug"]) for article in articles if article_word_count(article) < 120)
     flagship = sum(article_word_count(article) >= 300 for article in articles)
 
     print(f"articles={len(articles)} flagship_300plus={flagship} thin_under_120={len(thin)}")
-    print(f"duplicate_examples={len(duplicate_examples)} close_title_pairs={len(close_titles)} missing_model_links={len(missing_models)}")
+    print(f"duplicate_examples={len(duplicate_examples)} close_title_pairs={len(close_titles)} missing_model_links={len(missing_models)} intent_mismatches={len(intent_mismatches)}")
     if close_titles:
         for similarity, left, right in sorted(close_titles, reverse=True)[:10]:
             print(f"title_overlap {similarity:.2f}: {left} <> {right}")
@@ -70,7 +84,11 @@ def main() -> None:
         for count, slug in thin[:10]:
             print(f"  {count:3d} {slug}")
 
-    if duplicate_examples or missing_models:
+    if intent_mismatches:
+        for slug, expected, actual in intent_mismatches:
+            print(f"intent_mismatch {slug}: expected={expected} actual={actual}")
+
+    if duplicate_examples or missing_models or intent_mismatches:
         raise SystemExit(1)
 
 
