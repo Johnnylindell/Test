@@ -567,8 +567,8 @@
     ],
     "sections": [
       [
-        "Köket är kommandocentralen",
-        "Många familjebeslut tas i köket: mat, skola, tider och inköp. Därför är köket en bra plats för dashboarden."
+        "Dela skärmen i tre tydliga ytor",
+        "Överst visas dagens tider och vem som hämtar. I mitten ligger middag och inköpslista. Längst ned finns två stora knappar: Lägg till inköp och Klart för i dag. Nästa kalenderhändelse ska vara större än resten."
       ],
       [
         "Visa bara det som används",
@@ -579,8 +579,8 @@
         "Väder, grafer och tekniska sensorer är kul men bör inte konkurrera med familjens viktigaste information."
       ],
       [
-        "Interaktion",
-        "Lägg till stora knappar för inköp och klarmarkeringar. Små länkar fungerar dåligt på väggskärm."
+        "Knappar som fungerar med kladdiga händer",
+        "Gör tryckytorna stora och håll antalet val lågt. Ett tryck ska räcka för att lägga till mjölk, markera medicin som tagen eller öppna hela veckovyn. Bekräfta ändringen direkt på skärmen."
       ]
     ],
     "tags": [
@@ -588,7 +588,12 @@
       "home-assistant",
       "kok"
     ],
-    "examples": []
+    "examples": [
+      "07.10 visar skärmen dagens första tid, vem som hämtar och att gympapåsen ska med.",
+      "Vid middagen syns nästa måltid och en stor knapp för att lägga till en vara på inköpslistan.",
+      "En röd rad används bara för något som kräver handling, exempelvis vattenlarm eller missad medicin."
+    ],
+    "intro": "En köksskärm ska svara på tre frågor på några sekunder: vad händer nu, vad behöver följa med och vad ska någon göra?"
   },
   {
     "slug": "smarta-hem-for-laggdags",
@@ -645,19 +650,24 @@
         "Visa idag och nästa sex dagar. Det gör planering mer konkret och minskar överraskningar."
       ],
       [
-        "Vad varje dag bör visa",
-        "Kalender, påminnelser, mat, uppgifter och viktiga rutiner. Håll varje dag kompakt."
+        "Komprimera kommande dagar",
+        "För kommande dagar räcker nästa viktiga tid, middag och en avvikelse som gympa eller sen hämtning. Återkommande saker som tandborstning behöver inte fylla kalendern."
       ],
       [
-        "ADHD-vänligt",
-        "En rullande vy minskar behovet att översätta datum och veckonummer i huvudet."
+        "Färg ska bära betydelse",
+        "Använd samma färg för samma person och kombinera alltid färgen med text. Gråa ned avslutade saker i stället för att ta bort dem direkt; då syns var i dagen familjen befinner sig."
       ]
     ],
     "tags": [
       "dashboard",
       "kalender"
     ],
-    "examples": []
+    "examples": [
+      "I dag: 16.30 tandläkare – Viktor – hämtas 15.50.",
+      "I morgon: gympa – inneskor och vattenflaska.",
+      "Lördag: kalas 14.00 – present ska köpas senast fredag."
+    ],
+    "intro": "En rullande sjudagarsvy visar det som ligger framför familjen utan att någon först behöver tolka veckonummer eller bläddra till nästa vecka."
   },
   {
     "slug": "smarta-hem-misstag-barnfamiljer",
@@ -706,16 +716,16 @@
     ],
     "sections": [
       [
-        "Mindre är bättre",
-        "Varje notis ska förtjäna sin plats. För många notiser gör att alla ignoreras."
+        "Skicka bara sådant som kräver handling",
+        "Vatten under diskmaskinen kräver ett pling direkt. Att tvätten är klar kan visas på köksskärmen först och påminna senare om luckan fortfarande är stängd. Sortera bort sensorstatus som ingen behöver agera på."
       ],
       [
         "Välj kanal efter allvar",
         "Vattenläcka kan vara pushnotis. Läggdags kan vara ljus. Inköp kan vara dashboard."
       ],
       [
-        "Gör notiser handlingsbara",
-        "Skriv vad som hänt och vad någon ska göra. Undvik tekniska sensor-meddelanden."
+        "Skriv plats, problem och nästa steg",
+        "Vatten under diskmaskinen – kontrollera köket nu är bättre än Leak sensor 03 detected. Mottagaren ska kunna agera utan att öppna Home Assistant och tolka ett entitetsnamn."
       ],
       [
         "Familjeregel",

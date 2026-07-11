@@ -656,13 +656,22 @@ def main() -> None:
         for t in article_tags(a):
             tag_map[t].append(a)
     for tag, tagged_articles in tag_map.items():
-        body = article_list_page(f"#{tag_label(tag)}", f"Artiklar taggade med {tag_label(tag)}.", tagged_articles)
-        render_page(f"Tagg: {tag_label(tag)}", f"Artiklar om {tag_label(tag)}.", body, SITE / "tag" / f"{slugify(tag)}.html")
+        topic_intro = {
+            "vattenlackage": "Placering, larmvägar och sensorer för diskmaskin, tvättmaskin och andra utsatta platser.",
+            "home-assistant": "Lokala automationer, dashboards, hubbar och felsökning för ett system som hela hemmet kan använda.",
+            "budget": "Börja med ett tydligt problem och jämför lösningar som ger märkbar nytta utan stora inköp.",
+            "barnrum": "Ljus, klimat och rutiner som fungerar även utan att barnet behöver en egen app.",
+            "energi": "Mät rätt apparater, hitta onödig förbrukning och undvik automationer som skapar nya problem.",
+            "sakerhet": "Vatten, brand, dörrar och frånvaro med tydliga larmvägar och manuella reservlägen.",
+            "dashboard": "Visa dagens tider, måltider och uppgifter utan att viktig information drunknar i widgets.",
+        }.get(tag, f"Guider, jämförelser och vardagsexempel om {tag_label(tag).lower()}.")
+        body = article_list_page(f"#{tag_label(tag)}", topic_intro, tagged_articles, intro=topic_intro)
+        render_page(f"Tagg: {tag_label(tag)}", topic_intro, body, SITE / "tag" / f"{slugify(tag)}.html")
     popular_tags = [t for t, _ in Counter({k: len(v) for k, v in tag_map.items()}).most_common()]
     tag_page = "<section><div class='section-title'><h1>Taggar</h1></div><div class='tag-cloud'>" + "".join(
         f"<a href='/tag/{slugify(t)}.html'>#{esc(tag_label(t))}<span>{len(tag_map[t])}</span></a>" for t in popular_tags
     ) + "</div></section>"
-    render_page("Taggar", "Hitta guider via taggar.", tag_page, SITE / "taggar.html")
+    render_page("Taggar", "Välj ett vardagsproblem eller en teknik du vill förstå.", tag_page, SITE / "taggar.html")
 
     lead = by_slug.get("home-assistant-for-familjer-nyborjarguide", articles[0])
     top_buy = [by_slug[s] for s in ["basta-vattenlackagesensorer-smart-hem", "basta-zigbee-hubbar-for-familjer", "basta-robotdammsugare-barnfamiljer"] if s in by_slug]
@@ -726,8 +735,10 @@ def main() -> None:
     <p><a class='cta' href='/guider.html'>Läs guider</a> <a class='ghost' href='/koprad.html'>Se köpråd</a></p></article>"""
     render_page("Kom igång", "Börja med smart hem hemma utan att köpa fel prylar.", start, SITE / "kom-igang.html")
 
-    render_page("Blogg", "Alla artiklar från Smart Familj Hemma.", article_list_page("Blogg", "Alla artiklar", articles), SITE / "artiklar.html")
-    render_page("Guider", "Praktiska smart hem-guider för barnfamiljer.", article_list_page("Guider", "Guider", guide_articles), SITE / "guider.html")
+    blog_intro = "Nya guider om familjerutiner, Home Assistant, sensorer och prylar som löser konkreta problem hemma."
+    guide_intro = "Från lugnare morgnar till vattenlarm och lokala automationer – börja med situationen du vill förenkla."
+    render_page("Blogg", blog_intro, article_list_page("Blogg", blog_intro, articles, intro=blog_intro), SITE / "artiklar.html")
+    render_page("Guider", guide_intro, article_list_page("Guider", guide_intro, guide_articles, intro=guide_intro), SITE / "guider.html")
     render_page("Köpråd", "Köpguider för smart hem i barnfamiljer.", buying_index_page(buy_articles), SITE / "koprad.html")
 
     product_by_id = {p["id"]: p for p in products}
