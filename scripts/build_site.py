@@ -766,26 +766,36 @@ def main() -> None:
             f"<section><div class='section-title'><h2>{esc(heading)}</h2></div>"
             f"{intro_html}<div class='grid'>{cards}</div></section>"
         )
-    products_page = "<section><div class='section-title'><h1>Produktkategorier</h1></div></section>" + "".join(product_sections)
-    render_page("Produktkategorier", "Prylar för smart hem i barnfamiljer.", products_page, SITE / "produkter.html")
+    products_intro = """<article><h1>Så väljer vi produkter</h1>
+    <p class='lead'>Rätt pryl ska lösa ett tydligt problem, fungera med resten av hemmet och gå att använda utan ständig felsökning.</p>
+    <h2>Fyra saker att kontrollera</h2><p><strong>Kompatibilitet:</strong> protokoll, hubbkrav och region. <strong>Vardag:</strong> om produkten fortfarande fungerar när internet eller mobilen strular. <strong>Kostnad:</strong> inköpspris, abonnemang och eventuella tillbehör. <strong>Livslängd:</strong> reservdelar, batterityp, uppdateringar och lokal styrning.</p>
+    <h2>Modeller att jämföra</h2><p>Listorna nedan är utgångspunkter, inte testvinnare. Kontrollera aktuell modellversion, elstandard, lagerstatus och stöd i ditt system innan köp.</p></article>"""
+    products_page = products_intro + "".join(product_sections)
+    render_page("Så väljer vi produkter", "Urvalskriterier och modeller att jämföra för ett smartare familjehem.", products_page, SITE / "produkter.html")
 
     about = """<article><h1>Om Smart Familj Hemma</h1>
-    <p class='lead'>Den här sajten handlar om smart hem där det faktiskt bor folk: barn, trötta vuxna, hund, tvätt, skolväskor och middagar som inte alltid går enligt plan.</p>
-    <p>Jag är mer intresserad av lugnare vardag än av perfekta dashboards. Om en automation inte används av familjen är den inte klar, hur snygg den än ser ut.</p>
-    <h2>Principen</h2><p>Börja med en verklig friktion. Lös den enkelt. Vänta. Bygg vidare först när det märks att lösningen hjälper.</p></article>"""
-    render_page("Om", "Om Smart Familj Hemma.", about, SITE / "om.html")
+    <p class='lead'>Smart hem för vanliga vardagar: skolväskor i hallen, tvätt som glöms i maskinen, mörka morgnar och middagar som behöver bli klara.</p>
+    <p>Här finns praktiska guider och köpråd för dig som vill minska vardagsfriktion utan att fylla hemmet med onödiga appar och prylar.</p>
+    <h2>Utgå från ett problem</h2><p>Börja med en återkommande situation som faktiskt stör: ett mörkt nattbesök, en ytterdörr som glöms olåst eller en familjekalender som ingen ser. Testa den enklaste lösningen först och bygg vidare bara om den används.</p>
+    <h2>Tekniken ska vara begriplig</h2><p>En bra lösning fungerar även för den som inte byggde den. Därför prioriteras tydliga knappar, synliga signaler, lokal styrning och reservlägen framför avancerade dashboards som kräver ständig skötsel.</p>
+    <h2>Råd utan låtsastester</h2><p>Produkter beskrivs utifrån funktion, kompatibilitet, prisnivå och vanliga begränsningar. När en produkt inte är praktiskt testad framgår det; jämförelserna ska hjälpa dig att ställa rätt frågor före köp.</p>
+    <p><a class='cta' href='/kom-igang.html'>Börja med ett vardagsproblem</a> <a class='ghost' href='/produkter.html'>Se produktkategorier</a></p></article>"""
+    render_page("Om", "Om Smart Familj Hemma och hur guiderna tas fram.", about, SITE / "om.html")
 
-    disclosure = """<article><h1>Transparens</h1>
-    <p>Smart Familj Hemma använder affiliate-länkar, bland annat via Amazon Associates. Som Amazon-partner tjänar sajten pengar på kvalificerade köp.</p>
-    <p>Det kostar inte extra för dig att använda en sådan länk.</p>
-    <h2>Reklam</h2><p>Displayannonser kan bli aktuella när sajten har stabil trafik. Först krävs normalt egen domän, integritetstext, cookiehantering om annonsnätverket kräver det och tillräckligt med innehåll för att bli godkänd.</p>
-    <p>Reklam ska märkas tydligt och inte blandas ihop med köpråd.</p></article>"""
-    render_page("Transparens", "Transparens om länkar, annonser och rekommendationer.", disclosure, SITE / "affiliate.html")
+    disclosure = """<article><h1>Affiliate och annonslänkar</h1>
+    <p class='lead'>Vissa länkar går till återförsäljare och är märkta som annonslänkar.</p>
+    <p>Smart Familj Hemma använder affiliate-länkar, bland annat via Amazon Associates. Om du följer en sådan länk och genomför ett kvalificerat köp kan sajten få provision. Priset blir inte högre för dig.</p>
+    <h2>Så känner du igen en annonslänk</h2><p>Länken märks med exempelvis ”Annonslänk till Amazon”. Externa butikssidor öppnas i en ny flik, och återförsäljarens egna villkor och integritetspolicy gäller där.</p>
+    <h2>Urvalet styrs inte av provisionen</h2><p>En produkt tas med när dess funktion, kompatibilitet och prisnivå passar frågan som guiden besvarar. Högre möjlig ersättning ger inte en bättre placering. Produkter som inte har testats presenteras som modeller att jämföra, inte som testvinnare.</p>
+    <h2>Kontrollera före köp</h2><p>Pris, lagerstatus, modellversion och kompatibilitet kan ändras. Kontrollera därför alltid uppgifterna hos tillverkaren och återförsäljaren, särskilt för elprodukter, lås, brandvarnare och andra säkerhetsprodukter.</p></article>"""
+    render_page("Affiliate och annonslänkar", "Så fungerar annonslänkar och produkturval på Smart Familj Hemma.", disclosure, SITE / "affiliate.html")
 
     privacy = """<article><h1>Integritet</h1>
-    <p>Den här versionen av sajten samlar inte in personuppgifter, har inga formulär och sätter inga egna cookies.</p>
-    <p>Om analys, annonser eller affiliate-nätverk läggs till senare ska den här sidan uppdateras först.</p></article>"""
-    render_page("Integritet", "Integritetspolicy för Smart Familj Hemma.", privacy, SITE / "integritet.html")
+    <p class='lead'>Smart Familj Hemma kräver inget konto och har inga formulär eller kommentarsfält.</p>
+    <h2>Cookies och besöksdata</h2><p>Sajten sätter för närvarande inga egna cookies och använder ingen besöksanalys som identifierar enskilda personer. Webbhotellet kan behandla tekniska loggar, till exempel IP-adress, tidpunkt och efterfrågad sida, för drift och säkerhet enligt sina egna villkor.</p>
+    <h2>Externa länkar</h2><p>När du följer en länk till Amazon eller en annan extern webbplats lämnar du Smart Familj Hemma. Den externa webbplatsen kan använda cookies och samla in uppgifter enligt sin egen integritetspolicy.</p>
+    <h2>Ändringar</h2><p>Om besöksstatistik, annonser eller andra tjänster läggs till uppdateras denna sida med vilken tjänst som används, vilka uppgifter som behandlas och hur du kan göra val.</p></article>"""
+    render_page("Integritet", "Så hanteras cookies, besöksdata och externa länkar på Smart Familj Hemma.", privacy, SITE / "integritet.html")
 
     paths = ["/", "/kom-igang.html", "/artiklar.html", "/guider.html", "/koprad.html", "/taggar.html", "/produkter.html", "/om.html", "/affiliate.html", "/integritet.html"]
     paths += [f"/artiklar/{a['slug']}.html" for a in articles]
