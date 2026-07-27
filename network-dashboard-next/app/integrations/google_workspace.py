@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
@@ -20,12 +21,26 @@ class GoogleWorkspaceAdapter:
         breaker: CircuitBreaker,
         *,
         token_path: Path | None = None,
+        client_secrets_path: Path | None = None,
         persist_token_refresh: bool = False,
     ) -> None:
         self.cache = cache
         self.breaker = breaker
-        self.token_path = token_path or (Path.home() / ".hermes" / "google_token.json")
+        self.token_path = token_path or (Path.home() / ".config" / "network-dashboard-next" / "google_token.json")
+        self.client_secrets_path = client_secrets_path or (
+            Path.home() / ".config" / "network-dashboard-next" / "google_client_secret.json"
+        )
         self.persist_token_refresh = persist_token_refresh
+
+    def _write_token(self, payload: str) -> None:
+        if not self.persist_token_refresh:
+            raise RuntimeError("Google-token får inte skrivas när externa sidoeffekter är avstängda")
+        self.token_path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = self.token_path.with_suffix(self.token_path.suffix + ".tmp")
+        temporary.write_text(payload, encoding="utf-8")
+        os.chmod(temporary, 0o600)
+        temporary.replace(self.token_path)
+        os.chmod(self.token_path, 0o600)
 
     def _credentials(self):
         if not self.token_path.is_file():
@@ -37,29 +52,138 @@ class GoogleWorkspaceAdapter:
         if credentials.expired and credentials.refresh_token:
             credentials.refresh(GoogleRequest())
             if self.persist_token_refresh:
-                self.token_path.write_text(credentials.to_json(), encoding="utf-8")
+                self._write_token(credentials.to_json())
         if not credentials.valid:
             raise RuntimeError("Google-token är ogiltig")
         return credentials
 
     def status(self) -> dict[str, Any]:
+        result = {
+            "configured": self.token_path.is_file(),
+            "client_configured": self.client_secrets_path.is_file(),
+            "authenticated": False,
+            "status": "missing",
+            "scopes": [],
+            "token_refresh_persisted": self.persist_token_refresh,
+        }
         if not self.token_path.is_file():
-            return {"configured": False, "authenticated": False, "status": "missing"}
+            return result
         try:
             credentials = self._credentials()
             return {
-                "configured": True,
+                **result,
                 "authenticated": bool(credentials.valid),
                 "status": "authenticated" if credentials.valid else "invalid",
                 "scopes": sorted(credentials.scopes or []),
-                "token_refresh_persisted": self.persist_token_refresh,
             }
         except Exception as exc:
+            return {**result, "status": "invalid", "error": str(exc)[:240]}
+
+    def begin_oauth(self, redirect_uri: str) -> dict[str, Any]:
+        if not self.persist_token_refresh:
+            raise RuntimeError("Google OAuth är avstängt när externa sidoeffekter är avstängda")
+        if not self.client_secrets_path.is_file():
+            raise RuntimeError("Google client secret saknas")
+        from google_auth_oauthlib.flow import Flow
+
+        flow = Flow.from_client_secrets_file(
+            str(self.client_secrets_path),
+            scopes=SCOPES,
+            redirect_uri=redirect_uri,
+            autogenerate_code_verifier=True,
+        )
+        authorization_url, state = flow.authorization_url(
+            access_type="offline",
+            include_granted_scopes="true",
+            prompt="consent",
+        )
+        return {
+            "ok": True,
+            "authorization_url": authorization_url,
+            "state": state,
+            "code_verifier": flow.code_verifier or "",
+        }
+
+    def complete_oauth(
+        self,
+        *,
+        authorization_response: str,
+        redirect_uri: str,
+        state: str,
+        code_verifier: str,
+    ) -> dict[str, Any]:
+        if not self.persist_token_refresh:
+            raise RuntimeError("Google OAuth är avstängt när externa sidoeffekter är avstängda")
+        if not self.client_secrets_path.is_file():
+            raise RuntimeError("Google client secret saknas")
+        from google_auth_oauthlib.flow import Flow
+
+        flow = Flow.from_client_secrets_file(
+            str(self.client_secrets_path),
+            scopes=SCOPES,
+            state=state,
+            redirect_uri=redirect_uri,
+            code_verifier=code_verifier or None,
+        )
+        flow.fetch_token(authorization_response=authorization_response)
+        self._write_token(flow.credentials.to_json())
+        self.cache.invalidate("google:")
+        return {"ok": True, "authenticated": True, "scopes": sorted(flow.credentials.scopes or [])}
+
+    def disconnect(self) -> dict[str, Any]:
+        if not self.persist_token_refresh:
+            raise RuntimeError("Google-token får inte tas bort när externa sidoeffekter är avstängda")
+        removed = self.token_path.is_file()
+        self.token_path.unlink(missing_ok=True)
+        self.cache.invalidate("google:")
+        return {"ok": True, "removed": removed}
+
+    def calendars(self, *, fresh: bool = False) -> dict[str, Any]:
+        key = "google:calendars"
+        if fresh:
+            self.cache.invalidate(key)
+        cached = self.cache.get(key)
+        if cached is not None:
+            return {**cached, "cache": "hit"}
+
+        def loader() -> dict[str, Any]:
+            from googleapiclient.discovery import build
+
+            service = build("calendar", "v3", credentials=self._credentials(), cache_discovery=False)
+            page_token = None
+            rows: list[dict[str, Any]] = []
+            while True:
+                response = service.calendarList().list(
+                    maxResults=250,
+                    pageToken=page_token,
+                    showHidden=False,
+                ).execute()
+                for item in response.get("items") or []:
+                    rows.append({
+                        "id": str(item.get("id") or ""),
+                        "title": str(item.get("summaryOverride") or item.get("summary") or "Kalender")[:200],
+                        "primary": bool(item.get("primary")),
+                        "selected": bool(item.get("selected", True)),
+                        "access_role": str(item.get("accessRole") or "")[:40],
+                        "background_color": str(item.get("backgroundColor") or "")[:20],
+                    })
+                page_token = response.get("nextPageToken")
+                if not page_token or len(rows) >= 500:
+                    break
+            rows.sort(key=lambda row: (not row["primary"], row["title"].casefold()))
+            return {"ok": True, "calendars": rows, "count": len(rows)}
+
+        try:
+            payload = self.breaker.call("google-calendars", loader)
+            self.cache.set(key, payload, 300)
+            return {**payload, "cache": "miss"}
+        except Exception as exc:
             return {
-                "configured": True,
-                "authenticated": False,
-                "status": "invalid",
+                "ok": False,
+                "calendars": [],
+                "count": 0,
                 "error": str(exc)[:240],
+                "breaker": self.breaker.status("google-calendars"),
             }
 
     def events(
@@ -67,11 +191,13 @@ class GoogleWorkspaceAdapter:
         start: datetime | None = None,
         end: datetime | None = None,
         *,
+        calendar_id: str = "primary",
         fresh: bool = False,
     ) -> dict[str, Any]:
         start = start or datetime.now(timezone.utc)
         end = end or start + timedelta(days=7)
-        key = f"google:events:{start.isoformat()}:{end.isoformat()}"
+        selected = str(calendar_id or "primary")[:1000]
+        key = f"google:events:{selected}:{start.isoformat()}:{end.isoformat()}"
         if fresh:
             self.cache.invalidate("google:events:")
         cached = self.cache.get(key)
@@ -83,7 +209,7 @@ class GoogleWorkspaceAdapter:
 
             service = build("calendar", "v3", credentials=self._credentials(), cache_discovery=False)
             response = service.events().list(
-                calendarId="primary",
+                calendarId=selected,
                 timeMin=start.astimezone(timezone.utc).isoformat().replace("+00:00", "Z"),
                 timeMax=end.astimezone(timezone.utc).isoformat().replace("+00:00", "Z"),
                 singleEvents=True,
@@ -96,6 +222,7 @@ class GoogleWorkspaceAdapter:
                 end_value = (row.get("end") or {}).get("dateTime") or (row.get("end") or {}).get("date")
                 events.append({
                     "id": str(row.get("id") or ""),
+                    "calendar_id": selected,
                     "title": str(row.get("summary") or "(utan titel)")[:300],
                     "start": start_value,
                     "end": end_value,
@@ -104,7 +231,7 @@ class GoogleWorkspaceAdapter:
                     "description": str(row.get("description") or "")[:2000],
                     "html_link": str(row.get("htmlLink") or ""),
                 })
-            return {"ok": True, "events": events, "count": len(events)}
+            return {"ok": True, "calendar_id": selected, "events": events, "count": len(events)}
 
         try:
             payload = self.breaker.call("google-calendar", loader)
@@ -113,6 +240,7 @@ class GoogleWorkspaceAdapter:
         except Exception as exc:
             return {
                 "ok": False,
+                "calendar_id": selected,
                 "events": [],
                 "count": 0,
                 "error": str(exc)[:240],
@@ -172,6 +300,7 @@ class GoogleWorkspaceAdapter:
         from googleapiclient.discovery import build
 
         service = build("calendar", "v3", credentials=self._credentials(), cache_discovery=False)
+        calendar_id = str(payload.get("calendar_id") or "primary")[:1000]
         body = {
             "summary": payload["title"],
             "description": payload.get("description", ""),
@@ -179,9 +308,14 @@ class GoogleWorkspaceAdapter:
             "start": {"dateTime": payload["start"], "timeZone": "Europe/Mariehamn"},
             "end": {"dateTime": payload["end"], "timeZone": "Europe/Mariehamn"},
         }
-        event = service.events().insert(calendarId="primary", body=body).execute()
+        event = service.events().insert(calendarId=calendar_id, body=body).execute()
         self.cache.invalidate("google:events:")
-        return {"ok": True, "id": event.get("id"), "html_link": event.get("htmlLink")}
+        return {
+            "ok": True,
+            "id": event.get("id"),
+            "calendar_id": calendar_id,
+            "html_link": event.get("htmlLink"),
+        }
 
     def create_task(self, payload: dict[str, Any]) -> dict[str, Any]:
         from googleapiclient.discovery import build
