@@ -89,10 +89,22 @@ def diagnostics(
     repo: NotificationsRepository = Depends(repository),
     _: Identity = Depends(require_admin),
 ) -> dict:
+    configured = bool(request.app.state.settings.notification_scheduler_enabled)
+    allowed = bool(
+        configured
+        and request.app.state.settings.external_side_effects
+        and not request.app.state.settings.read_only
+    )
     return {
         "ok": True,
         **repo.diagnostics(),
         "external_side_effects": request.app.state.settings.external_side_effects,
+        "scheduler": {
+            "configured": configured,
+            "allowed": allowed,
+            "active": bool(getattr(request.app.state, "notification_scheduler_active", False)),
+            "interval_seconds": request.app.state.settings.notification_scheduler_seconds,
+        },
     }
 
 
