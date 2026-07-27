@@ -25,7 +25,7 @@ def _parse(value: str | None, fallback: datetime) -> datetime:
 
 
 @router.get("/overview")
-def overview(start: str = "", end: str = "", fresh: bool = False, request: Request = None, _: Identity = Depends(require_login)) -> dict:
+def overview(request: Request, start: str = "", end: str = "", fresh: bool = False, _: Identity = Depends(require_login)) -> dict:
     now = datetime.now(timezone.utc)
     start_dt = _parse(start, now)
     end_dt = _parse(end, start_dt + timedelta(days=7))
