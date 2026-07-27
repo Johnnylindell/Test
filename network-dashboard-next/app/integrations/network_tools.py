@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import ipaddress
-import json
 import shutil
 import socket
 import ssl
@@ -29,10 +28,13 @@ class NetworkToolsAdapter:
         if not host or len(host) > 253:
             raise ValueError("Ogiltigt värdnamn")
         try:
-            ipaddress.ip_address(host)
+            address = ipaddress.ip_address(host)
+            if address.is_multicast or address.is_unspecified or address.is_reserved:
+                raise ValueError("Otillåten IP-adress")
             return host
-        except ValueError:
-            pass
+        except ValueError as exc:
+            if "Otillåten" in str(exc):
+                raise
         if any(not label or len(label) > 63 for label in host.split(".")):
             raise ValueError("Ogiltigt värdnamn")
         if any(not all(ch.isalnum() or ch == "-" for ch in label) for label in host.split(".")):
@@ -73,10 +75,13 @@ class NetworkToolsAdapter:
 
     def http_check(self, url: str) -> dict[str, Any]:
         parsed = urllib.parse.urlparse(str(url or ""))
-        if parsed.scheme not in {"http", "https"} or not parsed.hostname or parsed.username or parsed.password:
+        if parsed.scheme not in {"http", "https"} or not parsed.hostname:
             raise ValueError("Ogiltig HTTP-adress")
+        if parsed.username or parsed.password or parsed.fragment:
+            raise ValueError("HTTP-adressen innehåller otillåtna delar")
+        self._host(parsed.hostname)
         started = datetime.now(timezone.utc)
-        response = httpx.get(url, timeout=10, follow_redirects=True)
+        response = httpx.get(url, timeout=10, follow_redirects=False)
         elapsed = (datetime.now(timezone.utc) - started).total_seconds() * 1000
         return {
             "ok": response.is_success,
@@ -84,6 +89,7 @@ class NetworkToolsAdapter:
             "status": response.status_code,
             "elapsed_ms": round(elapsed, 1),
             "content_type": response.headers.get("content-type", ""),
+            "redirect": response.headers.get("location", "")[:1000],
         }
 
     def tls_check(self, host: str, port: int = 443) -> dict[str, Any]:
@@ -148,9 +154,38 @@ class NetworkToolsAdapter:
         self.database.set_json_state("last_network_scan", result)
         return result
 
+    def device_probe(self, host: str, ports: list[int] | None = None) -> dict[str, Any]:
+        target = self._host(host)
+        selected_ports = ports or [22, 53, 80, 443, 445, 8123]
+        result: dict[str, Any] = {
+            "ok": True,
+            "host": target,
+            "checked_at": datetime.now(timezone.utc).isoformat(),
+        }
+        try:
+            result["dns"] = self.dns(target)
+        except Exception as exc:
+            result["dns"] = {"ok": False, "error": str(exc)[:240]}
+        try:
+            result["ping"] = self.ping(target)
+        except Exception as exc:
+            result["ping"] = {"ok": False, "error": str(exc)[:240]}
+        result["ports"] = self.port_scan(target, selected_ports)
+        result["ok"] = bool(result["ports"].get("open_ports") or result["ping"].get("ok"))
+        return result
+
+    def router_probe(self, host: str) -> dict[str, Any]:
+        result = self.device_probe(host, [22, 53, 80, 443])
+        result["kind"] = "router"
+        self.database.set_json_state("router_probe", result)
+        return result
+
     def internet_check(self) -> dict[str, Any]:
         checks = []
-        for url in ("https://www.cloudflare.com/cdn-cgi/trace", "https://www.google.com/generate_204"):
+        for url in (
+            "https://www.cloudflare.com/cdn-cgi/trace",
+            "https://www.google.com/generate_204",
+        ):
             try:
                 checks.append(self.http_check(url))
             except Exception as exc:
@@ -166,7 +201,47 @@ class NetworkToolsAdapter:
         self.database.set_json_state("internet_history", rows[:500])
         return result
 
-    def wake_on_lan(self, mac: str, broadcast: str = "255.255.255.255", port: int = 9) -> dict[str, Any]:
+    def save_device_profile(self, profile_id: str, profile: dict[str, Any]) -> dict[str, Any]:
+        key = str(profile_id or "").strip().lower()
+        if not key or len(key) > 80 or any(not (ch.isalnum() or ch in "-_") for ch in key):
+            raise ValueError("Ogiltigt profil-ID")
+        clean = {
+            "id": key,
+            "name": str(profile.get("name") or key).strip()[:120],
+            "host": self._host(str(profile.get("host") or "")),
+            "ports": sorted({self._port(value) for value in list(profile.get("ports") or [])[:30]}),
+            "mac": str(profile.get("mac") or "").strip()[:32],
+            "notes": str(profile.get("notes") or "").strip()[:1000],
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+        }
+
+        def updater(current: Any) -> dict[str, Any]:
+            profiles = dict(current) if isinstance(current, dict) else {}
+            profiles[key] = clean
+            return profiles
+
+        self.database.update_json_state("device_profiles", updater, default={})
+        return clean
+
+    def delete_device_profile(self, profile_id: str) -> bool:
+        key = str(profile_id or "").strip().lower()
+        deleted = False
+
+        def updater(current: Any) -> dict[str, Any]:
+            nonlocal deleted
+            profiles = dict(current) if isinstance(current, dict) else {}
+            deleted = profiles.pop(key, None) is not None
+            return profiles
+
+        self.database.update_json_state("device_profiles", updater, default={})
+        return deleted
+
+    def wake_on_lan(
+        self,
+        mac: str,
+        broadcast: str = "255.255.255.255",
+        port: int = 9,
+    ) -> dict[str, Any]:
         clean = "".join(ch for ch in str(mac or "") if ch.isalnum()).lower()
         if len(clean) != 12 or any(ch not in "0123456789abcdef" for ch in clean):
             raise ValueError("Ogiltig MAC-adress")
@@ -180,11 +255,13 @@ class NetworkToolsAdapter:
         return {"ok": True, "mac": clean, "broadcast": str(address), "port": port}
 
     def saved_status(self) -> dict[str, Any]:
+        profiles = self.database.get_json_state("device_profiles", {})
+        agents = self.database.get_json_state("computer_agents", {})
         return {
             "last_port_scan": self.database.get_json_state("last_port_scan", {}),
             "last_network_scan": self.database.get_json_state("last_network_scan", {}),
             "internet_history": self.database.get_json_state("internet_history", [])[:50],
             "router_probe": self.database.get_json_state("router_probe", {}),
-            "device_profiles": self.database.get_json_state("device_profiles", {}),
-            "computer_agents": self.database.get_json_state("computer_agents", {}),
+            "device_profiles": profiles if isinstance(profiles, dict) else {},
+            "computer_agents": agents if isinstance(agents, dict) else {},
         }
