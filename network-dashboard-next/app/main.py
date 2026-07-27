@@ -9,14 +9,20 @@ from fastapi.responses import JSONResponse
 from app.auth.router import router as auth_router
 from app.auth.service import AuthService
 from app.compat.legacy_proxy import router as legacy_proxy_router
+from app.core.cache import TTLCache
+from app.core.circuit_breaker import CircuitBreaker
 from app.core.config import settings
 from app.core.ports import choose_port
 from app.database.database import Database
+from app.integrations.home_assistant import HomeAssistantAdapter
+from app.integrations.tailscale import TailscaleAdapter
+from app.modules.admin_integrations.router import router as admin_integrations_router
 from app.modules.budget.router import router as budget_router
 from app.modules.family.router import router as family_router
 from app.modules.food.router import router as food_router
 from app.modules.health.router import router as health_router
 from app.modules.home.router import router as home_router
+from app.modules.homelab.router import router as homelab_router
 from app.modules.inventory.router import router as inventory_router
 from app.modules.notifications.router import router as notifications_router
 from app.modules.planning.router import router as planning_router
@@ -27,13 +33,20 @@ logger = logging.getLogger("network-dashboard-next")
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.4.0")
+    app = FastAPI(title=settings.app_name, version="0.5.0")
     database = Database(settings.database_path)
+    selected_port = choose_port(settings.port)
+    cache = TTLCache()
+    breaker = CircuitBreaker(failure_threshold=3, reset_seconds=30)
 
     app.state.settings = settings
     app.state.database = database
     app.state.auth_service = AuthService(database, settings)
-    app.state.selected_port = choose_port(settings.port)
+    app.state.selected_port = selected_port
+    app.state.cache = cache
+    app.state.circuit_breaker = breaker
+    app.state.home_assistant = HomeAssistantAdapter(database, cache, breaker)
+    app.state.tailscale = TailscaleAdapter(cache, breaker, selected_port)
 
     @app.middleware("http")
     async def request_context(request: Request, call_next):
@@ -67,6 +80,8 @@ def create_app() -> FastAPI:
     app.include_router(food_router)
     app.include_router(budget_router)
     app.include_router(notifications_router)
+    app.include_router(homelab_router)
+    app.include_router(admin_integrations_router)
     app.include_router(web_router)
     app.include_router(legacy_proxy_router)
     return app
