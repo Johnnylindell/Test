@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request, status
 
 from app.auth.dependencies import require_login, require_same_origin
 from app.auth.service import Identity
+from app.modules.experience.compass import HomeCompassService
 from app.modules.experience.schemas import ForgetItemCreate, ForgetItemUpdate, QuestCompletion
 from app.modules.experience.service import ExperienceService
 
@@ -22,6 +23,23 @@ def overview(identity: Identity = Depends(require_login), experience: Experience
 @router.get("/my-dashboard")
 def my_dashboard(identity: Identity = Depends(require_login), experience: ExperienceService = Depends(service)) -> dict:
     return experience.personal_dashboard(identity)
+
+
+@router.get("/compass")
+def compass(request: Request, identity: Identity = Depends(require_login)) -> dict:
+    forecast = request.app.state.weather.forecast()
+    current = forecast.get("current") if isinstance(forecast, dict) else {}
+    normalized_weather = {
+        "current": {
+            "temperature": (current or {}).get("temperature_c"),
+            "precipitation": (current or {}).get("precip_mm"),
+        }
+    }
+    return HomeCompassService(request.app.state.database).overview(
+        identity,
+        weather=normalized_weather,
+        presence=[],
+    )
 
 
 @router.get("/search")
