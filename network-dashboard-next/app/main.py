@@ -17,6 +17,7 @@ from app.database.database import Database
 from app.integrations.google_workspace import GoogleWorkspaceAdapter
 from app.integrations.home_assistant import HomeAssistantAdapter
 from app.integrations.tailscale import TailscaleAdapter
+from app.integrations.weather import WeatherAdapter
 from app.modules.admin_integrations.router import router as admin_integrations_router
 from app.modules.budget.router import router as budget_router
 from app.modules.calendar.router import router as calendar_router
@@ -30,6 +31,7 @@ from app.modules.inventory.router import router as inventory_router
 from app.modules.notifications.router import router as notifications_router
 from app.modules.planning.router import router as planning_router
 from app.modules.shopping.router import router as shopping_router
+from app.modules.weather.router import router as weather_router
 from app.modules.wishlists.router import router as wishlists_router
 from app.web.router import router as web_router
 
@@ -38,7 +40,7 @@ _SAFE_MUTATIONS = {"/login", "/logout", "/api/select-user"}
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.8.0")
+    app = FastAPI(title=settings.app_name, version="0.9.0")
     database = Database(settings.database_path)
     selected_port = choose_port(settings.port)
     cache = TTLCache()
@@ -53,6 +55,7 @@ def create_app() -> FastAPI:
     app.state.home_assistant = HomeAssistantAdapter(database, cache, breaker)
     app.state.tailscale = TailscaleAdapter(cache, breaker, selected_port)
     app.state.google_workspace = GoogleWorkspaceAdapter(cache, breaker)
+    app.state.weather = WeatherAdapter(database, cache, breaker)
 
     @app.middleware("http")
     async def request_context(request: Request, call_next):
@@ -104,6 +107,7 @@ def create_app() -> FastAPI:
     app.include_router(wishlists_router)
     app.include_router(household_router)
     app.include_router(calendar_router)
+    app.include_router(weather_router)
     app.include_router(budget_router)
     app.include_router(notifications_router)
     app.include_router(homelab_router)
