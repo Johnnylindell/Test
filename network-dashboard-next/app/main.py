@@ -34,6 +34,7 @@ from app.modules.homelab.router import router as homelab_router
 from app.modules.household.router import router as household_router
 from app.modules.inventory.router import router as inventory_router
 from app.modules.notifications.router import router as notifications_router
+from app.modules.notifications.scheduler import NotificationScheduler
 from app.modules.planning.router import router as planning_router
 from app.modules.presence.router import router as presence_router
 from app.modules.shopping.router import router as shopping_router
@@ -46,7 +47,7 @@ _SAFE_MUTATIONS = {"/login", "/logout", "/api/select-user"}
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.14.0")
+    app = FastAPI(title=settings.app_name, version="0.15.0")
     database = Database(settings.database_path)
     selected_port = choose_port(settings.port)
     cache = TTLCache()
@@ -68,6 +69,29 @@ def create_app() -> FastAPI:
     app.state.weather = WeatherAdapter(database, cache, breaker)
     app.state.network_tools = NetworkToolsAdapter(database, cache, breaker)
     app.state.notification_delivery = NotificationDeliveryAdapter(database)
+    app.state.notification_scheduler = NotificationScheduler(
+        database,
+        app.state.notification_delivery,
+        settings.notification_scheduler_seconds,
+    )
+    app.state.notification_scheduler_active = False
+
+    @app.on_event("startup")
+    async def start_scheduler() -> None:
+        allowed = (
+            settings.notification_scheduler_enabled
+            and settings.external_side_effects
+            and not settings.read_only
+        )
+        if allowed:
+            await app.state.notification_scheduler.start()
+            app.state.notification_scheduler_active = True
+
+    @app.on_event("shutdown")
+    async def stop_scheduler() -> None:
+        if app.state.notification_scheduler_active:
+            await app.state.notification_scheduler.stop()
+            app.state.notification_scheduler_active = False
 
     @app.middleware("http")
     async def request_context(request: Request, call_next):
