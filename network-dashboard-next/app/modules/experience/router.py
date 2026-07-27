@@ -7,6 +7,7 @@ from app.auth.service import Identity
 from app.modules.experience.compass import HomeCompassService
 from app.modules.experience.schemas import ForgetItemCreate, ForgetItemUpdate, QuestCompletion
 from app.modules.experience.service import ExperienceService
+from app.modules.presence.service import PresenceService
 
 router = APIRouter(prefix="/api/v2/experience", tags=["experience"])
 
@@ -35,10 +36,19 @@ def compass(request: Request, identity: Identity = Depends(require_login)) -> di
             "precipitation": (current or {}).get("precip_mm"),
         }
     }
+    presence: list[dict] = []
+    secret = str(request.app.state.settings.presence_hash_secret or "")
+    if secret and request.app.state.database.table_exists("presence_devices"):
+        try:
+            presence = PresenceService(request.app.state.database, secret).overview().get("people", [])
+        except Exception:
+            # Home Compass remains available even when the optional presence module
+            # has incomplete data during migration or first startup.
+            presence = []
     return HomeCompassService(request.app.state.database).overview(
         identity,
         weather=normalized_weather,
-        presence=[],
+        presence=presence,
     )
 
 
