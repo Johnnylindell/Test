@@ -21,7 +21,14 @@ def get_service(request: Request) -> HomeService:
 
 @router.get("/summary")
 def home_summary(
+    request: Request,
     identity: Identity = Depends(current_identity),
     service: HomeService = Depends(get_service),
 ) -> dict:
-    return service.summary(identity)
+    summary = service.summary(identity)
+    summary["runtime"] = {
+        "read_only": bool(request.app.state.settings.read_only),
+        "external_side_effects": bool(request.app.state.settings.external_side_effects),
+        "database_isolated": request.app.state.settings.database_path.name != "family_budget.sqlite3",
+    }
+    return summary
