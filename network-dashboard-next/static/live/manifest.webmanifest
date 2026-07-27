@@ -1,0 +1,26 @@
+{
+  "name": "Lindells familjeapp",
+  "short_name": "Lindells",
+  "description": "Familjens planering, mat, inköp, förråd och vardag på ett ställe.",
+  "lang": "sv",
+  "start_url": "/#home",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#eef4f0",
+  "theme_color": "#174c39",
+  "categories": ["lifestyle", "productivity"],
+  "icons": [
+    {
+      "src": "/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {"name": "Inköpslista", "short_name": "Inköp", "url": "/#shopping"},
+    {"name": "Planering", "short_name": "Planera", "url": "/#planning"},
+    {"name": "Mat och recept", "short_name": "Mat", "url": "/#food"}
+  ]
+}
