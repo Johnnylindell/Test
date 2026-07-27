@@ -27,6 +27,8 @@ class Settings:
     external_side_effects: bool
     presence_hash_secret: str
     presence_ingest_token: str
+    notification_scheduler_enabled: bool
+    notification_scheduler_seconds: int
 
 
 def load_settings() -> Settings:
@@ -53,6 +55,11 @@ def load_settings() -> Settings:
         external_side_effects=_flag("EXTERNAL_SIDE_EFFECTS", False),
         presence_hash_secret=os.getenv("PRESENCE_HASH_SECRET", ""),
         presence_ingest_token=os.getenv("PRESENCE_INGEST_TOKEN", ""),
+        notification_scheduler_enabled=_flag("NOTIFICATION_SCHEDULER_ENABLED", False),
+        notification_scheduler_seconds=max(
+            60,
+            min(86400, int(os.getenv("NOTIFICATION_SCHEDULER_SECONDS", "300"))),
+        ),
     )
 
 
