@@ -17,6 +17,7 @@ from app.database.database import Database
 from app.integrations.google_workspace import GoogleWorkspaceAdapter
 from app.integrations.home_assistant import HomeAssistantAdapter
 from app.integrations.network_tools import NetworkToolsAdapter
+from app.integrations.notification_delivery import NotificationDeliveryAdapter
 from app.integrations.tailscale import TailscaleAdapter
 from app.integrations.weather import WeatherAdapter
 from app.modules.admin_integrations.router import router as admin_integrations_router
@@ -44,7 +45,7 @@ _SAFE_MUTATIONS = {"/login", "/logout", "/api/select-user"}
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.12.0")
+    app = FastAPI(title=settings.app_name, version="0.13.0")
     database = Database(settings.database_path)
     selected_port = choose_port(settings.port)
     cache = TTLCache()
@@ -65,6 +66,7 @@ def create_app() -> FastAPI:
     )
     app.state.weather = WeatherAdapter(database, cache, breaker)
     app.state.network_tools = NetworkToolsAdapter(database, cache, breaker)
+    app.state.notification_delivery = NotificationDeliveryAdapter(database)
 
     @app.middleware("http")
     async def request_context(request: Request, call_next):
