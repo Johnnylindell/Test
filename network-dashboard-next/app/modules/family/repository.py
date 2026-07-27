@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import secrets
 import time
+from datetime import datetime, timezone
 from typing import Any
 
 from app.database.database import Database
@@ -66,6 +68,36 @@ class FamilyRepository:
             "owner": as_text(first_present(row, "owner", "user", "created_by"), limit=80),
             "created_at": as_text(first_present(row, "created_at", "updated_at"), limit=80),
         } for row in rows]
+
+    def add_note(self, text: str, owner: str) -> str:
+        note_id = secrets.token_hex(8)
+        self.database.execute(
+            "INSERT INTO family_notes(id,text,owner,created_at) VALUES(?,?,?,?)",
+            (note_id, text.strip(), owner, datetime.now(timezone.utc).isoformat()),
+        )
+        return note_id
+
+    def delete_note(self, note_id: str) -> None:
+        with self.database.transaction() as connection:
+            cursor = connection.execute("DELETE FROM family_notes WHERE id=?", (note_id,))
+            if cursor.rowcount != 1:
+                raise ValueError("Familjeanteckningen finns inte")
+
+    def day_message(self) -> str:
+        raw = self.database.get_json_state("day_message", "")
+        if isinstance(raw, dict):
+            return str(raw.get("message") or "")[:500]
+        return str(raw or "")[:500]
+
+    def set_day_message(self, message: str, actor: str) -> None:
+        self.database.set_json_state(
+            "day_message",
+            {
+                "message": message.strip()[:500],
+                "updated_by": actor,
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+            },
+        )
 
     def add_list_item(self, list_id: str, text: str, owner: str) -> str:
         columns = self.database.table_columns("family_list_items")
