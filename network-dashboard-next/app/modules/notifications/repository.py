@@ -107,3 +107,43 @@ class NotificationsRepository:
 
         self.database.update_json_state("alerts", updater, default=[])
         return acknowledged
+
+    def rules(self) -> list[dict[str, Any]]:
+        raw = self.database.get_json_state("alert_rules", [])
+        return [dict(row) for row in raw if isinstance(row, dict)] if isinstance(raw, list) else []
+
+    def save_rules(self, rules: list[dict[str, Any]]) -> None:
+        normalized = []
+        seen: set[str] = set()
+        for row in rules[:200]:
+            rule_id = str(row.get("id") or "").strip()
+            if not rule_id or rule_id in seen:
+                continue
+            seen.add(rule_id)
+            normalized.append({
+                "id": rule_id[:120],
+                "event": str(row.get("event") or "")[:120],
+                "enabled": bool(row.get("enabled", True)),
+                "target": str(row.get("target") or "all")[:80],
+                "severity": str(row.get("severity") or "normal")[:30],
+                "template": str(row.get("template") or "")[:500],
+                "cooldown_minutes": max(0, min(10080, int(row.get("cooldown_minutes") or 0))),
+                "conditions": row.get("conditions") if isinstance(row.get("conditions"), dict) else {},
+            })
+        self.database.set_json_state("alert_rules", normalized)
+
+    def public_push_key(self) -> str:
+        keys = self.database.get_json_state("vapid_keys", {})
+        if not isinstance(keys, dict):
+            return ""
+        return str(keys.get("public") or keys.get("public_key") or "")[:1000]
+
+    def diagnostics(self) -> dict[str, Any]:
+        subscriptions = self.subscriptions() if self.database.table_exists("push_subscriptions") else []
+        return {
+            "subscriptions": len(subscriptions),
+            "rules": len(self.rules()),
+            "public_key_configured": bool(self.public_push_key()),
+            "delivery_adapter_configured": False,
+            "sensitive_values_exposed": False,
+        }
