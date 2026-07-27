@@ -5,6 +5,13 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
+def _flag(name: str, default: bool) -> bool:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    return raw.strip().lower() not in {"0", "false", "no", "off"}
+
+
 @dataclass(frozen=True, slots=True)
 class Settings:
     app_name: str
@@ -15,6 +22,9 @@ class Settings:
     static_root: Path
     admin_session_seconds: int
     cookie_secure: bool
+    read_only: bool
+    allow_legacy_writes: bool
+    external_side_effects: bool
 
 
 def load_settings() -> Settings:
@@ -27,7 +37,7 @@ def load_settings() -> Settings:
         database_path=Path(
             os.getenv(
                 "DASHBOARD_DB_PATH",
-                str(Path.home() / ".hermes" / "state" / "family_budget.sqlite3"),
+                str(Path.home() / ".hermes" / "state" / "family_budget_next.sqlite3"),
             )
         ).expanduser(),
         static_root=Path(os.getenv("DASHBOARD_STATIC_ROOT", str(root / "static"))).expanduser(),
@@ -35,7 +45,10 @@ def load_settings() -> Settings:
             300,
             min(8 * 3600, int(os.getenv("HOMELAB_ADMIN_SESSION_SECONDS", "7200"))),
         ),
-        cookie_secure=os.getenv("COOKIE_SECURE", "true").lower() not in {"0", "false", "no"},
+        cookie_secure=_flag("COOKIE_SECURE", True),
+        read_only=_flag("DASHBOARD_READ_ONLY", True),
+        allow_legacy_writes=_flag("ALLOW_LEGACY_WRITES", False),
+        external_side_effects=_flag("EXTERNAL_SIDE_EFFECTS", False),
     )
 
 
