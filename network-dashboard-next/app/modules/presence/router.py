@@ -27,6 +27,22 @@ def overview(
     return presence.overview()
 
 
+@router.get("/devices")
+def devices(
+    _: Identity = Depends(require_admin),
+    presence: PresenceService = Depends(service),
+) -> dict:
+    return {
+        "ok": True,
+        "devices": presence.devices(),
+        "privacy": {
+            "raw_identifiers_stored": False,
+            "raw_network_values_exposed": False,
+            "source_hash_exposed": False,
+        },
+    }
+
+
 @router.post("/devices", status_code=status.HTTP_201_CREATED, dependencies=[Depends(require_same_origin)])
 def register_device(
     payload: PresenceDeviceCreate,
