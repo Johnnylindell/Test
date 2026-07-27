@@ -17,6 +17,7 @@ class FamilyService:
             "profiles": self.repository.profiles(),
             "lists": lists,
             "notes": self.repository.notes(),
+            "day_message": self.repository.day_message(),
             "totals": {
                 "lists": len(lists),
                 "open_items": sum(item["open_count"] for item in lists),
