@@ -9,6 +9,7 @@ class CalendarEventCreate(BaseModel):
     end: str = Field(min_length=10, max_length=80)
     description: str = Field(default="", max_length=4000)
     location: str = Field(default="", max_length=300)
+    calendar_id: str = Field(default="primary", min_length=1, max_length=1000)
 
 
 class GoogleTaskCreate(BaseModel):
