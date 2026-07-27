@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import time
 from typing import Any
 
 from app.database.database import Database
@@ -65,3 +66,40 @@ class FamilyRepository:
             "owner": as_text(first_present(row, "owner", "user", "created_by"), limit=80),
             "created_at": as_text(first_present(row, "created_at", "updated_at"), limit=80),
         } for row in rows]
+
+    def add_list_item(self, list_id: str, text: str, owner: str) -> str:
+        columns = self.database.table_columns("family_list_items")
+        required = {"id", "list_id", "text"}
+        if not required.issubset(columns):
+            raise RuntimeError("family_list_items har inte förväntat schema")
+        item_id = f"item-{time.time_ns()}"
+        values: dict[str, Any] = {"id": item_id, "list_id": list_id, "text": text}
+        if "owner" in columns:
+            values["owner"] = owner
+        if "done" in columns:
+            values["done"] = 0
+        if "sort_order" in columns:
+            values["sort_order"] = self.database.count("family_list_items", "list_id=?", (list_id,))
+        names = list(values)
+        placeholders = ",".join("?" for _ in names)
+        with self.database.transaction() as connection:
+            exists = connection.execute("SELECT 1 FROM family_lists WHERE id=?", (list_id,)).fetchone()
+            if not exists:
+                raise ValueError("Listan finns inte")
+            connection.execute(
+                f"INSERT INTO family_list_items({','.join(names)}) VALUES({placeholders})",
+                tuple(values[name] for name in names),
+            )
+        return item_id
+
+    def set_item_done(self, item_id: str, done: bool) -> None:
+        columns = self.database.table_columns("family_list_items")
+        if "id" not in columns or "done" not in columns:
+            raise RuntimeError("family_list_items saknar id eller done")
+        with self.database.transaction() as connection:
+            cursor = connection.execute(
+                "UPDATE family_list_items SET done=? WHERE id=?",
+                (1 if done else 0, item_id),
+            )
+            if cursor.rowcount != 1:
+                raise ValueError("Listpunkten finns inte")
