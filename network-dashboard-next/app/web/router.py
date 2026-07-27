@@ -15,6 +15,7 @@ CONTENT_TYPES = {
     ".css": "text/css; charset=utf-8",
     ".js": "text/javascript; charset=utf-8",
     ".json": "application/json; charset=utf-8",
+    ".webmanifest": "application/manifest+json; charset=utf-8",
     ".svg": "image/svg+xml",
     ".png": "image/png",
     ".webp": "image/webp",
@@ -55,6 +56,27 @@ def live_index(request: Request, identity: Identity = Depends(current_identity))
         return RedirectResponse("/choose-user", status_code=303)
     response = FileResponse(_safe_file(request.app.state.settings.static_root / "live", "index.html"))
     response.headers["Cache-Control"] = "no-store"
+    return response
+
+
+@router.get("/manifest.webmanifest")
+def manifest(request: Request, _: Identity = Depends(current_identity)) -> FileResponse:
+    return _asset_response(_safe_file(request.app.state.settings.static_root / "live", "manifest.webmanifest"))
+
+
+@router.get("/app-icon.svg")
+def app_icon(request: Request, _: Identity = Depends(current_identity)) -> FileResponse:
+    return _asset_response(_safe_file(request.app.state.settings.static_root / "live", "app-icon.svg"))
+
+
+@router.get("/sw.js")
+def service_worker(request: Request, _: Identity = Depends(current_identity)) -> FileResponse:
+    response = FileResponse(
+        _safe_file(request.app.state.settings.static_root / "live", "sw.js"),
+        media_type="text/javascript; charset=utf-8",
+    )
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Service-Worker-Allowed"] = "/"
     return response
 
 
