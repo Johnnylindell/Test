@@ -30,10 +30,11 @@ from app.modules.shopping.router import router as shopping_router
 from app.web.router import router as web_router
 
 logger = logging.getLogger("network-dashboard-next")
+_SAFE_MUTATIONS = {"/login", "/logout", "/api/select-user"}
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.5.0")
+    app = FastAPI(title=settings.app_name, version="0.6.0")
     database = Database(settings.database_path)
     selected_port = choose_port(settings.port)
     cache = TTLCache()
@@ -51,6 +52,22 @@ def create_app() -> FastAPI:
     @app.middleware("http")
     async def request_context(request: Request, call_next):
         request_id = request.headers.get("x-request-id") or uuid.uuid4().hex
+        if (
+            settings.read_only
+            and request.method.upper() in {"POST", "PUT", "PATCH", "DELETE"}
+            and request.url.path not in _SAFE_MUTATIONS
+        ):
+            return JSONResponse(
+                status_code=423,
+                content={
+                    "error": {
+                        "code": "read_only_mode",
+                        "message": "Parallellversionen körs skrivskyddad.",
+                        "request_id": request_id,
+                    }
+                },
+                headers={"X-Request-ID": request_id},
+            )
         try:
             response = await call_next(request)
         except Exception:
@@ -68,6 +85,7 @@ def create_app() -> FastAPI:
         response.headers["X-Request-ID"] = request_id
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["Referrer-Policy"] = "same-origin"
+        response.headers["X-Dashboard-Read-Only"] = "true" if settings.read_only else "false"
         return response
 
     app.include_router(auth_router)
