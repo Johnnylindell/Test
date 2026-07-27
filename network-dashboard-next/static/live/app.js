@@ -460,7 +460,12 @@ function configureChrome() {
 
 async function bootstrap() {
   try {
-    state.access = await accessControl();
+    const [access, home] = await Promise.all([
+      accessControl(),
+      api("/api/v2/home/summary"),
+    ]);
+    state.access = access;
+    updateRuntime(home);
     configureChrome();
     document.querySelectorAll("[data-view]").forEach(button => button.addEventListener("click", () => openView(button.dataset.view)));
     main.addEventListener("submit", handleSubmit);
