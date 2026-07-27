@@ -9,7 +9,7 @@ HOP_BY_HOP = {
     "connection", "keep-alive", "proxy-authenticate", "proxy-authorization",
     "te", "trailers", "transfer-encoding", "upgrade", "content-length",
 }
-
+MUTATING_METHODS = {"POST", "PUT", "PATCH", "DELETE"}
 MIGRATED_PATHS = {
     "health", "homelab", "smart-home", "homeassistant", "family", "family-lists",
     "inventory", "weekly-meals", "budget", "budget-sheet", "budget-year",
@@ -53,6 +53,12 @@ async def proxy_legacy_api(path: str, request: Request) -> Response:
             status_code=410,
             media_type="application/json",
             headers={"Deprecation": "true", "Link": f'<{replacement}>; rel="successor-version"'},
+        )
+    if request.method.upper() in MUTATING_METHODS and not request.app.state.settings.allow_legacy_writes:
+        return Response(
+            content='{"error":"legacy_writes_disabled"}',
+            status_code=423,
+            media_type="application/json",
         )
 
     target = f"{request.app.state.settings.legacy_origin}/api/{path}"
