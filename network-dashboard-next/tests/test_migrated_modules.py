@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import sqlite3
+from dataclasses import replace
 from pathlib import Path
 
 from fastapi.testclient import TestClient
 
-from app.core.config import Settings
+from app.core.config import settings as default_settings
 from app.main import create_app
 
 
@@ -46,12 +47,12 @@ def seed_database(path: Path) -> None:
 def test_migrated_api_contracts(tmp_path: Path, monkeypatch) -> None:
     database_path = tmp_path / "family.sqlite3"
     seed_database(database_path)
-    monkeypatch.setattr("app.main.settings", Settings(database_path=database_path, port=0))
+    test_settings = replace(default_settings, database_path=database_path, port=0, cookie_secure=False)
+    monkeypatch.setattr("app.main.settings", test_settings)
     app = create_app()
 
     with TestClient(app) as client:
         client.cookies.set("homelab_user", "johnny")
-
         home = client.get("/api/v2/home/summary")
         planning = client.get("/api/v2/planning/overview")
         family = client.get("/api/v2/family/overview")
