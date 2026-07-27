@@ -52,6 +52,11 @@ class Database:
         with self._connect(readonly=True) as connection:
             return [dict(row) for row in connection.execute(sql, params).fetchall()]
 
+    def fetch_value(self, sql: str, params: Sequence[Any] = (), default: Any = None) -> Any:
+        with self._connect(readonly=True) as connection:
+            row = connection.execute(sql, params).fetchone()
+            return row[0] if row else default
+
     def execute(self, sql: str, params: Sequence[Any] = ()) -> int:
         with self.transaction() as connection:
             cursor = connection.execute(sql, params)
@@ -61,7 +66,30 @@ class Database:
         with self.transaction() as connection:
             connection.executemany(sql, rows)
 
+    def table_exists(self, table: str) -> bool:
+        row = self.fetch_one(
+            "SELECT 1 AS present FROM sqlite_master WHERE type='table' AND name=?",
+            (table,),
+        )
+        return bool(row)
+
+    def table_columns(self, table: str) -> set[str]:
+        if not self.table_exists(table):
+            return set()
+        with self._connect(readonly=True) as connection:
+            return {str(row[1]) for row in connection.execute(f'PRAGMA table_info("{table}")')}
+
+    def count(self, table: str, where: str = "", params: Sequence[Any] = ()) -> int:
+        if not self.table_exists(table):
+            return 0
+        sql = f'SELECT COUNT(*) FROM "{table}"'
+        if where:
+            sql += f" WHERE {where}"
+        return int(self.fetch_value(sql, params, 0) or 0)
+
     def get_setting(self, key: str, default: Any = None) -> Any:
+        if not self.table_exists("app_settings"):
+            return default
         row = self.fetch_one("SELECT value FROM app_settings WHERE key=?", (key,))
         if not row:
             return default
@@ -69,6 +97,17 @@ class Database:
             return json.loads(row["value"])
         except (TypeError, json.JSONDecodeError):
             return row["value"]
+
+    def get_json_state(self, key: str, default: Any = None) -> Any:
+        if not self.table_exists("app_json_state"):
+            return default
+        row = self.fetch_one("SELECT value FROM app_json_state WHERE key=?", (key,))
+        if not row:
+            return default
+        try:
+            return json.loads(row["value"])
+        except (TypeError, json.JSONDecodeError):
+            return default
 
     def integrity_check(self) -> str:
         with self._connect(readonly=True) as connection:
