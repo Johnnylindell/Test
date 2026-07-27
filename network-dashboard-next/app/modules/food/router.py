@@ -41,6 +41,15 @@ def require_adult(identity: Identity = Depends(require_login)) -> Identity:
     return identity
 
 
+def _preview(url: str) -> dict:
+    try:
+        return RecipeImporter().preview(url)
+    except (ValueError, RuntimeError) as exc:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="Receptsidan kunde inte läsas") from exc
+
+
 @router.get("/overview")
 def overview(identity: Identity = Depends(require_login), food: FoodService = Depends(service)) -> dict:
     return food.overview(identity)
@@ -66,17 +75,27 @@ def create_recipe(
     return {"ok": True, "id": repo.add_recipe(payload.model_dump()), "recipes": repo.saved_recipes()}
 
 
+@router.get("/recipes/import/preview")
+def preview_recipe_import_get(
+    url: str,
+    _: Identity = Depends(require_adult),
+) -> dict:
+    """Fetch and parse a public recipe without mutating local state.
+
+    This GET route is intentionally usable in the read-only parallel installation.
+    The importer itself only permits public HTTPS targets and applies strict size,
+    redirect and private-network protections.
+    """
+    return _preview(url)
+
+
 @router.post("/recipes/import/preview", dependencies=[Depends(require_same_origin)])
 def preview_recipe_import(
     payload: RecipeImportPreview,
     _: Identity = Depends(require_adult),
 ) -> dict:
-    try:
-        return RecipeImporter().preview(str(payload.url))
-    except (ValueError, RuntimeError) as exc:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
-    except Exception as exc:
-        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="Receptsidan kunde inte läsas") from exc
+    """Compatibility route for clients that already submit the preview URL as JSON."""
+    return _preview(str(payload.url))
 
 
 @router.post(
