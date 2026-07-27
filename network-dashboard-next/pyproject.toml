@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "network-dashboard-next"
-version = "0.1.0"
+version = "0.2.0"
 description = "Modular replacement for the Lindell family dashboard"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -16,6 +16,7 @@ dependencies = [
   "google-api-python-client>=2.170,<3",
   "google-auth>=2.40,<3",
   "google-auth-oauthlib>=1.2,<2",
+  "openpyxl>=3.1,<4",
   "pywebpush>=2.0,<3",
 ]
 
