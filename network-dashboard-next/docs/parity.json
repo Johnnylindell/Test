@@ -1,0 +1,23 @@
+{
+  "source": "legacy server.py and preview-v2 routes",
+  "status_values": ["complete", "partial", "proxied-read", "missing"],
+  "domains": [
+    {"id":"auth","status":"partial","features":["family profile selection","admin sessions","same-origin protection"],"missing":["login rate limiting","access profile editor","password management"]},
+    {"id":"home","status":"partial","features":["home summary"],"missing":["app overview","my dashboard","home compass","home quests","global search"]},
+    {"id":"planning","status":"partial","features":["reminders read","routine rules read","routine instances read","checklists read"],"missing":["full reminder mutations","routine mutations","Google merge","due notification checks"]},
+    {"id":"family","status":"partial","features":["profiles","lists","notes read","list item mutations"],"missing":["phone presence","day message","family note mutations"]},
+    {"id":"shopping","status":"partial","features":["lists","items","completion","editing"],"missing":["smart suggestions","completion to inventory inbox","saved suggestions"]},
+    {"id":"inventory","status":"partial","features":["overview","add","quantity adjustment","out-of-stock suggestion"],"missing":["inbox placement","shelves mutations","suggestion to shopping","full item editing"]},
+    {"id":"food","status":"partial","features":["weekly meals","saved recipes read","meal selection"],"missing":["recipe mutations","favorites","ingredients to shopping"]},
+    {"id":"wishlists","status":"complete","features":["read","add","edit","delete","reserve","purchased"]},
+    {"id":"household","status":"complete","features":["items","hierarchical places","place rename propagation","log"]},
+    {"id":"calendar","status":"partial","features":["Google auth status","events read","tasks read","create event","create task"],"missing":["OAuth start/finish UI","task completion/edit/delete","calendar selection"]},
+    {"id":"budget","status":"partial","features":["month overview","entry add/edit/delete"],"missing":["year summary parity","Excel sync","banking"]},
+    {"id":"notifications","status":"partial","features":["alerts","acknowledge","subscriptions","rules","public VAPID key","diagnostics"],"missing":["Web Push delivery","Discord delivery","smart checks","test send"]},
+    {"id":"home-assistant","status":"partial","features":["status","entities","bounded services"],"missing":["full home-life projection","iframe/embed management"]},
+    {"id":"homelab","status":"partial","features":["stored overview","Tailscale status"],"missing":["network scan","port scan","router probe","internet check","device probe","computer agents","WOL","service control","toolbox","baseline workflow"]},
+    {"id":"admin-v2","status":"partial","features":["integrations","homelab","budget workspace"],"missing":["control center","network admin","settings","operations","backups","sessions","diagnostics","advanced","bank admin","assistant"]},
+    {"id":"weather","status":"missing","features":[],"missing":["Met.no weather view and cache"]},
+    {"id":"ai","status":"missing","features":[],"missing":["assistant","confirmation","audio transcription"]}
+  ]
+}
