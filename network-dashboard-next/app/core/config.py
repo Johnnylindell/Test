@@ -25,6 +25,8 @@ class Settings:
     read_only: bool
     allow_legacy_writes: bool
     external_side_effects: bool
+    presence_hash_secret: str
+    presence_ingest_token: str
 
 
 def load_settings() -> Settings:
@@ -49,6 +51,8 @@ def load_settings() -> Settings:
         read_only=_flag("DASHBOARD_READ_ONLY", False),
         allow_legacy_writes=_flag("ALLOW_LEGACY_WRITES", False),
         external_side_effects=_flag("EXTERNAL_SIDE_EFFECTS", False),
+        presence_hash_secret=os.getenv("PRESENCE_HASH_SECRET", ""),
+        presence_ingest_token=os.getenv("PRESENCE_INGEST_TOKEN", ""),
     )
 
 
