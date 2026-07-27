@@ -14,10 +14,18 @@ SCOPES = [
 
 
 class GoogleWorkspaceAdapter:
-    def __init__(self, cache: TTLCache, breaker: CircuitBreaker, *, token_path: Path | None = None) -> None:
+    def __init__(
+        self,
+        cache: TTLCache,
+        breaker: CircuitBreaker,
+        *,
+        token_path: Path | None = None,
+        persist_token_refresh: bool = False,
+    ) -> None:
         self.cache = cache
         self.breaker = breaker
         self.token_path = token_path or (Path.home() / ".hermes" / "google_token.json")
+        self.persist_token_refresh = persist_token_refresh
 
     def _credentials(self):
         if not self.token_path.is_file():
@@ -28,7 +36,8 @@ class GoogleWorkspaceAdapter:
         credentials = Credentials.from_authorized_user_file(self.token_path, scopes=SCOPES)
         if credentials.expired and credentials.refresh_token:
             credentials.refresh(GoogleRequest())
-            self.token_path.write_text(credentials.to_json(), encoding="utf-8")
+            if self.persist_token_refresh:
+                self.token_path.write_text(credentials.to_json(), encoding="utf-8")
         if not credentials.valid:
             raise RuntimeError("Google-token är ogiltig")
         return credentials
@@ -43,6 +52,7 @@ class GoogleWorkspaceAdapter:
                 "authenticated": bool(credentials.valid),
                 "status": "authenticated" if credentials.valid else "invalid",
                 "scopes": sorted(credentials.scopes or []),
+                "token_refresh_persisted": self.persist_token_refresh,
             }
         except Exception as exc:
             return {"configured": True, "authenticated": False, "status": "invalid", "error": str(exc)[:240]}
