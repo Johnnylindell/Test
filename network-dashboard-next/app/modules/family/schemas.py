@@ -11,3 +11,12 @@ class AddFamilyListItem(BaseModel):
 
 class CompleteFamilyListItem(BaseModel):
     done: bool = True
+
+
+class FamilyNoteCreate(BaseModel):
+    text: str = Field(min_length=1, max_length=1000)
+    owner: str = Field(default="", max_length=80)
+
+
+class DayMessageUpdate(BaseModel):
+    message: str = Field(default="", max_length=500)
