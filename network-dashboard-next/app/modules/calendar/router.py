@@ -58,7 +58,11 @@ def overview(
     end_dt = _parse(end, start_dt + timedelta(days=7))
     google = adapter(request)
     auth = google.status()
-    calendars = google.calendars(fresh=fresh) if auth.get("authenticated") else {"ok": False, "calendars": [], "count": 0}
+    calendars = (
+        google.calendars(fresh=fresh)
+        if auth.get("authenticated")
+        else {"ok": False, "calendars": [], "count": 0}
+    )
     return {
         "ok": True,
         "auth": auth,
@@ -81,31 +85,35 @@ def google_oauth_start(
 ) -> dict:
     _require_external(request)
     result = adapter(request).begin_oauth(_redirect_uri(request))
-    nonce = secrets.token_urlsafe(24)
+    oauth_state = str(result["state"])
     request.app.state.database.set_json_state(
-        f"google_oauth:{nonce}",
+        f"google_oauth:{oauth_state}",
         {
-            "state": result["state"],
+            "state": oauth_state,
             "code_verifier": result.get("code_verifier", ""),
             "created_at": datetime.now(timezone.utc).isoformat(),
         },
     )
-    return {"ok": True, "authorization_url": result["authorization_url"], "nonce": nonce}
+    return {"ok": True, "authorization_url": result["authorization_url"]}
 
 
 @router.get("/oauth/callback", name="google_oauth_callback")
 def google_oauth_callback(
     request: Request,
     state: str = "",
-    nonce: str = "",
     error: str = "",
 ) -> RedirectResponse:
     _require_external(request)
     if error:
-        return RedirectResponse(url=f"/preview-v2#calendar?oauth=error", status_code=303)
-    stored = request.app.state.database.get_json_state(f"google_oauth:{nonce}", {})
-    request.app.state.database.set_json_state(f"google_oauth:{nonce}", {})
-    if not isinstance(stored, dict) or not stored.get("state") or not secrets.compare_digest(str(stored.get("state")), state):
+        return RedirectResponse(url="/preview-v2#calendar", status_code=303)
+    key = f"google_oauth:{state}"
+    stored = request.app.state.database.get_json_state(key, {})
+    request.app.state.database.set_json_state(key, {})
+    if (
+        not isinstance(stored, dict)
+        or not stored.get("state")
+        or not secrets.compare_digest(str(stored.get("state")), state)
+    ):
         raise HTTPException(status_code=400, detail="Ogiltigt eller förbrukat OAuth-state")
     try:
         created = datetime.fromisoformat(str(stored.get("created_at") or "").replace("Z", "+00:00"))
