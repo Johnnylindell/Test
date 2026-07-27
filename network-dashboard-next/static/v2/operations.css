@@ -1,0 +1,31 @@
+.token-reveal {
+  display: grid;
+  gap: .35rem;
+  margin-bottom: .9rem;
+  padding: .85rem;
+  border: 1px solid #e1c56b;
+  border-radius: .9rem;
+  background: #fff7d6;
+  color: #5d4807;
+}
+.token-reveal code {
+  display: block;
+  overflow-wrap: anywhere;
+  padding: .58rem;
+  border-radius: .55rem;
+  background: rgba(255,255,255,.72);
+  color: #102a20;
+  user-select: all;
+}
+.token-reveal small { color: #715b13; }
+[data-bank-view], [data-operations-view] { position: relative; }
+[data-bank-view]::before, [data-operations-view]::before {
+  content: "";
+  width: .45rem;
+  height: .45rem;
+  border-radius: 999px;
+  background: #76ad91;
+}
+@media (max-width: 920px) {
+  .token-reveal code { font-size: .72rem; }
+}
