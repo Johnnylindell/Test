@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#174c39">
+  <title>Välj profil · Lindells app</title>
+  <link rel="icon" href="/app-icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/entry.css">
+</head>
+<body>
+  <main class="entry">
+    <div class="entry__brand"><span class="entry__mark">L</span><div><h1>Lindells app</h1><p>Familjens vardag, samlad</p></div></div>
+    <section class="entry__card">
+      <header class="entry__hero"><p>Välkommen hem</p><h2>Vem använder appen?</h2><small>Din profil styr din personliga vy och dina tilldelade uppgifter.</small></header>
+      <form class="profile-grid" method="post" action="/api/select-user">
+        <button class="profile-choice" name="user" value="johnny"><span class="profile-choice__avatar">J</span><span><strong>Johnny</strong><small>Vuxenprofil</small></span></button>
+        <button class="profile-choice" name="user" value="kristina"><span class="profile-choice__avatar">K</span><span><strong>Kristina</strong><small>Vuxenprofil</small></span></button>
+        <button class="profile-choice" name="user" value="viktor"><span class="profile-choice__avatar">V</span><span><strong>Viktor</strong><small>Familjeprofil</small></span></button>
+        <button class="profile-choice" name="user" value="alfred"><span class="profile-choice__avatar">A</span><span><strong>Alfred</strong><small>Familjeprofil</small></span></button>
+        <button class="profile-choice" name="user" value="guest"><span class="profile-choice__avatar">G</span><span><strong>Gäst</strong><small>Begränsad profil</small></span></button>
+      </form>
+      <footer class="entry__footer"><span>Profilen sparas på denna enhet.</span><a class="entry__link" href="/login">Admininloggning</a></footer>
+    </section>
+  </main>
+</body>
+</html>
