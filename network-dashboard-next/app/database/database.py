@@ -6,29 +6,52 @@ from collections.abc import Callable, Iterable, Iterator, Sequence
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
+from urllib.parse import quote
 
 
 class Database:
+    BUSY_TIMEOUT_MS = 20_000
+
     def __init__(self, path: Path) -> None:
-        self.path = path
+        self.path = Path(path).expanduser()
+
+    def _readonly_uri(self) -> str:
+        absolute = self.path.resolve()
+        # SQLite URI filenames must quote spaces, #, ? and non-ASCII characters.
+        return f"file:{quote(str(absolute), safe='/')}?mode=ro"
 
     def _connect(self, *, readonly: bool = False) -> sqlite3.Connection:
         if readonly:
             connection = sqlite3.connect(
-                f"file:{self.path}?mode=ro",
+                self._readonly_uri(),
                 uri=True,
-                timeout=20,
+                timeout=self.BUSY_TIMEOUT_MS / 1000,
                 check_same_thread=False,
             )
+            connection.execute(f"PRAGMA busy_timeout={self.BUSY_TIMEOUT_MS}")
+            connection.execute("PRAGMA query_only=ON")
+            connection.execute("PRAGMA foreign_keys=ON")
         else:
             self.path.parent.mkdir(parents=True, exist_ok=True)
-            connection = sqlite3.connect(self.path, timeout=20, check_same_thread=False)
+            connection = sqlite3.connect(
+                self.path,
+                timeout=self.BUSY_TIMEOUT_MS / 1000,
+                check_same_thread=False,
+            )
+            connection.execute(f"PRAGMA busy_timeout={self.BUSY_TIMEOUT_MS}")
+            connection.execute("PRAGMA foreign_keys=ON")
             connection.execute("PRAGMA journal_mode=WAL")
             connection.execute("PRAGMA synchronous=NORMAL")
-            connection.execute("PRAGMA busy_timeout=20000")
-            connection.execute("PRAGMA foreign_keys=ON")
         connection.row_factory = sqlite3.Row
         return connection
+
+    @contextmanager
+    def connection(self, *, readonly: bool = True) -> Iterator[sqlite3.Connection]:
+        connection = self._connect(readonly=readonly)
+        try:
+            yield connection
+        finally:
+            connection.close()
 
     @contextmanager
     def transaction(self) -> Iterator[sqlite3.Connection]:
@@ -44,16 +67,16 @@ class Database:
             connection.close()
 
     def fetch_one(self, sql: str, params: Sequence[Any] = ()) -> dict[str, Any] | None:
-        with self._connect(readonly=True) as connection:
+        with self.connection(readonly=True) as connection:
             row = connection.execute(sql, params).fetchone()
             return dict(row) if row else None
 
     def fetch_all(self, sql: str, params: Sequence[Any] = ()) -> list[dict[str, Any]]:
-        with self._connect(readonly=True) as connection:
+        with self.connection(readonly=True) as connection:
             return [dict(row) for row in connection.execute(sql, params).fetchall()]
 
     def fetch_value(self, sql: str, params: Sequence[Any] = (), default: Any = None) -> Any:
-        with self._connect(readonly=True) as connection:
+        with self.connection(readonly=True) as connection:
             row = connection.execute(sql, params).fetchone()
             return row[0] if row else default
 
@@ -77,7 +100,7 @@ class Database:
         if not self.table_exists(table):
             return set()
         safe_table = table.replace('"', '""')
-        with self._connect(readonly=True) as connection:
+        with self.connection(readonly=True) as connection:
             return {str(row[1]) for row in connection.execute(f'PRAGMA table_info("{safe_table}")')}
 
     def count(self, table: str, where: str = "", params: Sequence[Any] = ()) -> int:
@@ -143,6 +166,6 @@ class Database:
             return updated
 
     def integrity_check(self) -> str:
-        with self._connect(readonly=True) as connection:
+        with self.connection(readonly=True) as connection:
             row = connection.execute("PRAGMA integrity_check").fetchone()
             return str(row[0]) if row else "unknown"
