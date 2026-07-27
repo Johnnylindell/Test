@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 
 from app.auth.dependencies import require_login, require_same_origin
 from app.auth.service import Identity
@@ -40,6 +40,9 @@ def set_meal(
     food: FoodService = Depends(service),
 ) -> dict:
     if identity.user not in {"johnny", "kristina", "admin"}:
-        raise PermissionError("Den valda profilen får inte ändra matsedeln")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Den valda profilen får inte ändra matsedeln",
+        )
     repo.set_meal(payload.model_dump())
     return {"ok": True, "view": food.overview(identity)}
