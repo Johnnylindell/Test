@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import sqlite3
+from dataclasses import replace
 from pathlib import Path
 
 from fastapi.testclient import TestClient
 
+from app.core.config import settings
 from app.database.migrations import status, upgrade
 from app.main import create_app
 
@@ -34,7 +36,7 @@ def test_retired_legacy_endpoint_returns_replacement(tmp_path: Path, monkeypatch
     database = tmp_path / "dashboard.sqlite3"
     sqlite3.connect(database).close()
     upgrade(database, ROOT / "migrations")
-    monkeypatch.setattr("app.main.settings.database_path", database)
+    monkeypatch.setattr("app.main.settings", replace(settings, database_path=database, port=0))
     app = create_app()
 
     response = TestClient(app).get("/api/budget")
