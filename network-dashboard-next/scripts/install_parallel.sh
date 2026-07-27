@@ -47,15 +47,18 @@ PY
 
 PRESENCE_HASH_SECRET=""
 PRESENCE_INGEST_TOKEN=""
+ASSISTANT_SIGNING_SECRET=""
 HOMELAB_ADMIN_PASSWORD=""
 ADMIN_PASSWORD_GENERATED=false
 if [[ -f "$ENV_FILE" ]]; then
   PRESENCE_HASH_SECRET="$(grep -E '^PRESENCE_HASH_SECRET=' "$ENV_FILE" | head -n1 | cut -d= -f2- || true)"
   PRESENCE_INGEST_TOKEN="$(grep -E '^PRESENCE_INGEST_TOKEN=' "$ENV_FILE" | head -n1 | cut -d= -f2- || true)"
+  ASSISTANT_SIGNING_SECRET="$(grep -E '^ASSISTANT_SIGNING_SECRET=' "$ENV_FILE" | head -n1 | cut -d= -f2- || true)"
   HOMELAB_ADMIN_PASSWORD="$(grep -E '^HOMELAB_ADMIN_PASSWORD=' "$ENV_FILE" | head -n1 | cut -d= -f2- || true)"
 fi
 [[ -n "$PRESENCE_HASH_SECRET" ]] || PRESENCE_HASH_SECRET="$(openssl rand -hex 32)"
 [[ -n "$PRESENCE_INGEST_TOKEN" ]] || PRESENCE_INGEST_TOKEN="$(openssl rand -hex 32)"
+[[ -n "$ASSISTANT_SIGNING_SECRET" ]] || ASSISTANT_SIGNING_SECRET="$(openssl rand -hex 32)"
 if [[ -z "$HOMELAB_ADMIN_PASSWORD" ]]; then
   HOMELAB_ADMIN_PASSWORD="$(openssl rand -hex 12)"
   ADMIN_PASSWORD_GENERATED=true
@@ -71,6 +74,7 @@ EXTERNAL_SIDE_EFFECTS=false
 HOMELAB_ADMIN_PASSWORD=$HOMELAB_ADMIN_PASSWORD
 PRESENCE_HASH_SECRET=$PRESENCE_HASH_SECRET
 PRESENCE_INGEST_TOKEN=$PRESENCE_INGEST_TOKEN
+ASSISTANT_SIGNING_SECRET=$ASSISTANT_SIGNING_SECRET
 NOTIFICATION_SCHEDULER_ENABLED=false
 GOOGLE_TOKEN_PATH=$GOOGLE_TOKEN_PATH
 GOOGLE_CLIENT_SECRETS_PATH=$GOOGLE_CLIENT_SECRETS_PATH
@@ -155,7 +159,7 @@ Runtime-fil: $RUNTIME_FILE
 Live-databas (orörd): $LIVE_DB_PATH
 Next-databaskopia: $NEXT_DB_PATH
 Next körs skrivskyddad och utan externa sidoeffekter.
-Närvarohemligheter och bootstrap-lösenord finns i $ENV_FILE med filrättighet 600.
+Närvarohemligheter, assistentsignering och bootstrap-lösenord finns i $ENV_FILE med filrättighet 600.
 Inaktiv närvaroexempelkonfiguration: $PRESENCE_CONFIG
 Google-token för Next: $GOOGLE_TOKEN_PATH
 Google client secret ska placeras i: $GOOGLE_CLIENT_SECRETS_PATH
