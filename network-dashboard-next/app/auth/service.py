@@ -60,8 +60,14 @@ class AuthService:
         stored_hash = str(self.database.get_setting("admin_password_hash", "") or "")
         if stored_hash:
             return self._verify_pbkdf2(password, stored_hash)
-        fallback = os.getenv("HOMELAB_ADMIN_PASSWORD", "1234")
-        return hmac.compare_digest(password, fallback)
+        fallback = os.getenv("HOMELAB_ADMIN_PASSWORD", "")
+        return bool(fallback) and hmac.compare_digest(password, fallback)
+
+    def admin_password_configured(self) -> bool:
+        return bool(
+            str(self.database.get_setting("admin_password_hash", "") or "")
+            or os.getenv("HOMELAB_ADMIN_PASSWORD", "")
+        )
 
     def set_admin_password(self, password: str) -> None:
         password_hash = self.hash_password(password)
@@ -133,6 +139,10 @@ class AuthService:
                 "token_hint": str(row["token"])[:6] + "…",
                 "created_at": row.get("created_at"),
                 "expires_at_epoch": row.get("expires_at_epoch"),
+                "expires_at": datetime.fromtimestamp(
+                    float(row.get("expires_at_epoch") or 0),
+                    tz=timezone.utc,
+                ).isoformat(),
                 "current": False,
             }
             for row in rows
