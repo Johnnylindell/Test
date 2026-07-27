@@ -12,11 +12,13 @@ from app.compat.legacy_proxy import router as legacy_proxy_router
 from app.core.config import settings
 from app.core.ports import choose_port
 from app.database.database import Database
+from app.modules.budget.router import router as budget_router
 from app.modules.family.router import router as family_router
 from app.modules.food.router import router as food_router
 from app.modules.health.router import router as health_router
 from app.modules.home.router import router as home_router
 from app.modules.inventory.router import router as inventory_router
+from app.modules.notifications.router import router as notifications_router
 from app.modules.planning.router import router as planning_router
 from app.modules.shopping.router import router as shopping_router
 from app.web.router import router as web_router
@@ -25,7 +27,7 @@ logger = logging.getLogger("network-dashboard-next")
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.3.0")
+    app = FastAPI(title=settings.app_name, version="0.4.0")
     database = Database(settings.database_path)
 
     app.state.settings = settings
@@ -63,6 +65,8 @@ def create_app() -> FastAPI:
     app.include_router(shopping_router)
     app.include_router(inventory_router)
     app.include_router(food_router)
+    app.include_router(budget_router)
+    app.include_router(notifications_router)
     app.include_router(web_router)
     app.include_router(legacy_proxy_router)
     return app
