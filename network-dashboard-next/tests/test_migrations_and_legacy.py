@@ -1,0 +1,44 @@
+from __future__ import annotations
+
+import sqlite3
+from pathlib import Path
+
+from fastapi.testclient import TestClient
+
+from app.database.migrations import status, upgrade
+from app.main import create_app
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_migrations_are_idempotent(tmp_path: Path) -> None:
+    database = tmp_path / "dashboard.sqlite3"
+    sqlite3.connect(database).close()
+    first = upgrade(database, ROOT / "migrations")
+    second = upgrade(database, ROOT / "migrations")
+
+    assert first["ok"] is True
+    assert first["applied"] == ["0001", "0002"]
+    assert second["applied"] == []
+    report = status(database, ROOT / "migrations")
+    assert report["pending"] == 0
+
+    with sqlite3.connect(database) as connection:
+        assert connection.execute("PRAGMA integrity_check").fetchone()[0] == "ok"
+        tables = {row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+    assert {"schema_migrations", "shopping_items", "inventory_items", "budget_cells"} <= tables
+
+
+def test_retired_legacy_endpoint_returns_replacement(tmp_path: Path, monkeypatch) -> None:
+    database = tmp_path / "dashboard.sqlite3"
+    sqlite3.connect(database).close()
+    upgrade(database, ROOT / "migrations")
+    monkeypatch.setattr("app.main.settings.database_path", database)
+    app = create_app()
+
+    response = TestClient(app).get("/api/budget")
+
+    assert response.status_code == 410
+    assert response.json()["replacement"] == "/api/v2/budget/overview"
+    assert response.headers["deprecation"] == "true"
