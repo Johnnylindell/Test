@@ -35,6 +35,7 @@ from app.modules.household.router import router as household_router
 from app.modules.inventory.router import router as inventory_router
 from app.modules.notifications.router import router as notifications_router
 from app.modules.planning.router import router as planning_router
+from app.modules.presence.router import router as presence_router
 from app.modules.shopping.router import router as shopping_router
 from app.modules.weather.router import router as weather_router
 from app.modules.wishlists.router import router as wishlists_router
@@ -45,7 +46,7 @@ _SAFE_MUTATIONS = {"/login", "/logout", "/api/select-user"}
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.13.0")
+    app = FastAPI(title=settings.app_name, version="0.14.0")
     database = Database(settings.database_path)
     selected_port = choose_port(settings.port)
     cache = TTLCache()
@@ -113,6 +114,7 @@ def create_app() -> FastAPI:
     app.include_router(experience_router)
     app.include_router(planning_router)
     app.include_router(family_router)
+    app.include_router(presence_router)
     app.include_router(shopping_router)
     app.include_router(inventory_router)
     app.include_router(food_router)
