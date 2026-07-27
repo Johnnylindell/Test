@@ -21,6 +21,7 @@ from app.integrations.weather import WeatherAdapter
 from app.modules.admin_integrations.router import router as admin_integrations_router
 from app.modules.budget.router import router as budget_router
 from app.modules.calendar.router import router as calendar_router
+from app.modules.experience.router import router as experience_router
 from app.modules.family.router import router as family_router
 from app.modules.food.router import router as food_router
 from app.modules.health.router import router as health_router
@@ -40,7 +41,7 @@ _SAFE_MUTATIONS = {"/login", "/logout", "/api/select-user"}
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.9.0")
+    app = FastAPI(title=settings.app_name, version="0.10.0")
     database = Database(settings.database_path)
     selected_port = choose_port(settings.port)
     cache = TTLCache()
@@ -99,6 +100,7 @@ def create_app() -> FastAPI:
     app.include_router(auth_router)
     app.include_router(health_router)
     app.include_router(home_router)
+    app.include_router(experience_router)
     app.include_router(planning_router)
     app.include_router(family_router)
     app.include_router(shopping_router)
