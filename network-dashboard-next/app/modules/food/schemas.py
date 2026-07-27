@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, HttpUrl
 
 
 class MealSet(BaseModel):
@@ -38,3 +38,12 @@ class IngredientsToShopping(BaseModel):
     ingredients: list[str] = Field(default_factory=list, min_length=1, max_length=200)
     list_id: str = Field(default="shopping", max_length=120)
     source: str = Field(default="Recept", max_length=120)
+
+
+class RecipeImportPreview(BaseModel):
+    url: HttpUrl
+
+
+class RecipeImportSave(BaseModel):
+    recipe: RecipeCreate
+    confirm: bool = False
