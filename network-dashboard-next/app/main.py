@@ -16,9 +16,12 @@ from app.core.ports import choose_port
 from app.database.database import Database
 from app.integrations.google_workspace import GoogleWorkspaceAdapter
 from app.integrations.home_assistant import HomeAssistantAdapter
+from app.integrations.network_tools import NetworkToolsAdapter
 from app.integrations.tailscale import TailscaleAdapter
 from app.integrations.weather import WeatherAdapter
 from app.modules.admin_integrations.router import router as admin_integrations_router
+from app.modules.admin_security.router import router as admin_security_router
+from app.modules.backups.router import router as backups_router
 from app.modules.budget.router import router as budget_router
 from app.modules.calendar.router import router as calendar_router
 from app.modules.experience.router import router as experience_router
@@ -41,7 +44,7 @@ _SAFE_MUTATIONS = {"/login", "/logout", "/api/select-user"}
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.11.0")
+    app = FastAPI(title=settings.app_name, version="0.12.0")
     database = Database(settings.database_path)
     selected_port = choose_port(settings.port)
     cache = TTLCache()
@@ -61,6 +64,7 @@ def create_app() -> FastAPI:
         persist_token_refresh=settings.external_side_effects,
     )
     app.state.weather = WeatherAdapter(database, cache, breaker)
+    app.state.network_tools = NetworkToolsAdapter(database, cache, breaker)
 
     @app.middleware("http")
     async def request_context(request: Request, call_next):
@@ -118,6 +122,8 @@ def create_app() -> FastAPI:
     app.include_router(notifications_router)
     app.include_router(homelab_router)
     app.include_router(admin_integrations_router)
+    app.include_router(admin_security_router)
+    app.include_router(backups_router)
     app.include_router(web_router)
     app.include_router(legacy_proxy_router)
     return app
