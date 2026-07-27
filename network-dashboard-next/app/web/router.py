@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException, Request
-from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse, Response
+from fastapi.responses import FileResponse, RedirectResponse, Response
 
 from app.auth.dependencies import current_identity, require_admin
 from app.auth.service import Identity
@@ -38,16 +38,11 @@ def _asset_response(path: Path) -> FileResponse:
     return response
 
 
-@router.get("/choose-user", response_class=HTMLResponse)
-def choose_user() -> HTMLResponse:
-    return HTMLResponse(
-        """<!doctype html><html lang="sv"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>Välj användare</title></head>
-<body><main><h1>Vem är du?</h1><form method="post" action="/api/select-user">
-<button name="user" value="johnny">Johnny</button><button name="user" value="kristina">Kristina</button>
-<button name="user" value="viktor">Viktor</button><button name="user" value="guest">Gäst</button>
-</form><p><a href="/login">Admin</a></p></main></body></html>"""
-    )
+@router.get("/choose-user")
+def choose_user(request: Request) -> FileResponse:
+    response = FileResponse(_safe_file(request.app.state.settings.static_root / "live", "choose-user.html"))
+    response.headers["Cache-Control"] = "no-store"
+    return response
 
 
 @router.get("/")
