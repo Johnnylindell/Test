@@ -55,9 +55,20 @@ class GoogleWorkspaceAdapter:
                 "token_refresh_persisted": self.persist_token_refresh,
             }
         except Exception as exc:
-            return {"configured": True, "authenticated": False, "status": "invalid", "error": str(exc)[:240]}
+            return {
+                "configured": True,
+                "authenticated": False,
+                "status": "invalid",
+                "error": str(exc)[:240],
+            }
 
-    def events(self, start: datetime | None = None, end: datetime | None = None, *, fresh: bool = False) -> dict[str, Any]:
+    def events(
+        self,
+        start: datetime | None = None,
+        end: datetime | None = None,
+        *,
+        fresh: bool = False,
+    ) -> dict[str, Any]:
         start = start or datetime.now(timezone.utc)
         end = end or start + timedelta(days=7)
         key = f"google:events:{start.isoformat()}:{end.isoformat()}"
@@ -100,12 +111,18 @@ class GoogleWorkspaceAdapter:
             self.cache.set(key, payload, 90)
             return {**payload, "cache": "miss"}
         except Exception as exc:
-            return {"ok": False, "events": [], "count": 0, "error": str(exc)[:240], "breaker": self.breaker.status("google-calendar")}
+            return {
+                "ok": False,
+                "events": [],
+                "count": 0,
+                "error": str(exc)[:240],
+                "breaker": self.breaker.status("google-calendar"),
+            }
 
     def tasks(self, *, fresh: bool = False) -> dict[str, Any]:
         key = "google:tasks:open"
         if fresh:
-            self.cache.invalidate(key)
+            self.cache.invalidate("google:tasks:")
         cached = self.cache.get(key)
         if cached is not None:
             return {**cached, "cache": "hit"}
@@ -118,7 +135,11 @@ class GoogleWorkspaceAdapter:
             tasks = []
             for tasklist in tasklists:
                 response = service.tasks().list(
-                    tasklist=tasklist["id"], showCompleted=False, showDeleted=False, showHidden=False, maxResults=100
+                    tasklist=tasklist["id"],
+                    showCompleted=False,
+                    showDeleted=False,
+                    showHidden=False,
+                    maxResults=100,
                 ).execute()
                 for row in response.get("items") or []:
                     tasks.append({
@@ -138,7 +159,14 @@ class GoogleWorkspaceAdapter:
             self.cache.set(key, payload, 90)
             return {**payload, "cache": "miss"}
         except Exception as exc:
-            return {"ok": False, "tasks": [], "tasklists": [], "count": 0, "error": str(exc)[:240], "breaker": self.breaker.status("google-tasks")}
+            return {
+                "ok": False,
+                "tasks": [],
+                "tasklists": [],
+                "count": 0,
+                "error": str(exc)[:240],
+                "breaker": self.breaker.status("google-tasks"),
+            }
 
     def create_event(self, payload: dict[str, Any]) -> dict[str, Any]:
         from googleapiclient.discovery import build
@@ -165,4 +193,40 @@ class GoogleWorkspaceAdapter:
             body["due"] = payload["due"]
         task = service.tasks().insert(tasklist=tasklist_id, body=body).execute()
         self.cache.invalidate("google:tasks:")
-        return {"ok": True, "id": task.get("id")}
+        return {"ok": True, "id": task.get("id"), "tasklist_id": tasklist_id}
+
+    def update_task(self, tasklist_id: str, task_id: str, payload: dict[str, Any]) -> dict[str, Any]:
+        from googleapiclient.discovery import build
+
+        service = build("tasks", "v1", credentials=self._credentials(), cache_discovery=False)
+        body: dict[str, Any] = {}
+        for key in ("title", "notes", "due"):
+            if key in payload:
+                body[key] = payload[key]
+        task = service.tasks().patch(tasklist=tasklist_id, task=task_id, body=body).execute()
+        self.cache.invalidate("google:tasks:")
+        return {"ok": True, "task": task}
+
+    def set_task_completed(self, tasklist_id: str, task_id: str, completed: bool) -> dict[str, Any]:
+        from googleapiclient.discovery import build
+
+        service = build("tasks", "v1", credentials=self._credentials(), cache_discovery=False)
+        body: dict[str, Any]
+        if completed:
+            body = {
+                "status": "completed",
+                "completed": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            }
+        else:
+            body = {"status": "needsAction", "completed": None}
+        task = service.tasks().patch(tasklist=tasklist_id, task=task_id, body=body).execute()
+        self.cache.invalidate("google:tasks:")
+        return {"ok": True, "task": task}
+
+    def delete_task(self, tasklist_id: str, task_id: str) -> dict[str, Any]:
+        from googleapiclient.discovery import build
+
+        service = build("tasks", "v1", credentials=self._credentials(), cache_discovery=False)
+        service.tasks().delete(tasklist=tasklist_id, task=task_id).execute()
+        self.cache.invalidate("google:tasks:")
+        return {"ok": True, "task_id": task_id, "tasklist_id": tasklist_id}
