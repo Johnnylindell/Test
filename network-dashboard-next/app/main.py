@@ -22,6 +22,7 @@ from app.integrations.tailscale import TailscaleAdapter
 from app.integrations.weather import WeatherAdapter
 from app.modules.admin_integrations.router import router as admin_integrations_router
 from app.modules.admin_security.router import router as admin_security_router
+from app.modules.assistant.router import router as assistant_router
 from app.modules.backups.router import router as backups_router
 from app.modules.budget.router import router as budget_router
 from app.modules.calendar.router import router as calendar_router
@@ -53,7 +54,7 @@ _SAFE_MUTATIONS = {
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.20.0")
+    app = FastAPI(title=settings.app_name, version="0.21.0")
     database = Database(settings.database_path)
     selected_port = choose_port(settings.port)
     cache = TTLCache()
@@ -144,6 +145,7 @@ def create_app() -> FastAPI:
     app.include_router(health_router)
     app.include_router(home_router)
     app.include_router(experience_router)
+    app.include_router(assistant_router)
     app.include_router(planning_router)
     app.include_router(family_router)
     app.include_router(presence_router)
