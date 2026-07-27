@@ -41,6 +41,15 @@ with sqlite3.connect(dst) as check:
 print(f"Isolerad databaskopia skapad: {dst}")
 PY
 
+PRESENCE_HASH_SECRET=""
+PRESENCE_INGEST_TOKEN=""
+if [[ -f "$ENV_FILE" ]]; then
+  PRESENCE_HASH_SECRET="$(grep -E '^PRESENCE_HASH_SECRET=' "$ENV_FILE" | head -n1 | cut -d= -f2- || true)"
+  PRESENCE_INGEST_TOKEN="$(grep -E '^PRESENCE_INGEST_TOKEN=' "$ENV_FILE" | head -n1 | cut -d= -f2- || true)"
+fi
+[[ -n "$PRESENCE_HASH_SECRET" ]] || PRESENCE_HASH_SECRET="$(openssl rand -hex 32)"
+[[ -n "$PRESENCE_INGEST_TOKEN" ]] || PRESENCE_INGEST_TOKEN="$(openssl rand -hex 32)"
+
 cat > "$ENV_FILE" <<EOF
 LEGACY_ORIGIN=http://127.0.0.1:8792
 DASHBOARD_DB_PATH=$NEXT_DB_PATH
@@ -48,9 +57,12 @@ DASHBOARD_RUNTIME_FILE=$RUNTIME_FILE
 DASHBOARD_READ_ONLY=true
 ALLOW_LEGACY_WRITES=false
 EXTERNAL_SIDE_EFFECTS=false
+PRESENCE_HASH_SECRET=$PRESENCE_HASH_SECRET
+PRESENCE_INGEST_TOKEN=$PRESENCE_INGEST_TOKEN
 PORT=0
 COOKIE_SECURE=false
 EOF
+chmod 600 "$ENV_FILE"
 
 cat > "$SERVICE_FILE" <<EOF
 [Unit]
@@ -113,6 +125,7 @@ Runtime-fil: $RUNTIME_FILE
 Live-databas (orörd): $LIVE_DB_PATH
 Next-databaskopia: $NEXT_DB_PATH
 Next körs skrivskyddad och utan externa sidoeffekter.
+Närvarohemligheter finns i $ENV_FILE med filrättighet 600.
 Gamla appen på http://127.0.0.1:8792 har inte ändrats.
 
 Status:
