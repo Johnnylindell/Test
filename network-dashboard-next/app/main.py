@@ -41,7 +41,7 @@ _SAFE_MUTATIONS = {"/login", "/logout", "/api/select-user"}
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.10.0")
+    app = FastAPI(title=settings.app_name, version="0.11.0")
     database = Database(settings.database_path)
     selected_port = choose_port(settings.port)
     cache = TTLCache()
@@ -55,7 +55,11 @@ def create_app() -> FastAPI:
     app.state.circuit_breaker = breaker
     app.state.home_assistant = HomeAssistantAdapter(database, cache, breaker)
     app.state.tailscale = TailscaleAdapter(cache, breaker, selected_port)
-    app.state.google_workspace = GoogleWorkspaceAdapter(cache, breaker)
+    app.state.google_workspace = GoogleWorkspaceAdapter(
+        cache,
+        breaker,
+        persist_token_refresh=settings.external_side_effects,
+    )
     app.state.weather = WeatherAdapter(database, cache, breaker)
 
     @app.middleware("http")
