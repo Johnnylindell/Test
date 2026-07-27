@@ -1,4 +1,4 @@
-const CACHE_NAME = "lindells-next-shell-v1";
+const CACHE_NAME = "lindells-next-shell-v2";
 const SHELL = [
   "/",
   "/assets/app.css",
@@ -10,12 +10,16 @@ const SHELL = [
   "/app-icon.svg",
 ];
 
+async function cacheShell() {
+  const cache = await caches.open(CACHE_NAME);
+  await Promise.allSettled(SHELL.map(async path => {
+    const response = await fetch(path, { cache: "reload", credentials: "same-origin" });
+    if (response.ok) await cache.put(path, response);
+  }));
+}
+
 self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(SHELL))
-      .then(() => self.skipWaiting())
-  );
+  event.waitUntil(cacheShell().then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", event => {
@@ -26,7 +30,7 @@ self.addEventListener("activate", event => {
   );
 });
 
-function isApiRequest(url) {
+function isPrivateRequest(url) {
   return url.pathname.startsWith("/api/")
     || url.pathname.startsWith("/login")
     || url.pathname.startsWith("/logout")
@@ -34,27 +38,35 @@ function isApiRequest(url) {
     || url.pathname.startsWith("/preview-v2");
 }
 
+function isStaticAsset(url) {
+  return url.pathname.startsWith("/assets/")
+    || url.pathname.startsWith("/live/")
+    || url.pathname === "/manifest.webmanifest"
+    || url.pathname === "/app-icon.svg";
+}
+
 self.addEventListener("fetch", event => {
   const request = event.request;
   if (request.method !== "GET") return;
   const url = new URL(request.url);
-  if (url.origin !== self.location.origin || isApiRequest(url)) return;
+  if (url.origin !== self.location.origin || isPrivateRequest(url)) return;
 
   if (request.mode === "navigate") {
     event.respondWith(
-      fetch(request)
+      fetch(request, { cache: "no-store" })
         .then(response => {
-          if (response.ok) {
+          if (response.ok && url.pathname === "/") {
             const copy = response.clone();
             caches.open(CACHE_NAME).then(cache => cache.put("/", copy));
           }
           return response;
         })
-        .catch(() => caches.match("/"))
+        .catch(async () => (await caches.match("/")) || Response.error())
     );
     return;
   }
 
+  if (!isStaticAsset(url)) return;
   event.respondWith(
     caches.match(request).then(cached => {
       const network = fetch(request).then(response => {
