@@ -44,3 +44,30 @@ def set_completion(item_id: str, payload: ShoppingCompletion, _: Identity = Depe
         return {"ok": True, "view": shopping.overview()}
     except ValueError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.post("/suggestions/{suggestion_id}/shopping", dependencies=[Depends(require_same_origin)])
+def add_suggestion(
+    suggestion_id: str,
+    identity: Identity = Depends(require_login),
+    shopping: ShoppingService = Depends(service),
+) -> dict:
+    try:
+        item_id = shopping.add_suggestion(suggestion_id, identity.user)
+        return {"ok": True, "item_id": item_id, "view": shopping.overview()}
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.delete("/suggestions/{suggestion_id}", dependencies=[Depends(require_same_origin)])
+def dismiss_suggestion(
+    suggestion_id: str,
+    days: int = 30,
+    _: Identity = Depends(require_login),
+    shopping: ShoppingService = Depends(service),
+) -> dict:
+    try:
+        shopping.dismiss_suggestion(suggestion_id, days)
+        return {"ok": True, "view": shopping.overview()}
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
