@@ -47,12 +47,19 @@ PY
 
 PRESENCE_HASH_SECRET=""
 PRESENCE_INGEST_TOKEN=""
+HOMELAB_ADMIN_PASSWORD=""
+ADMIN_PASSWORD_GENERATED=false
 if [[ -f "$ENV_FILE" ]]; then
   PRESENCE_HASH_SECRET="$(grep -E '^PRESENCE_HASH_SECRET=' "$ENV_FILE" | head -n1 | cut -d= -f2- || true)"
   PRESENCE_INGEST_TOKEN="$(grep -E '^PRESENCE_INGEST_TOKEN=' "$ENV_FILE" | head -n1 | cut -d= -f2- || true)"
+  HOMELAB_ADMIN_PASSWORD="$(grep -E '^HOMELAB_ADMIN_PASSWORD=' "$ENV_FILE" | head -n1 | cut -d= -f2- || true)"
 fi
 [[ -n "$PRESENCE_HASH_SECRET" ]] || PRESENCE_HASH_SECRET="$(openssl rand -hex 32)"
 [[ -n "$PRESENCE_INGEST_TOKEN" ]] || PRESENCE_INGEST_TOKEN="$(openssl rand -hex 32)"
+if [[ -z "$HOMELAB_ADMIN_PASSWORD" ]]; then
+  HOMELAB_ADMIN_PASSWORD="$(openssl rand -hex 12)"
+  ADMIN_PASSWORD_GENERATED=true
+fi
 
 cat > "$ENV_FILE" <<EOF
 LEGACY_ORIGIN=http://127.0.0.1:8792
@@ -61,6 +68,7 @@ DASHBOARD_RUNTIME_FILE=$RUNTIME_FILE
 DASHBOARD_READ_ONLY=true
 ALLOW_LEGACY_WRITES=false
 EXTERNAL_SIDE_EFFECTS=false
+HOMELAB_ADMIN_PASSWORD=$HOMELAB_ADMIN_PASSWORD
 PRESENCE_HASH_SECRET=$PRESENCE_HASH_SECRET
 PRESENCE_INGEST_TOKEN=$PRESENCE_INGEST_TOKEN
 NOTIFICATION_SCHEDULER_ENABLED=false
@@ -147,11 +155,28 @@ Runtime-fil: $RUNTIME_FILE
 Live-databas (orörd): $LIVE_DB_PATH
 Next-databaskopia: $NEXT_DB_PATH
 Next körs skrivskyddad och utan externa sidoeffekter.
-Närvarohemligheter finns i $ENV_FILE med filrättighet 600.
+Närvarohemligheter och bootstrap-lösenord finns i $ENV_FILE med filrättighet 600.
 Inaktiv närvaroexempelkonfiguration: $PRESENCE_CONFIG
 Google-token för Next: $GOOGLE_TOKEN_PATH
 Google client secret ska placeras i: $GOOGLE_CLIENT_SECRETS_PATH
 Gamla appen på http://127.0.0.1:8792 har inte ändrats.
+EOF
+
+if [[ "$ADMIN_PASSWORD_GENERATED" == true ]]; then
+  cat <<EOF
+
+Ett nytt Next-adminlösenord skapades:
+  $HOMELAB_ADMIN_PASSWORD
+Spara det i en lösenordshanterare. Det kan senare bytas i adminpanelen.
+EOF
+else
+  cat <<EOF
+
+Befintligt Next-adminlösenord i miljöfilen har bevarats.
+EOF
+fi
+
+cat <<EOF
 
 Status:
   systemctl --user status network-dashboard-next.service --no-pager
