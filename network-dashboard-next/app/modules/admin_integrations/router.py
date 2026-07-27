@@ -14,6 +14,14 @@ class HomeAssistantCommand(BaseModel):
     service: str = Field(min_length=3, max_length=40)
 
 
+def _require_external(request: Request) -> None:
+    if request.app.state.settings.read_only or not request.app.state.settings.external_side_effects:
+        raise HTTPException(
+            status_code=status.HTTP_423_LOCKED,
+            detail="Externa sidoeffekter är avstängda",
+        )
+
+
 @router.get("/overview")
 def overview(request: Request, _: Identity = Depends(require_admin)) -> dict:
     ha = request.app.state.home_assistant.status()
@@ -52,6 +60,7 @@ def home_assistant_service(
     request: Request,
     _: Identity = Depends(require_admin),
 ) -> dict:
+    _require_external(request)
     try:
         result = request.app.state.home_assistant.call_service(payload.entity_id, payload.service)
     except ValueError as exc:
