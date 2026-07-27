@@ -41,3 +41,12 @@ class NotificationRule(BaseModel):
 
 class NotificationRulesUpdate(BaseModel):
     rules: list[NotificationRule] = Field(default_factory=list, max_length=200)
+
+
+class NotificationDeliveryRequest(BaseModel):
+    title: str = Field(default="Lindells app", min_length=1, max_length=120)
+    message: str = Field(min_length=1, max_length=500)
+    target: str = Field(default="all", max_length=80)
+    severity: str = Field(default="normal", max_length=30)
+    send_push: bool = True
+    send_discord: bool = False
