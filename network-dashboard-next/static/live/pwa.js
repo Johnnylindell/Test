@@ -17,20 +17,26 @@ async function registration() {
 
 async function status() {
   if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) {
-    return { supported: false, subscribed: false, permission: "unsupported" };
+    return { supported: false, subscribed: false, permission: "unsupported", readOnly: false };
   }
-  const worker = await registration();
+  const [worker, home] = await Promise.all([
+    registration(),
+    api("/api/v2/home/summary"),
+  ]);
   const subscription = await worker.pushManager.getSubscription();
   return {
     supported: true,
     subscribed: Boolean(subscription),
     permission: Notification.permission,
     endpoint: subscription?.endpoint || "",
+    readOnly: Boolean(home.runtime?.read_only),
   };
 }
 
 async function subscribe() {
   if (!("PushManager" in window)) throw new Error("Pushnotiser stöds inte i denna webbläsare");
+  const current = await status();
+  if (current.readOnly) throw new Error("Aviseringar kan aktiveras när Next lämnar skrivskyddat parallelläge");
   const key = await api("/api/v2/notifications/public-key");
   if (!key.public_key) throw new Error("VAPID-nyckel saknas i servern");
   const permission = await Notification.requestPermission();
@@ -51,9 +57,11 @@ async function subscribe() {
 }
 
 async function unsubscribe() {
+  const current = await status();
+  if (current.readOnly) throw new Error("Aviseringar kan ändras när Next lämnar skrivskyddat parallelläge");
   const worker = await registration();
   const subscription = await worker.pushManager.getSubscription();
-  if (!subscription) return status();
+  if (!subscription) return current;
   const endpoint = subscription.endpoint;
   await api(`/api/v2/notifications/subscriptions?endpoint=${encodeURIComponent(endpoint)}`, { method: "DELETE" });
   await subscription.unsubscribe();
@@ -61,6 +69,11 @@ async function unsubscribe() {
 }
 
 function emitNotice(message, tone = "good") {
+  const target = document.querySelector("#app-notice");
+  if (target) {
+    target.innerHTML = `<span class="badge badge--${tone}">${String(message).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}</span>`;
+    window.setTimeout(() => { target.innerHTML = ""; }, 5200);
+  }
   window.dispatchEvent(new CustomEvent("lindells:notice", { detail: { message, tone } }));
 }
 
@@ -71,6 +84,11 @@ async function refreshPushControl() {
   try {
     const current = await status();
     control.dataset.subscribed = String(current.subscribed);
+    if (current.readOnly) {
+      control.innerHTML = `Aviseringar efter aktivering <span>—</span>`;
+      control.title = "Pushprenumerationer sparas inte i skrivskyddat parallelläge";
+      return;
+    }
     control.innerHTML = current.supported
       ? `${current.subscribed ? "Stäng av aviseringar" : "Aktivera aviseringar"} <span>›</span>`
       : `Aviseringar stöds inte <span>—</span>`;
