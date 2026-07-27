@@ -16,3 +16,17 @@ class GoogleTaskCreate(BaseModel):
     notes: str = Field(default="", max_length=4000)
     due: str = Field(default="", max_length=80)
     tasklist_id: str = Field(default="@default", max_length=300)
+
+
+class GoogleTaskUpdate(BaseModel):
+    title: str | None = Field(default=None, min_length=1, max_length=300)
+    notes: str | None = Field(default=None, max_length=4000)
+    due: str | None = Field(default=None, max_length=80)
+
+
+class GoogleTaskCompletion(BaseModel):
+    completed: bool = True
+
+
+class GoogleTaskDelete(BaseModel):
+    confirm: bool = False
