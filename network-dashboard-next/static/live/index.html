@@ -3,27 +3,80 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#214f3c">
-  <title>Lindells app Next</title>
+  <meta name="theme-color" content="#174c39">
+  <meta name="color-scheme" content="light">
+  <title>Lindells app</title>
   <link rel="stylesheet" href="/assets/app.css">
 </head>
-<body>
-  <div class="shell">
-    <header class="topbar">
-      <div class="brand"><div class="brand__mark">L</div><div><h1>Lindells app</h1><p>Modulär parallellversion</p></div></div>
-      <div class="profile"><span id="runtime-mode" class="badge badge--warning">Kontrollerar…</span><span id="user-label">Laddar…</span><a href="/choose-user">Byt profil</a></div>
+<body class="family-app">
+  <div class="app-background" aria-hidden="true"></div>
+  <div class="shell shell--family">
+    <header class="topbar topbar--family">
+      <a class="brand brand--family" href="#home" aria-label="Gå till startsidan">
+        <div class="brand__mark">L</div>
+        <div class="brand__copy"><h1>Lindells</h1><p>Familjens vardag, samlad</p></div>
+      </a>
+      <div class="top-actions" aria-label="Snabbåtgärder">
+        <button class="icon-button" id="search-button" type="button" aria-label="Sök i appen" title="Sök">
+          <span aria-hidden="true">⌕</span><span class="desktop-label">Sök</span>
+        </button>
+        <button class="icon-button icon-button--notification" id="notification-button" type="button" aria-label="Öppna aviseringar" title="Aviseringar">
+          <span aria-hidden="true">♢</span><span id="notification-count" class="counter" hidden>0</span>
+        </button>
+        <button class="new-button" id="new-button" type="button"><span aria-hidden="true">＋</span><span>Nytt</span></button>
+        <button class="profile-button" id="profile-button" type="button" aria-label="Öppna profilmeny">
+          <span id="profile-avatar" class="avatar">L</span>
+          <span class="profile-button__copy"><strong id="user-label">Laddar…</strong><small id="runtime-mode">Kontrollerar…</small></span>
+          <span aria-hidden="true">⌄</span>
+        </button>
+      </div>
     </header>
+
     <div id="app-notice" class="notice" aria-live="polite"></div>
-    <main id="app-main" aria-live="polite"><div class="skeleton-list"><div class="skeleton"></div><div class="skeleton"></div></div></main>
+    <main id="app-main" aria-live="polite" tabindex="-1">
+      <div class="skeleton-list"><div class="skeleton skeleton--hero"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+    </main>
   </div>
-  <nav class="nav" aria-label="Huvudnavigering">
-    <button type="button" data-view="home">Hem</button>
-    <button type="button" data-view="planning">Planera</button>
-    <button type="button" data-view="family">Familj</button>
-    <button type="button" data-view="food">Mat</button>
-    <button type="button" data-view="more">Mer</button>
-    <a id="admin-link" href="/preview-v2" hidden>V2</a>
+
+  <nav class="nav nav--family" aria-label="Huvudnavigering">
+    <button type="button" data-view="home"><span aria-hidden="true">⌂</span><small>Hem</small></button>
+    <button type="button" data-view="planning"><span aria-hidden="true">✓</span><small>Planera</small></button>
+    <button type="button" data-view="food"><span aria-hidden="true">♨</span><small>Mat</small></button>
+    <button type="button" data-view="family"><span aria-hidden="true">♧</span><small>Familj</small></button>
+    <button type="button" data-view="more"><span aria-hidden="true">•••</span><small>Mer</small></button>
   </nav>
+
+  <dialog id="search-dialog" class="sheet sheet--search">
+    <form method="dialog" class="sheet__header"><div><p class="eyebrow">Hela familjeappen</p><h2>Sök</h2></div><button class="icon-button" value="cancel" aria-label="Stäng">×</button></form>
+    <form id="global-search-form" class="search-form">
+      <label class="search-box"><span aria-hidden="true">⌕</span><input id="global-search-input" name="q" autocomplete="off" placeholder="Sök efter uppgift, recept, sak eller inköp…"><button class="button button--primary">Sök</button></label>
+    </form>
+    <div id="global-search-results" class="sheet__body">Skriv minst två tecken för att söka.</div>
+  </dialog>
+
+  <dialog id="new-dialog" class="sheet sheet--actions">
+    <form method="dialog" class="sheet__header"><div><p class="eyebrow">Snabbt och enkelt</p><h2>Skapa nytt</h2></div><button class="icon-button" value="cancel" aria-label="Stäng">×</button></form>
+    <div class="action-grid sheet__body">
+      <button data-quick-create="reminder"><span>✓</span><strong>Påminnelse</strong><small>Något som ska göras</small></button>
+      <button data-quick-create="shopping"><span>＋</span><strong>Inköpsvara</strong><small>Lägg på listan</small></button>
+      <button data-quick-create="note"><span>✎</span><strong>Anteckning</strong><small>Dela med familjen</small></button>
+      <button data-quick-create="wishlist"><span>☆</span><strong>Önskning</strong><small>Spara en idé</small></button>
+      <button data-quick-create="recipe"><span>♨</span><strong>Recept</strong><small>Spara eller importera</small></button>
+      <button data-quick-create="thing"><span>⌂</span><strong>Sak hemma</strong><small>Registrera var den finns</small></button>
+    </div>
+  </dialog>
+
+  <dialog id="profile-dialog" class="sheet sheet--profile">
+    <form method="dialog" class="sheet__header"><div><p class="eyebrow">Din profil</p><h2 id="profile-dialog-title">Familjemedlem</h2></div><button class="icon-button" value="cancel" aria-label="Stäng">×</button></form>
+    <div class="sheet__body profile-menu">
+      <div class="status-panel"><span id="profile-dialog-avatar" class="avatar avatar--large">L</span><div><strong id="profile-dialog-user">Laddar…</strong><small id="profile-dialog-mode">Kontrollerar driftläge…</small></div></div>
+      <button type="button" data-profile-action="dashboard">Öppna min sida <span>›</span></button>
+      <a href="/choose-user">Byt familjeprofil <span>›</span></a>
+      <a id="admin-link" href="/preview-v2" hidden>Öppna administration <span>›</span></a>
+      <a href="/logout">Logga ut <span>›</span></a>
+    </div>
+  </dialog>
+
   <script type="module" src="/live/app.js"></script>
 </body>
 </html>
