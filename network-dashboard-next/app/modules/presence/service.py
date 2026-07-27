@@ -30,11 +30,35 @@ class PresenceService:
             raise ValueError("Enhetsidentifieraren är för kort")
         return hmac.new(self.hash_secret, value.encode("utf-8"), hashlib.sha256).hexdigest()
 
-    def overview(self) -> dict[str, Any]:
+    def devices(self) -> list[dict[str, Any]]:
+        """Return admin-safe device records without source identifiers or hashes."""
+        if not self.database.table_exists("presence_devices"):
+            return []
         rows = self.database.fetch_all(
-            "SELECT id,owner,label,notify_arrival,active,initialized,present,last_seen,last_checked,last_transition_at "
-            "FROM presence_devices ORDER BY owner COLLATE NOCASE,label COLLATE NOCASE"
-        ) if self.database.table_exists("presence_devices") else []
+            "SELECT id,owner,label,notify_arrival,active,initialized,present,last_seen,last_checked,"
+            "last_transition_at,created_at,updated_at FROM presence_devices "
+            "ORDER BY owner COLLATE NOCASE,label COLLATE NOCASE"
+        )
+        return [
+            {
+                "id": str(row.get("id") or ""),
+                "owner": str(row.get("owner") or "")[:80],
+                "label": str(row.get("label") or "")[:120],
+                "notify_arrival": bool(row.get("notify_arrival")),
+                "active": bool(row.get("active")),
+                "initialized": bool(row.get("initialized")),
+                "present": bool(row.get("present")),
+                "last_seen": str(row.get("last_seen") or "")[:80],
+                "last_checked": str(row.get("last_checked") or "")[:80],
+                "last_transition_at": str(row.get("last_transition_at") or "")[:80],
+                "created_at": str(row.get("created_at") or "")[:80],
+                "updated_at": str(row.get("updated_at") or "")[:80],
+            }
+            for row in rows
+        ]
+
+    def overview(self) -> dict[str, Any]:
+        rows = self.devices()
         people: dict[str, dict[str, Any]] = {}
         for row in rows:
             owner = str(row.get("owner") or "").strip()
@@ -54,7 +78,11 @@ class PresenceService:
                 entry["devices_present"] += 1
             if str(row.get("last_seen") or "") > str(entry.get("last_seen") or ""):
                 entry["last_seen"] = row.get("last_seen") or ""
-        known = {str(profile.get("id") or profile.get("name") or "").strip().capitalize() for profile in self.database.get_json_state("family_profiles", []) if isinstance(profile, dict)}
+        known = {
+            str(profile.get("id") or profile.get("name") or "").strip().capitalize()
+            for profile in self.database.get_json_state("family_profiles", [])
+            if isinstance(profile, dict)
+        }
         known.update({"Johnny", "Kristina", "Viktor", "Alfred"})
         normalized = {name.casefold() for name in people}
         for name in sorted(known):
@@ -95,7 +123,15 @@ class PresenceService:
             "owner=excluded.owner,label=excluded.label,notify_arrival=excluded.notify_arrival,active=1,updated_at=excluded.updated_at",
             (device_id, clean_owner, str(label or f"{clean_owner}s telefon")[:120], source_hash, 1 if notify_arrival else 0, now, now),
         )
-        return {"ok": True, "device": {"id": device_id, "owner": clean_owner, "label": str(label or f"{clean_owner}s telefon")[:120]}}
+        return {
+            "ok": True,
+            "device": {
+                "id": device_id,
+                "owner": clean_owner,
+                "label": str(label or f"{clean_owner}s telefon")[:120],
+                "notify_arrival": bool(notify_arrival),
+            },
+        }
 
     def remove(self, device_id: str) -> bool:
         before = self.database.count("presence_devices", "id=?", (device_id,))
@@ -157,4 +193,10 @@ class PresenceService:
                         "acknowledged_at": None,
                         "metadata": {"owner": owner, "presence_event_id": event_id},
                     })
-        return {"ok": True, "initialized": was_initialized, "transition": transition, "present": bool(present), "alert": created}
+        return {
+            "ok": True,
+            "initialized": was_initialized,
+            "transition": transition,
+            "present": bool(present),
+            "alert": created,
+        }
