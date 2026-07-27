@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import html
+
 from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 
@@ -10,13 +12,35 @@ router = APIRouter(tags=["auth"])
 
 
 def _login_page(error: str = "") -> str:
-    message = f'<p class="error">{error}</p>' if error else ""
-    return f"""<!doctype html><html lang="sv"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin</title></head>
-<body><main><h1>Admin</h1>{message}<form method="post" action="/login">
-<input type="hidden" name="username" value="admin"><label>Lösenord
-<input type="password" name="password" autocomplete="current-password" autofocus></label>
-<button type="submit">Logga in</button></form><p><a href="/">Tillbaka</a></p></main></body></html>"""
+    message = f'<p class="error" role="alert">{html.escape(error)}</p>' if error else ""
+    return f"""<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#174c39">
+  <title>Admin · Lindells app</title>
+  <link rel="icon" href="/app-icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/entry.css">
+</head>
+<body>
+  <main class="entry">
+    <div class="entry__brand"><span class="entry__mark">L</span><div><h1>Lindells app</h1><p>Skyddad administration</p></div></div>
+    <section class="entry__card">
+      <header class="entry__hero"><p>Administration</p><h2>Logga in säkert</h2><small>Sessionen är tidsbegränsad och alla känsliga åtgärder kräver adminbehörighet.</small></header>
+      {message}
+      <form class="entry__form" method="post" action="/login">
+        <input type="hidden" name="username" value="admin">
+        <label class="entry__field">Lösenord
+          <input type="password" name="password" autocomplete="current-password" required autofocus>
+        </label>
+        <button class="entry__button" type="submit">Logga in</button>
+      </form>
+      <footer class="entry__footer"><span>För många felaktiga försök spärras tillfälligt.</span><a class="entry__link" href="/choose-user">Till familjeprofiler</a></footer>
+    </section>
+  </main>
+</body>
+</html>"""
 
 
 def _source(request: Request) -> str:
