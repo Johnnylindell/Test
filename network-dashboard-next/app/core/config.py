@@ -32,11 +32,14 @@ class Settings:
     notification_scheduler_seconds: int
     google_token_path: Path
     google_client_secrets_path: Path
+    home_assistant_verify_tls: bool
+    home_assistant_ca_bundle: Path | None
 
 
 def load_settings() -> Settings:
     root = Path(__file__).resolve().parents[2]
     config_root = Path.home() / ".config" / "network-dashboard-next"
+    ca_value = os.getenv("HOME_ASSISTANT_CA_BUNDLE", "").strip()
     return Settings(
         app_name=os.getenv("DASHBOARD_APP_NAME", "Lindells app Next"),
         host=os.getenv("HOST", "0.0.0.0"),
@@ -71,6 +74,8 @@ def load_settings() -> Settings:
         google_client_secrets_path=Path(
             os.getenv("GOOGLE_CLIENT_SECRETS_PATH", str(config_root / "google_client_secret.json"))
         ).expanduser(),
+        home_assistant_verify_tls=_flag("HOME_ASSISTANT_VERIFY_TLS", True),
+        home_assistant_ca_bundle=Path(ca_value).expanduser() if ca_value else None,
     )
 
 
