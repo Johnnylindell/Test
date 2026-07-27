@@ -30,6 +30,7 @@ from app.modules.family.router import router as family_router
 from app.modules.food.router import router as food_router
 from app.modules.health.router import router as health_router
 from app.modules.home.router import router as home_router
+from app.modules.home_assistant.router import router as home_assistant_router
 from app.modules.homelab.router import router as homelab_router
 from app.modules.household.router import router as household_router
 from app.modules.inventory.router import router as inventory_router
@@ -43,11 +44,16 @@ from app.modules.wishlists.router import router as wishlists_router
 from app.web.router import router as web_router
 
 logger = logging.getLogger("network-dashboard-next")
-_SAFE_MUTATIONS = {"/login", "/logout", "/api/select-user"}
+_SAFE_MUTATIONS = {
+    "/login",
+    "/logout",
+    "/api/select-user",
+    "/api/v2/budget/excel/preview",
+}
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.16.0")
+    app = FastAPI(title=settings.app_name, version="0.20.0")
     database = Database(settings.database_path)
     selected_port = choose_port(settings.port)
     cache = TTLCache()
@@ -148,6 +154,7 @@ def create_app() -> FastAPI:
     app.include_router(household_router)
     app.include_router(calendar_router)
     app.include_router(weather_router)
+    app.include_router(home_assistant_router)
     app.include_router(budget_router)
     app.include_router(notifications_router)
     app.include_router(homelab_router)
