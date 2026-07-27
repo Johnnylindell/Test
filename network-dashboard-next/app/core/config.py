@@ -46,7 +46,7 @@ def load_settings() -> Settings:
             min(8 * 3600, int(os.getenv("HOMELAB_ADMIN_SESSION_SECONDS", "7200"))),
         ),
         cookie_secure=_flag("COOKIE_SECURE", True),
-        read_only=_flag("DASHBOARD_READ_ONLY", True),
+        read_only=_flag("DASHBOARD_READ_ONLY", False),
         allow_legacy_writes=_flag("ALLOW_LEGACY_WRITES", False),
         external_side_effects=_flag("EXTERNAL_SIDE_EFFECTS", False),
     )
