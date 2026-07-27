@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import secrets
 import time
 from typing import Any
 
@@ -38,7 +39,7 @@ class ShoppingRepository:
     def add(self, payload: dict[str, Any], actor: str) -> str:
         if not self.ready():
             raise RuntimeError("Shopping-schema saknas")
-        item_id = f"item-{int(time.time() * 1000)}"
+        item_id = "item-" + secrets.token_hex(10)
         now = time.strftime("%Y-%m-%dT%H:%M:%S%z")
         with self.database.transaction() as connection:
             connection.execute(
