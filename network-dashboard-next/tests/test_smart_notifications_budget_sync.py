@@ -12,6 +12,7 @@ from app.modules.notifications.repository import NotificationsRepository
 
 
 def migrated_database(tmp_path: Path) -> Database:
+    tmp_path.mkdir(parents=True, exist_ok=True)
     path = tmp_path / "dashboard.sqlite3"
     sqlite3.connect(path).close()
     upgrade(path, Path(__file__).resolve().parents[1] / "migrations")
