@@ -5,7 +5,12 @@ from fastapi import APIRouter, Depends, HTTPException, Request, status
 from app.auth.dependencies import require_admin, require_login, require_same_origin
 from app.auth.service import Identity
 from app.modules.notifications.repository import NotificationsRepository
-from app.modules.notifications.schemas import AlertCreate, NotificationRulesUpdate, PushSubscriptionRequest
+from app.modules.notifications.schemas import (
+    AlertCreate,
+    NotificationDeliveryRequest,
+    NotificationRulesUpdate,
+    PushSubscriptionRequest,
+)
 from app.modules.notifications.service import NotificationsService
 
 router = APIRouter(prefix="/api/v2/notifications", tags=["notifications"])
@@ -20,49 +25,97 @@ def service(repo: NotificationsRepository = Depends(repository)) -> Notification
 
 
 @router.get("/overview")
-def overview(identity: Identity = Depends(require_login), notifications: NotificationsService = Depends(service)) -> dict:
+def overview(
+    identity: Identity = Depends(require_login),
+    notifications: NotificationsService = Depends(service),
+) -> dict:
     return notifications.overview(identity)
 
 
 @router.get("/public-key")
-def public_key(repo: NotificationsRepository = Depends(repository), _: Identity = Depends(require_login)) -> dict:
+def public_key(
+    repo: NotificationsRepository = Depends(repository),
+    _: Identity = Depends(require_login),
+) -> dict:
     return {"ok": True, "public_key": repo.public_push_key()}
 
 
 @router.get("/rules")
-def rules(repo: NotificationsRepository = Depends(repository), _: Identity = Depends(require_admin)) -> dict:
+def rules(
+    repo: NotificationsRepository = Depends(repository),
+    _: Identity = Depends(require_admin),
+) -> dict:
     return {"ok": True, "rules": repo.rules()}
 
 
 @router.put("/rules", dependencies=[Depends(require_same_origin)])
-def update_rules(payload: NotificationRulesUpdate, repo: NotificationsRepository = Depends(repository), _: Identity = Depends(require_admin)) -> dict:
+def update_rules(
+    payload: NotificationRulesUpdate,
+    repo: NotificationsRepository = Depends(repository),
+    _: Identity = Depends(require_admin),
+) -> dict:
     repo.save_rules([row.model_dump() for row in payload.rules])
     return {"ok": True, "rules": repo.rules()}
 
 
 @router.get("/diagnostics")
-def diagnostics(repo: NotificationsRepository = Depends(repository), _: Identity = Depends(require_admin)) -> dict:
-    return {"ok": True, **repo.diagnostics()}
+def diagnostics(
+    request: Request,
+    repo: NotificationsRepository = Depends(repository),
+    _: Identity = Depends(require_admin),
+) -> dict:
+    return {
+        "ok": True,
+        **repo.diagnostics(),
+        "external_side_effects": request.app.state.settings.external_side_effects,
+    }
+
+
+@router.post("/deliver", dependencies=[Depends(require_same_origin)])
+def deliver(
+    payload: NotificationDeliveryRequest,
+    request: Request,
+    _: Identity = Depends(require_admin),
+) -> dict:
+    if not request.app.state.settings.external_side_effects:
+        raise HTTPException(status_code=status.HTTP_423_LOCKED, detail="Externa sidoeffekter är avstängda")
+    return request.app.state.notification_delivery.deliver(**payload.model_dump())
 
 
 @router.post("/subscriptions", dependencies=[Depends(require_same_origin)])
-def subscribe(payload: PushSubscriptionRequest, identity: Identity = Depends(require_login), notifications: NotificationsService = Depends(service)) -> dict:
+def subscribe(
+    payload: PushSubscriptionRequest,
+    identity: Identity = Depends(require_login),
+    notifications: NotificationsService = Depends(service),
+) -> dict:
     return notifications.subscribe(identity, payload.subscription.model_dump(mode="json"))
 
 
 @router.delete("/subscriptions", dependencies=[Depends(require_same_origin)])
-def unsubscribe(endpoint: str, _: Identity = Depends(require_login), repo: NotificationsRepository = Depends(repository)) -> dict:
+def unsubscribe(
+    endpoint: str,
+    _: Identity = Depends(require_login),
+    repo: NotificationsRepository = Depends(repository),
+) -> dict:
     repo.delete_subscription(endpoint)
     return {"ok": True}
 
 
 @router.post("/alerts", dependencies=[Depends(require_same_origin)])
-def create_alert(payload: AlertCreate, identity: Identity = Depends(require_admin), notifications: NotificationsService = Depends(service)) -> dict:
+def create_alert(
+    payload: AlertCreate,
+    identity: Identity = Depends(require_admin),
+    notifications: NotificationsService = Depends(service),
+) -> dict:
     return notifications.create_alert(identity, payload.model_dump())
 
 
 @router.post("/alerts/{alert_id}/ack", dependencies=[Depends(require_same_origin)])
-def acknowledge(alert_id: str, _: Identity = Depends(require_login), repo: NotificationsRepository = Depends(repository)) -> dict:
+def acknowledge(
+    alert_id: str,
+    _: Identity = Depends(require_login),
+    repo: NotificationsRepository = Depends(repository),
+) -> dict:
     alert = repo.acknowledge(alert_id)
     if not alert:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Aviseringen hittades inte")
