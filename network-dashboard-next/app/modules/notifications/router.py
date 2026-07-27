@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request, status
 
 from app.auth.dependencies import require_admin, require_login, require_same_origin
 from app.auth.service import Identity
+from app.modules.notifications.evaluator import SmartNotificationEvaluator
 from app.modules.notifications.repository import NotificationsRepository
 from app.modules.notifications.schemas import (
     AlertCreate,
@@ -22,6 +23,10 @@ def repository(request: Request) -> NotificationsRepository:
 
 def service(repo: NotificationsRepository = Depends(repository)) -> NotificationsService:
     return NotificationsService(repo)
+
+
+def evaluator(request: Request, repo: NotificationsRepository = Depends(repository)) -> SmartNotificationEvaluator:
+    return SmartNotificationEvaluator(request.app.state.database, repo)
 
 
 @router.get("/overview")
@@ -56,6 +61,26 @@ def update_rules(
 ) -> dict:
     repo.save_rules([row.model_dump() for row in payload.rules])
     return {"ok": True, "rules": repo.rules()}
+
+
+@router.post("/checks", dependencies=[Depends(require_same_origin)])
+def run_checks(
+    request: Request,
+    checks: SmartNotificationEvaluator = Depends(evaluator),
+    _: Identity = Depends(require_admin),
+) -> dict:
+    result = checks.evaluate(trigger="manual")
+    if request.app.state.settings.external_side_effects:
+        for alert in result.get("created", []):
+            request.app.state.notification_delivery.deliver(
+                title="Lindells app",
+                message=str(alert.get("message") or ""),
+                target=str(alert.get("target") or "all"),
+                severity=str(alert.get("severity") or "normal"),
+                send_push=True,
+                send_discord=False,
+            )
+    return result
 
 
 @router.get("/diagnostics")
