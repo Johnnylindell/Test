@@ -53,8 +53,9 @@ class TTLCache:
         if cached is not _MISSING:
             return cached, True
 
-        # A per-key lock prevents a burst of identical requests from all calling an
-        # external integration after the same cache entry expires.
+        # Per-key locks are intentionally retained. Removing one while another
+        # waiter still references it could allow a third caller to create a second
+        # lock and execute the same external loader concurrently.
         with self._lock:
             load_lock = self._loading.setdefault(key, RLock())
         with load_lock:
@@ -62,10 +63,7 @@ class TTLCache:
             if cached is not _MISSING:
                 return cached, True
             value = loader()
-            result = self.set(key, value, ttl_seconds)
-        with self._lock:
-            self._loading.pop(key, None)
-        return result, False
+            return self.set(key, value, ttl_seconds), False
 
     def invalidate(self, prefix: str = "") -> int:
         with self._lock:
@@ -76,7 +74,6 @@ class TTLCache:
 
     def size(self) -> int:
         with self._lock:
-            # Remove expired entries so diagnostics reflect usable cache entries.
             now = time.monotonic()
             expired = [key for key, entry in self._values.items() if entry.expires_at <= now]
             for key in expired:
