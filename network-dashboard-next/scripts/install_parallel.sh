@@ -7,12 +7,16 @@ VENV="$APP_DIR/.venv"
 SERVICE_DIR="$HOME/.config/systemd/user"
 SERVICE_FILE="$SERVICE_DIR/network-dashboard-next.service"
 ENV_FILE="$HOME/.config/network-dashboard-next.env"
+CONFIG_DIR="$HOME/.config/network-dashboard-next"
+PRESENCE_CONFIG="$HOME/.config/network-dashboard-next-presence.json"
 RUNTIME_FILE="$HOME/.cache/network-dashboard-next/runtime.env"
 LIVE_DB_PATH="${LIVE_DASHBOARD_DB_PATH:-$HOME/.hermes/state/family_budget.sqlite3}"
 NEXT_DB_PATH="${DASHBOARD_DB_PATH:-$HOME/.hermes/state/family_budget_next.sqlite3}"
 BACKUP_DIR="$HOME/.local/share/network-dashboard-next/backups"
+GOOGLE_TOKEN_PATH="${GOOGLE_TOKEN_PATH:-$CONFIG_DIR/google_token.json}"
+GOOGLE_CLIENT_SECRETS_PATH="${GOOGLE_CLIENT_SECRETS_PATH:-$CONFIG_DIR/google_client_secret.json}"
 
-mkdir -p "$APP_DIR" "$SERVICE_DIR" "$(dirname "$RUNTIME_FILE")" "$BACKUP_DIR" "$(dirname "$NEXT_DB_PATH")"
+mkdir -p "$APP_DIR" "$SERVICE_DIR" "$CONFIG_DIR" "$(dirname "$RUNTIME_FILE")" "$BACKUP_DIR" "$(dirname "$NEXT_DB_PATH")"
 rsync -a --delete --exclude '.git' --exclude '.venv' "$SOURCE_DIR/" "$APP_DIR/"
 python3 -m venv "$VENV"
 "$VENV/bin/pip" install --upgrade pip
@@ -59,10 +63,28 @@ ALLOW_LEGACY_WRITES=false
 EXTERNAL_SIDE_EFFECTS=false
 PRESENCE_HASH_SECRET=$PRESENCE_HASH_SECRET
 PRESENCE_INGEST_TOKEN=$PRESENCE_INGEST_TOKEN
+NOTIFICATION_SCHEDULER_ENABLED=false
+GOOGLE_TOKEN_PATH=$GOOGLE_TOKEN_PATH
+GOOGLE_CLIENT_SECRETS_PATH=$GOOGLE_CLIENT_SECRETS_PATH
 PORT=0
 COOKIE_SECURE=false
 EOF
 chmod 600 "$ENV_FILE"
+
+if [[ ! -f "$PRESENCE_CONFIG" ]]; then
+  cat > "$PRESENCE_CONFIG" <<'EOF'
+{
+  "devices": [
+    {
+      "owner": "Johnny",
+      "source_identifier": "ERSÄTT-MED-TELEFONENS-MAC",
+      "enabled": false
+    }
+  ]
+}
+EOF
+  chmod 600 "$PRESENCE_CONFIG"
+fi
 
 cat > "$SERVICE_FILE" <<EOF
 [Unit]
@@ -126,6 +148,9 @@ Live-databas (orörd): $LIVE_DB_PATH
 Next-databaskopia: $NEXT_DB_PATH
 Next körs skrivskyddad och utan externa sidoeffekter.
 Närvarohemligheter finns i $ENV_FILE med filrättighet 600.
+Inaktiv närvaroexempelkonfiguration: $PRESENCE_CONFIG
+Google-token för Next: $GOOGLE_TOKEN_PATH
+Google client secret ska placeras i: $GOOGLE_CLIENT_SECRETS_PATH
 Gamla appen på http://127.0.0.1:8792 har inte ändrats.
 
 Status:
@@ -134,6 +159,8 @@ Logg:
   journalctl --user -u network-dashboard-next.service -n 100 --no-pager
 Jämför API-kontrakt:
   $VENV/bin/python $APP_DIR/scripts/compare_parallel.py --next $ORIGIN
+Torrkör närvarobryggan:
+  $VENV/bin/python $APP_DIR/scripts/presence_bridge.py --dry-run
 Rollback av parallellinstallationen:
   $APP_DIR/scripts/rollback_parallel.sh
 EOF
