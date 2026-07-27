@@ -44,14 +44,17 @@ def seed_database(path: Path) -> None:
         )
 
 
-def test_migrated_api_contracts(tmp_path: Path, monkeypatch) -> None:
+def build_client(tmp_path: Path, monkeypatch) -> tuple[TestClient, Path]:
     database_path = tmp_path / "family.sqlite3"
     seed_database(database_path)
     test_settings = replace(default_settings, database_path=database_path, port=0, cookie_secure=False)
     monkeypatch.setattr("app.main.settings", test_settings)
-    app = create_app()
+    return TestClient(create_app()), database_path
 
-    with TestClient(app) as client:
+
+def test_migrated_api_contracts(tmp_path: Path, monkeypatch) -> None:
+    client, _ = build_client(tmp_path, monkeypatch)
+    with client:
         client.cookies.set("homelab_user", "johnny")
         home = client.get("/api/v2/home/summary")
         planning = client.get("/api/v2/planning/overview")
@@ -64,3 +67,33 @@ def test_migrated_api_contracts(tmp_path: Path, monkeypatch) -> None:
     assert family.status_code == 200
     assert family.json()["totals"]["open_items"] == 1
     assert family.json()["lists"][0]["items"][0]["text"] == "Testa nya appen"
+
+
+def test_family_mutations_require_login_and_same_origin(tmp_path: Path, monkeypatch) -> None:
+    client, database_path = build_client(tmp_path, monkeypatch)
+    with client:
+        denied = client.post(
+            "/api/v2/family/list-items",
+            json={"list_id": "todo", "text": "Ny punkt"},
+        )
+        assert denied.status_code == 403
+
+        client.cookies.set("homelab_user", "johnny")
+        created = client.post(
+            "/api/v2/family/list-items",
+            headers={"Origin": "http://testserver"},
+            json={"list_id": "todo", "text": "Ny punkt"},
+        )
+        assert created.status_code == 200
+        item_id = created.json()["item_id"]
+
+        completed = client.patch(
+            f"/api/v2/family/list-items/{item_id}",
+            headers={"Origin": "http://testserver"},
+            json={"done": True},
+        )
+        assert completed.status_code == 200
+
+    with sqlite3.connect(database_path) as db:
+        row = db.execute("SELECT text, owner, done FROM family_list_items WHERE id=?", (item_id,)).fetchone()
+    assert row == ("Ny punkt", "johnny", 1)
