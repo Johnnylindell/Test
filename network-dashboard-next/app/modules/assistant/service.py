@@ -5,6 +5,7 @@ import hashlib
 import hmac
 import json
 import re
+import sqlite3
 import time
 from datetime import datetime, timezone
 from typing import Any
@@ -73,6 +74,23 @@ class AssistantService:
         if payload.get("version") != 1 or not isinstance(payload.get("data"), dict):
             raise ValueError("Bekräftelsen har fel format")
         return payload
+
+    def _consume(self, token: str, identity: Identity, action: str) -> None:
+        if not self.database.table_exists("assistant_confirmations"):
+            raise ValueError("Assistentens bekräftelseschema saknas; kör databasmigreringen")
+        token_hash = hashlib.sha256(token.encode("utf-8")).hexdigest()
+        try:
+            with self.database.transaction() as connection:
+                connection.execute(
+                    "DELETE FROM assistant_confirmations WHERE consumed_at<?",
+                    (datetime.fromtimestamp(time.time() - 86400, timezone.utc).isoformat(),),
+                )
+                connection.execute(
+                    "INSERT INTO assistant_confirmations(token_hash,user,action,consumed_at) VALUES(?,?,?,?)",
+                    (token_hash, identity.user, action, datetime.now(timezone.utc).isoformat()),
+                )
+        except sqlite3.IntegrityError as exc:
+            raise ValueError("Bekräftelsen har redan använts") from exc
 
     def query(self, message: str, identity: Identity) -> dict[str, Any]:
         text = _clean(message)
@@ -193,6 +211,7 @@ class AssistantService:
         payload = self._verify(token, identity)
         action = str(payload.get("action") or "")
         data = payload["data"]
+        self._consume(token, identity, action)
         if action == "shopping.add":
             item_id = ShoppingRepository(self.database).add(
                 {
