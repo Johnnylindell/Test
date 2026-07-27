@@ -19,6 +19,11 @@ def _login_page(error: str = "") -> str:
 <button type="submit">Logga in</button></form><p><a href="/">Tillbaka</a></p></main></body></html>"""
 
 
+def _source(request: Request) -> str:
+    forwarded = request.headers.get("x-forwarded-for", "").split(",", 1)[0].strip()
+    return (forwarded or (request.client.host if request.client else "unknown"))[:200]
+
+
 @router.get("/login", response_class=HTMLResponse)
 def login_page(identity: Identity = Depends(current_identity)) -> HTMLResponse | RedirectResponse:
     if identity.admin:
@@ -28,11 +33,22 @@ def login_page(identity: Identity = Depends(current_identity)) -> HTMLResponse |
 
 @router.post("/login")
 def login(
+    request: Request,
     username: str = Form("admin"),
     password: str = Form(""),
     auth: AuthService = Depends(get_auth_service),
 ) -> HTMLResponse | RedirectResponse:
-    if username.strip().lower() != "admin" or not auth.verify_admin_password(password):
+    source = _source(request)
+    allowed, retry_after = auth.login_allowed(source)
+    if not allowed:
+        return HTMLResponse(
+            _login_page(f"För många försök. Försök igen om {retry_after} sekunder."),
+            status_code=429,
+            headers={"Retry-After": str(retry_after)},
+        )
+    success = username.strip().lower() == "admin" and auth.verify_admin_password(password)
+    auth.record_login_attempt(source, success)
+    if not success:
         return HTMLResponse(_login_page("Fel lösenord"), status_code=401)
     token = auth.create_admin_session()
     response = RedirectResponse("/", status_code=303)
