@@ -226,8 +226,8 @@ async function handleSubmit(event) {
   }
   if (kind === "budget-import") {
     try {
-      const document = JSON.parse(values.document || "{}");
-      return mutate("/api/v2/budget/import", { method: "POST", body: { document, replace: Boolean(values.replace), confirm: Boolean(values.confirm) } }, "Budget importerad");
+      const budgetDocument = JSON.parse(values.document || "{}");
+      return mutate("/api/v2/budget/import", { method: "POST", body: { document: budgetDocument, replace: Boolean(values.replace), confirm: Boolean(values.confirm) } }, "Budget importerad");
     } catch {
       return showNotice("Budgetexporten är inte giltig JSON", "danger");
     }
@@ -256,8 +256,8 @@ async function handleAction(event) {
   const value = target.dataset.value || "";
   if (action === "budget-export") {
     try {
-      const document = await api("/api/v2/budget/export");
-      const blob = new Blob([JSON.stringify(document, null, 2)], { type: "application/json" });
+      const exportedBudget = await api("/api/v2/budget/export");
+      const blob = new Blob([JSON.stringify(exportedBudget, null, 2)], { type: "application/json" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
       link.download = `network-dashboard-budget-${new Date().toISOString().slice(0, 10)}.json`;
