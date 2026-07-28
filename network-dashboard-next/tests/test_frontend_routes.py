@@ -18,6 +18,7 @@ def make_client(tmp_path: Path) -> TestClient:
     app = create_app()
     app.state.database = database
     app.state.auth_service.database = database
+    app.state.integration_config.database = database
     return TestClient(app)
 
 
@@ -51,6 +52,40 @@ def test_profile_selector_contains_all_family_profiles(tmp_path: Path) -> None:
     for user in ("johnny", "kristina", "viktor", "alfred", "guest"):
         assert f'value="{user}"' in page.text
     assert "/assets/entry.css" in page.text
+
+
+def test_selected_guest_can_open_the_limited_family_shell(tmp_path: Path) -> None:
+    client = make_client(tmp_path)
+    response = client.post(
+        "/api/select-user",
+        data={"user": "guest"},
+        follow_redirects=False,
+    )
+    assert response.status_code == 303
+    assert response.headers["location"] == "/"
+    page = client.get("/")
+    assert page.status_code == 200
+    access = client.get("/api/access-control").json()
+    assert access["user"] == "guest"
+    assert access["selected"] is True
+    assert access["readonly"] is True
+    assert access["sections"] == ["app", "family", "food", "weather"]
+
+
+def test_logout_clears_admin_and_family_identity(tmp_path: Path) -> None:
+    client = make_client(tmp_path)
+    client.cookies.set("homelab_user", "johnny")
+    client.cookies.set("homelab_identity", "selected")
+    client.cookies.set("homelab_session", "unknown-session")
+
+    response = client.get("/logout", follow_redirects=False)
+
+    assert response.status_code == 303
+    assert response.headers["location"] == "/choose-user"
+    set_cookie = response.headers.get_list("set-cookie")
+    for name in ("homelab_session", "homelab_user", "homelab_identity"):
+        assert any(cookie.startswith(f"{name}=") and "Max-Age=0" in cookie for cookie in set_cookie)
+    assert client.get("/", follow_redirects=False).status_code == 303
 
 
 def test_pwa_assets_and_service_worker_scope(tmp_path: Path) -> None:
