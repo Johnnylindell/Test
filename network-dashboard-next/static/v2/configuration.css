@@ -1,0 +1,23 @@
+.configuration-stack { display: contents; }
+.credential-list { display: grid; gap: .7rem; }
+.credential-row { display: grid; gap: .75rem; padding: .9rem; border: 1px solid var(--line); border-radius: 1rem; background: #f8faf9; }
+.credential-row__summary { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+.credential-row__summary > div:first-child { min-width: 0; }
+.credential-row__summary strong, .credential-row__summary small { display: block; }
+.credential-row__summary small { margin-top: .18rem; color: var(--muted); font-size: .78rem; }
+.credential-row__status { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: .4rem; }
+.credential-row__status code { max-width: 22rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: .25rem .45rem; border-radius: .55rem; background: #edf2ef; color: #33483d; font-size: .73rem; }
+.credential-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: .65rem; }
+.credential-form .form__actions { align-self: end; }
+.settings-tools, .integration-upload-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+.settings-tools > div, .settings-tools > form, .upload-panel { display: grid; align-content: start; gap: .55rem; padding: .85rem; border: 1px solid var(--line); border-radius: .95rem; background: var(--surface-soft); }
+.settings-tools p { margin: 0; color: var(--muted); font-size: .82rem; }
+.upload-panel strong, .upload-panel small { display: block; }
+.upload-panel small { color: var(--muted); }
+.upload-panel input[type="file"] { max-width: 100%; padding: .55rem; border: 1px dashed #bfcfc6; border-radius: .75rem; background: #fff; }
+@media (max-width: 760px) {
+  .credential-row__summary { display: grid; }
+  .credential-row__status { justify-content: flex-start; }
+  .credential-form, .settings-tools, .integration-upload-grid { grid-template-columns: 1fr; }
+  .credential-form .form__actions { justify-content: flex-start; }
+}
