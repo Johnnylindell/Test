@@ -108,6 +108,19 @@ def _migrations(request: Request) -> dict[str, Any]:
         }
 
 
+def _safe_breakers(breakers: dict[str, dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    return {
+        key: {
+            "open": value.get("open", False),
+            "half_open": value.get("half_open", False),
+            "failures": value.get("failures", 0),
+            "retry_after_seconds": value.get("retry_after_seconds", 0),
+            "has_error": bool(value.get("last_error")),
+        }
+        for key, value in breakers.items()
+    }
+
+
 def _overview(request: Request) -> dict[str, Any]:
     settings = request.app.state.settings
     database = request.app.state.database
@@ -119,7 +132,7 @@ def _overview(request: Request) -> dict[str, Any]:
         current_database = database.path.expanduser()
     parity = _parity()
     migrations = _migrations(request)
-    breakers = request.app.state.circuit_breaker.snapshot()
+    breakers = _safe_breakers(request.app.state.circuit_breaker.snapshot())
     transcription = request.app.state.speech_transcription.status()
     integration_summary = request.app.state.integration_config.overview()
     support_bundle = {
@@ -144,16 +157,7 @@ def _overview(request: Request) -> dict[str, Any]:
             "failed": migrations["failed"],
         },
         "cache_entries": request.app.state.cache.size(),
-        "circuit_breakers": {
-            key: {
-                "open": value.get("open", False),
-                "half_open": value.get("half_open", False),
-                "failures": value.get("failures", 0),
-                "retry_after_seconds": value.get("retry_after_seconds", 0),
-                "has_error": bool(value.get("last_error")),
-            }
-            for key, value in breakers.items()
-        },
+        "circuit_breakers": breakers,
         "parity": parity["summary"],
         "parity_gaps": parity["gaps"],
         "transcription": transcription,
@@ -218,5 +222,5 @@ def reset_breakers(
     return {
         "ok": True,
         "removed": removed,
-        "circuit_breakers": request.app.state.circuit_breaker.snapshot(),
+        "circuit_breakers": _safe_breakers(request.app.state.circuit_breaker.snapshot()),
     }
