@@ -5,6 +5,10 @@ let access = null;
 let runtime = null;
 let dialog = null;
 
+function allowed() {
+  return Boolean(access?.admin || access?.sections?.includes("homeassistant"));
+}
+
 function ensureDialog() {
   if (dialog) return dialog;
   dialog = document.createElement("dialog");
@@ -22,6 +26,7 @@ function ensureDialog() {
 }
 
 function openDialog() {
+  if (!allowed()) return;
   const target = ensureDialog();
   if (typeof target.showModal === "function") target.showModal();
   else target.setAttribute("open", "");
@@ -85,15 +90,14 @@ function render(data) {
 }
 
 async function load() {
+  if (!allowed()) return;
   const body = document.querySelector("#home-assistant-sheet-body");
   if (body) body.innerHTML = skeleton(5);
   try {
-    const [data, accessData, home] = await Promise.all([
+    const [data, home] = await Promise.all([
       api("/api/v2/home-assistant/overview"),
-      api("/api/access-control"),
       api("/api/v2/home/summary"),
     ]);
-    access = accessData;
     runtime = home.runtime || {};
     render(data);
   } catch (error) {
@@ -103,7 +107,7 @@ async function load() {
 
 async function handleClick(event) {
   const target = event.target.closest("[data-ha-entity]");
-  if (!target) return;
+  if (!target || !allowed()) return;
   target.disabled = true;
   try {
     await api("/api/v2/home-assistant/service", {
@@ -120,7 +124,12 @@ async function handleClick(event) {
 function addEntryPoints() {
   const grids = document.querySelectorAll(".quick-grid");
   for (const grid of grids) {
-    if (grid.querySelector("[data-home-assistant-open]")) continue;
+    const existing = grid.querySelector("[data-home-assistant-open]");
+    if (!allowed()) {
+      existing?.remove();
+      continue;
+    }
+    if (existing) continue;
     const button = document.createElement("button");
     button.type = "button";
     button.dataset.homeAssistantOpen = "true";
@@ -133,6 +142,15 @@ function addEntryPoints() {
   }
 }
 
+async function initialize() {
+  try {
+    access = await api("/api/access-control");
+  } catch {
+    access = null;
+  }
+  addEntryPoints();
+}
+
 const observer = new MutationObserver(addEntryPoints);
 observer.observe(document.querySelector("#app-main"), { childList: true, subtree: true });
-addEntryPoints();
+initialize();
