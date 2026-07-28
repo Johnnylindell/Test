@@ -8,13 +8,17 @@ SERVICE_DIR="$HOME/.config/systemd/user"
 SERVICE_FILE="$SERVICE_DIR/network-dashboard-next.service"
 ENV_FILE="$HOME/.config/network-dashboard-next.env"
 CONFIG_DIR="$HOME/.config/network-dashboard-next"
+INTEGRATION_SECRETS_PATH="${INTEGRATION_SECRETS_PATH:-$CONFIG_DIR/integration-secrets.json}"
 PRESENCE_CONFIG="$HOME/.config/network-dashboard-next-presence.json"
 RUNTIME_FILE="$HOME/.cache/network-dashboard-next/runtime.env"
+LEGACY_IMPORT_REPORT="$HOME/.cache/network-dashboard-next/legacy-config-import.json"
 LIVE_DB_PATH="${LIVE_DASHBOARD_DB_PATH:-$HOME/.hermes/state/family_budget.sqlite3}"
 NEXT_DB_PATH="${DASHBOARD_DB_PATH:-$HOME/.hermes/state/family_budget_next.sqlite3}"
 BACKUP_DIR="$HOME/.local/share/network-dashboard-next/backups"
 GOOGLE_TOKEN_PATH="${GOOGLE_TOKEN_PATH:-$CONFIG_DIR/google_token.json}"
 GOOGLE_CLIENT_SECRETS_PATH="${GOOGLE_CLIENT_SECRETS_PATH:-$CONFIG_DIR/google_client_secret.json}"
+LEGACY_APP_DIR="${LEGACY_APP_DIR:-$HOME/network-dashboard}"
+LEGACY_SERVICE="${LEGACY_SERVICE:-homelab-control-center.service}"
 
 mkdir -p "$APP_DIR" "$SERVICE_DIR" "$CONFIG_DIR" "$(dirname "$RUNTIME_FILE")" "$BACKUP_DIR" "$(dirname "$NEXT_DB_PATH")"
 rsync -a --delete --exclude '.git' --exclude '.venv' "$SOURCE_DIR/" "$APP_DIR/"
@@ -49,16 +53,21 @@ PRESENCE_HASH_SECRET=""
 PRESENCE_INGEST_TOKEN=""
 ASSISTANT_SIGNING_SECRET=""
 HOMELAB_ADMIN_PASSWORD=""
+HOME_ASSISTANT_VERIFY_TLS="false"
+HOME_ASSISTANT_CA_BUNDLE=""
 ADMIN_PASSWORD_GENERATED=false
 if [[ -f "$ENV_FILE" ]]; then
   PRESENCE_HASH_SECRET="$(grep -E '^PRESENCE_HASH_SECRET=' "$ENV_FILE" | head -n1 | cut -d= -f2- || true)"
   PRESENCE_INGEST_TOKEN="$(grep -E '^PRESENCE_INGEST_TOKEN=' "$ENV_FILE" | head -n1 | cut -d= -f2- || true)"
   ASSISTANT_SIGNING_SECRET="$(grep -E '^ASSISTANT_SIGNING_SECRET=' "$ENV_FILE" | head -n1 | cut -d= -f2- || true)"
   HOMELAB_ADMIN_PASSWORD="$(grep -E '^HOMELAB_ADMIN_PASSWORD=' "$ENV_FILE" | head -n1 | cut -d= -f2- || true)"
+  HOME_ASSISTANT_VERIFY_TLS="$(grep -E '^HOME_ASSISTANT_VERIFY_TLS=' "$ENV_FILE" | head -n1 | cut -d= -f2- || true)"
+  HOME_ASSISTANT_CA_BUNDLE="$(grep -E '^HOME_ASSISTANT_CA_BUNDLE=' "$ENV_FILE" | head -n1 | cut -d= -f2- || true)"
 fi
 [[ -n "$PRESENCE_HASH_SECRET" ]] || PRESENCE_HASH_SECRET="$(openssl rand -hex 32)"
 [[ -n "$PRESENCE_INGEST_TOKEN" ]] || PRESENCE_INGEST_TOKEN="$(openssl rand -hex 32)"
 [[ -n "$ASSISTANT_SIGNING_SECRET" ]] || ASSISTANT_SIGNING_SECRET="$(openssl rand -hex 32)"
+[[ -n "$HOME_ASSISTANT_VERIFY_TLS" ]] || HOME_ASSISTANT_VERIFY_TLS="false"
 if [[ -z "$HOMELAB_ADMIN_PASSWORD" ]]; then
   HOMELAB_ADMIN_PASSWORD="$(openssl rand -hex 12)"
   ADMIN_PASSWORD_GENERATED=true
@@ -75,13 +84,29 @@ HOMELAB_ADMIN_PASSWORD=$HOMELAB_ADMIN_PASSWORD
 PRESENCE_HASH_SECRET=$PRESENCE_HASH_SECRET
 PRESENCE_INGEST_TOKEN=$PRESENCE_INGEST_TOKEN
 ASSISTANT_SIGNING_SECRET=$ASSISTANT_SIGNING_SECRET
+INTEGRATION_SECRETS_PATH=$INTEGRATION_SECRETS_PATH
 NOTIFICATION_SCHEDULER_ENABLED=false
 GOOGLE_TOKEN_PATH=$GOOGLE_TOKEN_PATH
 GOOGLE_CLIENT_SECRETS_PATH=$GOOGLE_CLIENT_SECRETS_PATH
+HOME_ASSISTANT_VERIFY_TLS=$HOME_ASSISTANT_VERIFY_TLS
+HOME_ASSISTANT_CA_BUNDLE=$HOME_ASSISTANT_CA_BUNDLE
 PORT=0
 COOKIE_SECURE=false
 EOF
 chmod 600 "$ENV_FILE"
+
+"$VENV/bin/python" "$APP_DIR/scripts/import_legacy_config.py" \
+  --legacy-db "$LIVE_DB_PATH" \
+  --secrets "$INTEGRATION_SECRETS_PATH" \
+  --google-token-target "$GOOGLE_TOKEN_PATH" \
+  --google-client-target "$GOOGLE_CLIENT_SECRETS_PATH" \
+  --legacy-root "$LEGACY_APP_DIR" \
+  --service "$LEGACY_SERVICE" > "$LEGACY_IMPORT_REPORT"
+chmod 600 "$LEGACY_IMPORT_REPORT"
+[[ ! -f "$INTEGRATION_SECRETS_PATH" ]] || chmod 600 "$INTEGRATION_SECRETS_PATH"
+[[ ! -f "$GOOGLE_TOKEN_PATH" ]] || chmod 600 "$GOOGLE_TOKEN_PATH"
+[[ ! -f "$GOOGLE_CLIENT_SECRETS_PATH" ]] || chmod 600 "$GOOGLE_CLIENT_SECRETS_PATH"
+cat "$LEGACY_IMPORT_REPORT"
 
 if [[ ! -f "$PRESENCE_CONFIG" ]]; then
   cat > "$PRESENCE_CONFIG" <<'EOF'
@@ -159,10 +184,14 @@ Runtime-fil: $RUNTIME_FILE
 Live-databas (orörd): $LIVE_DB_PATH
 Next-databaskopia: $NEXT_DB_PATH
 Next körs skrivskyddad och utan externa sidoeffekter.
+Next-hemligheter: $INTEGRATION_SECRETS_PATH
+Sanerad legacy-importöversikt: $LEGACY_IMPORT_REPORT
 Närvarohemligheter, assistentsignering och bootstrap-lösenord finns i $ENV_FILE med filrättighet 600.
 Inaktiv närvaroexempelkonfiguration: $PRESENCE_CONFIG
 Google-token för Next: $GOOGLE_TOKEN_PATH
-Google client secret ska placeras i: $GOOGLE_CLIENT_SECRETS_PATH
+Google client secret för Next: $GOOGLE_CLIENT_SECRETS_PATH
+Home Assistant TLS-verifiering: $HOME_ASSISTANT_VERIFY_TLS
+Home Assistant CA-fil: ${HOME_ASSISTANT_CA_BUNDLE:-ingen}
 Gamla appen på http://127.0.0.1:8792 har inte ändrats.
 EOF
 
