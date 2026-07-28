@@ -5,17 +5,58 @@ import hmac
 import os
 import secrets
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from typing import Any
 
 from app.core.config import Settings
 from app.database.database import Database
+
+
+ACCESS_SECTIONS = frozenset({
+    "app",
+    "planning",
+    "shopping",
+    "inventory",
+    "food",
+    "family",
+    "wishlists",
+    "household",
+    "homeassistant",
+    "weather",
+    "calendar",
+    "notifications",
+    "budget",
+})
+
+DEFAULT_ACCESS: dict[str, tuple[frozenset[str], bool]] = {
+    "johnny": (ACCESS_SECTIONS, False),
+    "kristina": (ACCESS_SECTIONS, False),
+    "viktor": (ACCESS_SECTIONS - {"budget"}, False),
+    "alfred": (
+        frozenset({"app", "planning", "shopping", "food", "family", "wishlists", "weather"}),
+        False,
+    ),
+    "guest": (frozenset({"app", "family", "food", "weather"}), True),
+}
+
+_LEGACY_SECTION_MAP = {
+    "home": "app",
+    "week": "app",
+    "mine": "app",
+    "ai": "app",
+    "meals": "food",
+    "alerts": "notifications",
+    "lists": "family",
+}
 
 
 @dataclass(frozen=True, slots=True)
 class Identity:
     user: str
     admin: bool
+    sections: frozenset[str] = field(default_factory=frozenset)
+    readonly: bool = False
 
 
 class AuthService:
@@ -173,7 +214,51 @@ class AuthService:
         normalized = str(user or "").strip().lower()
         return normalized if normalized in self.FAMILY_USERS else "guest"
 
+    @staticmethod
+    def _normalized_sections(values: Any) -> frozenset[str]:
+        if not isinstance(values, list):
+            return frozenset()
+        result = set()
+        for value in values:
+            section = str(value or "").strip().lower()
+            section = _LEGACY_SECTION_MAP.get(section, section)
+            if section in ACCESS_SECTIONS:
+                result.add(section)
+        return frozenset(result)
+
+    def access_profile(self, user: str) -> tuple[frozenset[str], bool]:
+        normalized = self.normalize_family_user(user)
+        sections, readonly = DEFAULT_ACCESS[normalized]
+        raw = self.database.get_json_state("user_access", {})
+        profiles: Any = raw.get("profiles", {}) if isinstance(raw, dict) else {}
+        profile: dict[str, Any] | None = None
+        if isinstance(profiles, dict):
+            candidate = profiles.get(normalized)
+            profile = candidate if isinstance(candidate, dict) else None
+        elif isinstance(profiles, list):
+            profile = next(
+                (
+                    candidate
+                    for candidate in profiles
+                    if isinstance(candidate, dict)
+                    and str(candidate.get("user") or "").strip().lower() == normalized
+                ),
+                None,
+            )
+        if profile:
+            configured = self._normalized_sections(profile.get("sections"))
+            if configured:
+                sections = configured
+            readonly = bool(profile.get("readonly", readonly))
+        return sections, readonly
+
     def identity(self, admin_token: str | None, family_user: str | None) -> Identity:
         if self.admin_session_valid(admin_token):
-            return Identity(user="admin", admin=True)
-        return Identity(user=self.normalize_family_user(family_user), admin=False)
+            return Identity(user="admin", admin=True, sections=ACCESS_SECTIONS, readonly=False)
+        user = self.normalize_family_user(family_user)
+        sections, readonly = self.access_profile(user)
+        return Identity(user=user, admin=False, sections=sections, readonly=readonly)
+
+    @staticmethod
+    def section_allowed(identity: Identity, section: str) -> bool:
+        return identity.admin or section in identity.sections
