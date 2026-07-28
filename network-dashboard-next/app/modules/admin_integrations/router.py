@@ -177,8 +177,8 @@ def update_configuration(
 @router.delete("/configuration/{key}", dependencies=[Depends(require_same_origin)])
 def clear_configuration(
     key: str,
+    request: Request,
     confirm: bool = Query(False),
-    request: Request = None,
     _: Identity = Depends(require_admin),
 ) -> dict:
     if not confirm:
@@ -234,18 +234,16 @@ def generate_vapid(
     )
     public_key = base64.urlsafe_b64encode(public_bytes).rstrip(b"=").decode("ascii")
     try:
-        config.set("vapid_private_key", private_pem)
-        config.set("vapid_public_key", public_key)
-        config.set("vapid_subject", payload.subject)
+        variables = config.set_many({
+            "vapid_subject": payload.subject,
+            "vapid_private_key": private_pem,
+            "vapid_public_key": public_key,
+        })
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
     return {
         "ok": True,
-        "variables": [
-            config.status("vapid_public_key"),
-            config.status("vapid_private_key"),
-            config.status("vapid_subject"),
-        ],
+        "variables": variables,
         "sensitive_values_exposed": False,
     }
 
@@ -276,8 +274,8 @@ async def upload_google_token(
 @router.delete("/google/{kind}", dependencies=[Depends(require_same_origin)])
 def delete_google_file(
     kind: str,
+    request: Request,
     confirm: bool = Query(False),
-    request: Request = None,
     _: Identity = Depends(require_admin),
 ) -> dict:
     if not confirm:
@@ -288,8 +286,9 @@ def delete_google_file(
     }
     if kind not in paths:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Okänd Google-fil")
-    removed = Path(paths[kind]).expanduser().is_file()
-    Path(paths[kind]).expanduser().unlink(missing_ok=True)
+    path = Path(paths[kind]).expanduser()
+    removed = path.is_file()
+    path.unlink(missing_ok=True)
     request.app.state.cache.invalidate("google:")
     return {"ok": True, "removed": removed, "sensitive_values_exposed": False}
 
