@@ -121,6 +121,8 @@ def access_control(identity: Identity = Depends(current_identity)) -> dict[str, 
     return {
         "admin": identity.admin,
         "user": identity.user,
+        "sections": sorted(identity.sections),
+        "readonly": identity.readonly,
         "controls_require_admin": True,
         "login_url": "/login",
         "logout_url": "/logout",
