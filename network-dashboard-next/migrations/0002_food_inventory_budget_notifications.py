@@ -2,7 +2,50 @@ from __future__ import annotations
 
 import sqlite3
 
-from app.database.schema_helpers import ensure_columns, ensure_index
+from app.database.schema_helpers import ensure_columns, ensure_index, table_columns
+
+
+def _upgrade_routine_instances(connection: sqlite3.Connection) -> None:
+    """Normalize legacy routine instances before creating the due-state index."""
+    connection.execute(
+        """CREATE TABLE IF NOT EXISTS recurring_routine_instances(
+        id TEXT PRIMARY KEY,
+        rule_id TEXT NOT NULL DEFAULT '',
+        title TEXT NOT NULL DEFAULT '',
+        scheduled_for TEXT NOT NULL DEFAULT '',
+        done INTEGER NOT NULL DEFAULT 0
+        )"""
+    )
+    legacy_columns = table_columns(connection, "recurring_routine_instances")
+    ensure_columns(
+        connection,
+        "recurring_routine_instances",
+        (
+            ("scheduled_for", "TEXT NOT NULL DEFAULT ''"),
+            ("done", "INTEGER NOT NULL DEFAULT 0"),
+        ),
+    )
+
+    for source in ("due_at", "date", "scheduled_at"):
+        if source in legacy_columns:
+            safe_source = source.replace('"', '""')
+            connection.execute(
+                f'''UPDATE recurring_routine_instances
+                SET scheduled_for=CASE
+                    WHEN scheduled_for IS NULL OR trim(scheduled_for)='' THEN COALESCE("{safe_source}", '')
+                    ELSE scheduled_for
+                END'''
+            )
+            break
+
+    if "completed" in legacy_columns:
+        connection.execute(
+            """UPDATE recurring_routine_instances
+            SET done=CASE
+                WHEN lower(trim(CAST(completed AS TEXT))) IN ('1','true','yes','on') THEN 1
+                ELSE done
+            END"""
+        )
 
 
 def upgrade(connection: sqlite3.Connection) -> None:
@@ -56,6 +99,7 @@ def upgrade(connection: sqlite3.Connection) -> None:
         """
     )
     ensure_columns(connection, "shopping_items", (("quantity", "REAL NOT NULL DEFAULT 1"), ("unit", "TEXT NOT NULL DEFAULT ''"), ("completed_at", "TEXT NOT NULL DEFAULT ''"), ("source", "TEXT NOT NULL DEFAULT ''")))
+    _upgrade_routine_instances(connection)
     ensure_index(connection, "idx_shopping_items_active", "CREATE INDEX idx_shopping_items_active ON shopping_items(list_id,done,sort_order)")
     ensure_index(connection, "idx_inventory_location", "CREATE INDEX idx_inventory_location ON inventory_items(location,shelf,name)")
     ensure_index(connection, "idx_routine_instances_due", "CREATE INDEX idx_routine_instances_due ON recurring_routine_instances(done,scheduled_for)")
