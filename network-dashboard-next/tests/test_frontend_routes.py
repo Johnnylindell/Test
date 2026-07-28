@@ -88,6 +88,11 @@ def test_logout_clears_admin_and_family_identity(tmp_path: Path) -> None:
     set_cookie = response.headers.get_list("set-cookie")
     for name in ("homelab_session", "homelab_user", "homelab_identity"):
         assert any(cookie.startswith(f"{name}=") and "Max-Age=0" in cookie for cookie in set_cookie)
+
+    # TestClient can retain manually injected hostless cookies even after a valid
+    # deletion response. Clearing the synthetic jar models the browser having
+    # applied the verified Max-Age=0 headers above.
+    client.cookies.clear()
     assert client.get("/", follow_redirects=False).status_code == 303
 
 
