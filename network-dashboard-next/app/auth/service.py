@@ -57,6 +57,7 @@ class Identity:
     admin: bool
     sections: frozenset[str] = field(default_factory=frozenset)
     readonly: bool = False
+    selected: bool = False
 
 
 class AuthService:
@@ -254,10 +255,23 @@ class AuthService:
 
     def identity(self, admin_token: str | None, family_user: str | None) -> Identity:
         if self.admin_session_valid(admin_token):
-            return Identity(user="admin", admin=True, sections=ACCESS_SECTIONS, readonly=False)
+            return Identity(
+                user="admin",
+                admin=True,
+                sections=ACCESS_SECTIONS,
+                readonly=False,
+                selected=True,
+            )
+        selected = family_user is not None and str(family_user).strip().lower() in self.FAMILY_USERS
         user = self.normalize_family_user(family_user)
         sections, readonly = self.access_profile(user)
-        return Identity(user=user, admin=False, sections=sections, readonly=readonly)
+        return Identity(
+            user=user,
+            admin=False,
+            sections=sections,
+            readonly=readonly,
+            selected=selected,
+        )
 
     @staticmethod
     def section_allowed(identity: Identity, section: str) -> bool:
