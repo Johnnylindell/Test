@@ -145,7 +145,7 @@ function bind() {
   document.querySelector("#managed-service-form")?.addEventListener("submit", submitService);
   document.querySelector("#agent-create-form")?.addEventListener("submit", submitAgent);
   document.querySelector("#baseline-form")?.addEventListener("submit", submitBaseline);
-  content.addEventListener("click", handleAction, { once: true });
+  content.onclick = handleAction;
 }
 
 function installNav() {
