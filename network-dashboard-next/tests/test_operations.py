@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+from pathlib import Path
 
 import pytest
 
@@ -96,3 +97,9 @@ def test_operations_overview_never_exposes_shell_scan_or_tokens(tmp_path) -> Non
     assert overview["active_network_scan_exposed"] is False
     assert overview["agent_token_exposed"] is False
     assert "token" not in str(overview["agents"]).casefold()
+
+
+def test_operations_frontend_keeps_action_handler_after_first_click() -> None:
+    source = Path("static/v2/operations.js").read_text(encoding="utf-8")
+    assert "content.onclick = handleAction" in source
+    assert 'addEventListener("click", handleAction, { once: true })' not in source
