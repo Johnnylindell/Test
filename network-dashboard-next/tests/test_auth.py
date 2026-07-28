@@ -45,3 +45,17 @@ def test_family_user_is_allowlisted(tmp_path: Path) -> None:
     auth = AuthService(Database(path), _settings(path))
     assert auth.normalize_family_user("Johnny") == "johnny"
     assert auth.normalize_family_user("unknown") == "guest"
+
+
+def test_selected_guest_is_distinct_from_anonymous(tmp_path: Path) -> None:
+    path = tmp_path / "app.sqlite3"
+    auth = AuthService(Database(path), _settings(path))
+
+    anonymous = auth.identity(None, None)
+    selected_guest = auth.identity(None, "guest")
+
+    assert anonymous.user == selected_guest.user == "guest"
+    assert anonymous.selected is False
+    assert selected_guest.selected is True
+    assert selected_guest.readonly is True
+    assert selected_guest.sections == frozenset({"app", "family", "food", "weather"})
