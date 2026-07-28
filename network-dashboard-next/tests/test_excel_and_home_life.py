@@ -154,10 +154,11 @@ def test_home_life_projection_preserves_safe_setup_diagnostics(tmp_path) -> None
     assert result["groups"] == []
 
 
-def test_home_life_source_does_not_return_tokens_or_urls() -> None:
+def test_home_life_source_does_not_return_credential_values() -> None:
     source = Path("app/modules/home_assistant/service.py").read_text(encoding="utf-8")
-    assert '"token"' not in source
+    assert '"home_assistant_token"' not in source
     assert '"home_assistant_url"' not in source
+    assert "credential_sources" not in source
     assert '"sensitive_values_exposed": False' in source
 
 
