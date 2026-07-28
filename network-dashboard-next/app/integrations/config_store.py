@@ -222,12 +222,21 @@ class IntegrationConfigStore:
         }
 
     def set(self, key: str, value: str) -> dict[str, Any]:
-        definition = self.definition(key)
-        normalized = self._validate(definition, value)
+        return self.set_many({key: value})[0]
+
+    def set_many(self, updates: dict[str, str]) -> list[dict[str, Any]]:
+        if not updates:
+            return []
+        normalized: dict[str, str] = {}
+        definitions: list[VariableDefinition] = []
+        for key, value in updates.items():
+            definition = self.definition(key)
+            definitions.append(definition)
+            normalized[definition.key] = self._validate(definition, value)
         values = self._read_file()
-        values[definition.key] = normalized
+        values.update(normalized)
         self._write_file(values)
-        return self.status(definition.key)
+        return [self.status(definition.key) for definition in definitions]
 
     def clear(self, key: str) -> dict[str, Any]:
         definition = self.definition(key)
