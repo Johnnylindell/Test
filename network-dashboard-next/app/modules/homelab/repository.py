@@ -26,27 +26,42 @@ class HomelabRepository:
             for key, value in settings.items()
             if not any(secret in key.casefold() for secret in ("password", "token", "secret", "key", "webhook"))
         }
-        safe_integrations = {
-            str(name)[:80]: {"configured": bool(value)}
-            for name, value in integrations.items()
-        }
+        integration_profiles = [
+            {
+                "id": str(name)[:80],
+                "name": str(name)[:80],
+                "configured": bool(value),
+            }
+            for name, value in list(integrations.items())[:100]
+        ]
+        device_profiles = [
+            {
+                "id": str(identifier)[:120],
+                "name": str(row.get("name") or row.get("label") or identifier)[:160]
+                if isinstance(row, dict)
+                else str(identifier)[:160],
+                "host": str(row.get("host") or "")[:253] if isinstance(row, dict) else "",
+                "ports": [
+                    int(port)
+                    for port in list(row.get("ports") or [])[:30]
+                    if isinstance(port, int) and 1 <= port <= 65535
+                ]
+                if isinstance(row, dict)
+                else [],
+                "trusted": bool(row.get("trusted")) if isinstance(row, dict) else False,
+                "mac_configured": bool(row.get("mac")) if isinstance(row, dict) else False,
+            }
+            for identifier, row in list(devices.items())[:300]
+        ]
         return {
             "ok": True,
             "settings": safe_settings,
-            "integrations": safe_integrations,
+            "integrations": integration_profiles,
             "devices": {
-                "configured": len(devices),
-                "profiles": [
-                    {
-                        "id": str(identifier)[:120],
-                        "name": str(row.get("name") or row.get("label") or identifier)[:160]
-                        if isinstance(row, dict)
-                        else str(identifier)[:160],
-                        "trusted": bool(row.get("trusted")) if isinstance(row, dict) else False,
-                    }
-                    for identifier, row in list(devices.items())[:300]
-                ],
+                "configured": len(device_profiles),
+                "profiles": device_profiles,
             },
+            "device_profiles": device_profiles,
             "network": {
                 "last_port_scan": last_scan,
                 "router": router,
