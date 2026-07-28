@@ -4,14 +4,11 @@ import json
 from datetime import datetime, timezone
 from typing import Any
 
+from app.auth.service import ACCESS_SECTIONS, DEFAULT_ACCESS
 from app.database.database import Database
 
-SECTIONS = {
-    "home", "planning", "week", "shopping", "inventory", "meals", "family", "mine",
-    "wishlists", "lists", "household", "homeassistant", "weather", "calendar", "alerts",
-    "ai", "budget",
-}
-USERS = {"johnny", "kristina", "viktor", "alfred", "guest"}
+
+USERS = frozenset(DEFAULT_ACCESS)
 
 
 class AdminSecurityRepository:
@@ -20,23 +17,60 @@ class AdminSecurityRepository:
 
     def access_profiles(self) -> dict[str, Any]:
         raw = self.database.get_json_state("user_access", {})
-        profiles = raw.get("profiles", {}) if isinstance(raw, dict) else {}
+        stored = raw.get("profiles", {}) if isinstance(raw, dict) else {}
         result = []
         for user in sorted(USERS):
-            profile = profiles.get(user, {}) if isinstance(profiles.get(user), dict) else {}
-            sections = [value for value in profile.get("sections", []) if value in SECTIONS]
-            result.append({"user": user, "sections": sections, "readonly": bool(profile.get("readonly", False))})
-        return {"profiles": result, "choices": sorted(SECTIONS)}
+            default_sections, default_readonly = DEFAULT_ACCESS[user]
+            profile: dict[str, Any] = {}
+            if isinstance(stored, dict) and isinstance(stored.get(user), dict):
+                profile = stored[user]
+            elif isinstance(stored, list):
+                profile = next(
+                    (
+                        item
+                        for item in stored
+                        if isinstance(item, dict)
+                        and str(item.get("user") or "").strip().lower() == user
+                    ),
+                    {},
+                )
+            configured = {
+                str(value).strip().lower()
+                for value in profile.get("sections", [])
+                if str(value).strip().lower() in ACCESS_SECTIONS
+            }
+            sections = sorted(configured or default_sections)
+            result.append({
+                "user": user,
+                "sections": sections,
+                "readonly": bool(profile.get("readonly", default_readonly)),
+            })
+        return {"profiles": result, "choices": sorted(ACCESS_SECTIONS)}
 
     def set_access_profile(self, user: str, sections: list[str], readonly: bool) -> dict[str, Any]:
         user = user.strip().lower()
         if user not in USERS:
             raise ValueError("Okänd profil")
-        clean_sections = [value for value in sections if value in SECTIONS]
+        clean_sections = sorted({value.strip().lower() for value in sections if value.strip().lower() in ACCESS_SECTIONS})
+        if not clean_sections:
+            raise ValueError("Minst en sektion måste väljas")
 
         def updater(current: Any) -> dict[str, Any]:
             state = dict(current) if isinstance(current, dict) else {}
-            profiles = dict(state.get("profiles")) if isinstance(state.get("profiles"), dict) else {}
+            current_profiles = state.get("profiles")
+            profiles: dict[str, Any] = {}
+            if isinstance(current_profiles, dict):
+                profiles.update(current_profiles)
+            elif isinstance(current_profiles, list):
+                for item in current_profiles:
+                    if not isinstance(item, dict):
+                        continue
+                    item_user = str(item.get("user") or "").strip().lower()
+                    if item_user in USERS:
+                        profiles[item_user] = {
+                            "sections": item.get("sections", []),
+                            "readonly": bool(item.get("readonly", False)),
+                        }
             profiles[user] = {"sections": clean_sections, "readonly": bool(readonly)}
             state["profiles"] = profiles
             return state
