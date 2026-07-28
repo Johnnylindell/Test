@@ -91,7 +91,8 @@ def login(
 def logout(request: Request, auth: AuthService = Depends(get_auth_service)) -> RedirectResponse:
     auth.revoke_admin_session(request.cookies.get("homelab_session"))
     response = RedirectResponse("/choose-user", status_code=303)
-    response.delete_cookie("homelab_session")
+    for cookie in ("homelab_session", "homelab_user", "homelab_identity"):
+        response.delete_cookie(cookie)
     return response
 
 
@@ -123,6 +124,7 @@ def access_control(identity: Identity = Depends(current_identity)) -> dict[str, 
         "user": identity.user,
         "sections": sorted(identity.sections),
         "readonly": identity.readonly,
+        "selected": identity.selected,
         "controls_require_admin": True,
         "login_url": "/login",
         "logout_url": "/logout",
