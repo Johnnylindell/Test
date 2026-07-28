@@ -4,7 +4,7 @@ import sqlite3
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from app.auth.service import Identity
+from app.auth.service import ACCESS_SECTIONS, Identity
 from app.database.database import Database
 from app.database.migrations import upgrade
 from app.modules.experience.compass import HomeCompassService
@@ -17,6 +17,16 @@ def migrated_database(tmp_path: Path) -> Database:
     return Database(path)
 
 
+def johnny() -> Identity:
+    return Identity(
+        user="johnny",
+        admin=False,
+        sections=ACCESS_SECTIONS,
+        readonly=False,
+        selected=True,
+    )
+
+
 def test_compass_prioritizes_due_reminder(tmp_path: Path) -> None:
     database = migrated_database(tmp_path)
     now = datetime.now(timezone.utc)
@@ -26,7 +36,7 @@ def test_compass_prioritizes_due_reminder(tmp_path: Path) -> None:
         ("r1", "Hämta paket", "johnny", (now + timedelta(minutes=10)).isoformat(), "", now.isoformat()),
     )
     result = HomeCompassService(database).overview(
-        Identity(user="johnny", admin=False),
+        johnny(),
         weather={"current": {"temperature": 12, "precipitation": 0}},
         presence=[],
     )
@@ -39,7 +49,7 @@ def test_compass_prioritizes_due_reminder(tmp_path: Path) -> None:
 def test_compass_never_exposes_presence_identifiers(tmp_path: Path) -> None:
     database = migrated_database(tmp_path)
     result = HomeCompassService(database).overview(
-        Identity(user="johnny", admin=False),
+        johnny(),
         weather={},
         presence=[
             {
