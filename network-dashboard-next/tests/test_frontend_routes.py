@@ -1,9 +1,12 @@
 from pathlib import Path
 
+import pytest
+from fastapi import HTTPException
 from fastapi.testclient import TestClient
 
 from app.database.database import Database
 from app.main import create_app
+from app.web.router import _safe_file
 
 
 def make_client(tmp_path: Path) -> TestClient:
@@ -111,7 +114,13 @@ def test_version_two_assets_require_admin(tmp_path: Path) -> None:
 
 
 def test_path_traversal_is_rejected(tmp_path: Path) -> None:
-    client = make_client(tmp_path)
-    client.cookies.set("homelab_user", "johnny")
-    response = client.get("/assets/../live/index.html", follow_redirects=False)
-    assert response.status_code in {404, 307}
+    static_root = tmp_path / "static"
+    assets = static_root / "assets"
+    live = static_root / "live"
+    assets.mkdir(parents=True)
+    live.mkdir(parents=True)
+    (live / "index.html").write_text("private", encoding="utf-8")
+
+    with pytest.raises(HTTPException) as exc:
+        _safe_file(assets, "../live/index.html")
+    assert exc.value.status_code == 404
