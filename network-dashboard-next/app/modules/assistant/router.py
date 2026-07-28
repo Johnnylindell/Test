@@ -12,9 +12,15 @@ router = APIRouter(prefix="/api/v2/assistant", tags=["assistant"])
 
 def service(request: Request) -> AssistantService:
     try:
-        return AssistantService(request.app.state.database, request.app.state.settings.assistant_signing_secret)
+        return AssistantService(
+            request.app.state.database,
+            request.app.state.settings.assistant_signing_secret,
+        )
     except ValueError as exc:
-        raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail=str(exc)) from exc
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=str(exc),
+        ) from exc
 
 
 @router.get("/query")
@@ -34,5 +40,7 @@ def confirm(
 ) -> dict:
     try:
         return assistant.confirm(payload.token, identity)
+    except PermissionError as exc:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(exc)) from exc
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
