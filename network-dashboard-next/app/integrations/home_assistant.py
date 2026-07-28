@@ -35,6 +35,34 @@ class HomeAssistantAdapter:
         token = self.config.get("home_assistant_token").strip()
         return base, token
 
+    def _configuration_status(self) -> dict:
+        url_status = self.config.status("home_assistant_url")
+        token_status = self.config.status("home_assistant_token")
+        components = {
+            "url": bool(url_status["configured"]),
+            "token": bool(token_status["configured"]),
+        }
+        missing = [name for name, configured in components.items() if not configured]
+        return {
+            "configured": not missing,
+            "missing": missing,
+            "components": components,
+            "sources": {
+                "url": url_status["source"],
+                "token": token_status["source"],
+            },
+        }
+
+    @staticmethod
+    def _setup_message(missing: list[str]) -> str:
+        if set(missing) == {"url", "token"}:
+            return "Home Assistant URL och token saknas"
+        if "token" in missing:
+            return "Home Assistant-token saknas"
+        if "url" in missing:
+            return "Home Assistant URL saknas"
+        return "Home Assistant-konfigurationen behöver granskas"
+
     @staticmethod
     def _validated_base(base: str) -> str:
         parsed = urlparse(base)
@@ -67,13 +95,19 @@ class HomeAssistantAdapter:
         return self.verify_tls
 
     def configured(self) -> bool:
-        base, token = self._config()
-        return bool(base and token)
+        return bool(self._configuration_status()["configured"])
 
     def _request(self, path: str, method: str = "GET", payload: dict | None = None) -> dict:
+        configuration = self._configuration_status()
+        if not configuration["configured"]:
+            return {
+                "configured": False,
+                "ok": False,
+                "state": "setup_required",
+                "missing": configuration["missing"],
+                "message": self._setup_message(configuration["missing"]),
+            }
         base, token = self._config()
-        if not base or not token:
-            return {"configured": False, "ok": False, "state": "setup_required"}
         base = self._validated_base(base)
         if not self.breaker.allow("home-assistant"):
             return {
@@ -119,32 +153,35 @@ class HomeAssistantAdapter:
             "compatibility_mode": not self.verify_tls and not self.ca_bundle,
         }
 
+    def _status_payload(self, result: dict, *, cached: bool) -> dict:
+        configuration = self._configuration_status()
+        missing = list(result.get("missing") or configuration["missing"])
+        return {
+            "configured": bool(configuration["configured"]),
+            "ok": bool(result.get("ok")),
+            "state": "connected" if result.get("ok") else result.get("state", "unavailable"),
+            "message": result.get("message") or (self._setup_message(missing) if missing else ""),
+            "missing": missing,
+            "setup": configuration["components"],
+            "cache": "hit" if cached else "miss",
+            "breaker": self.breaker.status("home-assistant"),
+            "tls": self._tls_status(),
+            "credential_sources": configuration["sources"],
+            "sensitive_values_exposed": False,
+        }
+
     def status(self, *, fresh: bool = False) -> dict:
         if fresh:
             self.cache.invalidate("ha:status")
         result, cached = self.cache.get_or_set("ha:status", 20, lambda: self._request("/api/"))
-        url_status = self.config.status("home_assistant_url")
-        token_status = self.config.status("home_assistant_token")
-        return {
-            "configured": bool(result.get("configured")),
-            "ok": bool(result.get("ok")),
-            "state": "connected" if result.get("ok") else result.get("state", "unavailable"),
-            "cache": "hit" if cached else "miss",
-            "breaker": self.breaker.status("home-assistant"),
-            "tls": self._tls_status(),
-            "credential_sources": {
-                "url": url_status["source"],
-                "token": token_status["source"],
-            },
-            "sensitive_values_exposed": False,
-        }
+        return self._status_payload(result, cached=cached)
 
     def entities(self, *, fresh: bool = False) -> dict:
         if fresh:
             self.cache.invalidate("ha:entities")
         result, cached = self.cache.get_or_set("ha:entities", 15, lambda: self._request("/api/states"))
         if not result.get("ok"):
-            return {**self.status(), "entities": [], "cache": "hit" if cached else "miss"}
+            return {**self._status_payload(result, cached=cached), "entities": []}
         entities = []
         for row in result.get("data") or []:
             entity_id = str(row.get("entity_id") or "")
