@@ -60,7 +60,7 @@ def test_advanced_overview_is_admin_only_and_sanitized(tmp_path: Path, monkeypat
     assert payload["database"]["integrity"] == "ok"
     assert payload["migrations"]["pending"] == 0
     assert payload["cache"]["entries"] == 1
-    assert payload["circuit_breakers"]["home-assistant"]["last_error"] == "test failure"
+    assert payload["circuit_breakers"]["home-assistant"]["has_error"] is True
     assert payload["support_bundle"]["sensitive_values_exposed"] is False
     assert "token" not in str(payload["support_bundle"]).casefold()
 
