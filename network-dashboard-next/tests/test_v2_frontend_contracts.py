@@ -36,6 +36,28 @@ def test_v2_exposes_migrated_admin_views() -> None:
         assert endpoint in script
 
 
+def test_v2_shell_loads_every_modular_workspace() -> None:
+    html = V2_HTML.read_text(encoding="utf-8")
+    assets = (
+        "excel.js",
+        "configuration.js",
+        "access.js",
+        "banking.js",
+        "operations.js",
+        "configuration.css",
+        "operations.css",
+    )
+    for asset in assets:
+        assert asset in html
+        assert (ROOT / "static" / "v2" / asset).is_file()
+
+    main = (ROOT / "app" / "main.py").read_text(encoding="utf-8")
+    assert "banking_router" in main
+    assert "operations_router" in main
+    assert "app.include_router(banking_router)" in main
+    assert "app.include_router(operations_router)" in main
+
+
 def test_v2_budget_export_does_not_shadow_browser_document() -> None:
     script = V2_SCRIPT.read_text(encoding="utf-8")
     assert 'const document = await api("/api/v2/budget/export")' not in script
