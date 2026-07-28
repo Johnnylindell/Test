@@ -24,7 +24,7 @@ class BreakerState:
 class CircuitBreaker:
     def __init__(self, failure_threshold: int = 3, reset_seconds: float = 30.0) -> None:
         self.failure_threshold = max(1, int(failure_threshold))
-        self.reset_seconds = max(0.1, float(reset_seconds))
+        self.reset_seconds = max(0.001, float(reset_seconds))
         self._states: dict[str, BreakerState] = {}
         self._lock = RLock()
 
