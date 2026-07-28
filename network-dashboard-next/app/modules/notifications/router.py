@@ -39,10 +39,13 @@ def overview(
 
 @router.get("/public-key")
 def public_key(
-    repo: NotificationsRepository = Depends(repository),
+    request: Request,
     _: Identity = Depends(require_login),
 ) -> dict:
-    return {"ok": True, "public_key": repo.public_push_key()}
+    return {
+        "ok": True,
+        "public_key": request.app.state.integration_config.get("vapid_public_key"),
+    }
 
 
 @router.get("/rules")
@@ -95,9 +98,24 @@ def diagnostics(
         and request.app.state.settings.external_side_effects
         and not request.app.state.settings.read_only
     )
+    base = repo.diagnostics()
+    public_status = request.app.state.integration_config.status("vapid_public_key")
+    private_status = request.app.state.integration_config.status("vapid_private_key")
+    discord_status = request.app.state.integration_config.status("discord_webhook_url")
     return {
         "ok": True,
-        **repo.diagnostics(),
+        **base,
+        "public_key_configured": public_status["configured"],
+        "private_key_configured": private_status["configured"],
+        "discord_configured": discord_status["configured"],
+        "delivery_adapter_configured": bool(
+            public_status["configured"] and private_status["configured"]
+        ),
+        "credential_sources": {
+            "public_key": public_status["source"],
+            "private_key": private_status["source"],
+            "discord": discord_status["source"],
+        },
         "external_side_effects": request.app.state.settings.external_side_effects,
         "scheduler": {
             "configured": configured,
@@ -105,6 +123,7 @@ def diagnostics(
             "active": bool(getattr(request.app.state, "notification_scheduler_active", False)),
             "interval_seconds": request.app.state.settings.notification_scheduler_seconds,
         },
+        "sensitive_values_exposed": False,
     }
 
 
