@@ -90,6 +90,8 @@ class Database:
             connection.executemany(sql, rows)
 
     def table_exists(self, table: str) -> bool:
+        if not self.path.is_file():
+            return False
         row = self.fetch_one(
             "SELECT 1 AS present FROM sqlite_master WHERE type='table' AND name=?",
             (table,),
