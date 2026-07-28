@@ -78,6 +78,44 @@ def test_migrations_upgrade_legacy_routine_instance_columns(tmp_path: Path) -> N
     assert index == (1,)
 
 
+def test_migrations_upgrade_legacy_banking_columns(tmp_path: Path) -> None:
+    database = tmp_path / "legacy-banking.sqlite3"
+    with sqlite3.connect(database) as connection:
+        connection.executescript(
+            """
+            CREATE TABLE bank_transactions(
+                id TEXT PRIMARY KEY,
+                date TEXT,
+                value REAL,
+                text TEXT
+            );
+            INSERT INTO bank_transactions(id,date,value,text)
+            VALUES('legacy-tx','2026-07-27',-42.5,'Legacyköp');
+            """
+        )
+
+    result = upgrade(database, ROOT / "migrations")
+
+    assert result["ok"] is True
+    with sqlite3.connect(database) as connection:
+        columns = {row[1] for row in connection.execute("PRAGMA table_info(bank_transactions)")}
+        row = connection.execute(
+            "SELECT booking_date,value_date,amount,description,source,import_id,fingerprint "
+            "FROM bank_transactions WHERE id='legacy-tx'"
+        ).fetchone()
+        imported = connection.execute(
+            "SELECT row_count,imported_count FROM bank_imports WHERE id='legacy-bank-import'"
+        ).fetchone()
+        index = connection.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='index' AND name='idx_bank_transactions_booking'"
+        ).fetchone()
+    assert {"booking_date", "value_date", "amount", "description", "fingerprint"} <= columns
+    assert row[:6] == ("2026-07-27", "2026-07-27", -42.5, "Legacyköp", "legacy", "legacy-bank-import")
+    assert row[6].startswith("legacy-bank-fingerprint-")
+    assert imported == (1, 1)
+    assert index == (1,)
+
+
 def test_retired_legacy_endpoint_returns_replacement(tmp_path: Path, monkeypatch) -> None:
     database = tmp_path / "dashboard.sqlite3"
     sqlite3.connect(database).close()
