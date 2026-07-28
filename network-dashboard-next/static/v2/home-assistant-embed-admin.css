@@ -1,0 +1,13 @@
+.home-assistant-embed-preview {
+  width: 100%;
+  min-height: 42rem;
+  border: 1px solid var(--border, rgba(16, 42, 32, .16));
+  border-radius: 1rem;
+  background: #fff;
+}
+
+@media (max-width: 720px) {
+  .home-assistant-embed-preview {
+    min-height: 34rem;
+  }
+}
