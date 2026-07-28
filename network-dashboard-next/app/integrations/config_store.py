@@ -44,6 +44,22 @@ VARIABLES: tuple[VariableDefinition, ...] = (
         help="Long-lived access token från Home Assistant. Visas aldrig igen efter att den sparats.",
     ),
     VariableDefinition(
+        "home_assistant_verify_tls",
+        "Verifiera Home Assistant TLS",
+        "home_assistant",
+        secret=False,
+        environment_names=("HOME_ASSISTANT_VERIFY_TLS",),
+        help="true rekommenderas. false är ett uttryckligt kompatibilitetsläge för lokala självsignerade certifikat.",
+    ),
+    VariableDefinition(
+        "home_assistant_ca_bundle",
+        "Home Assistant CA-fil",
+        "home_assistant",
+        secret=False,
+        environment_names=("HOME_ASSISTANT_CA_BUNDLE",),
+        help="Absolut WSL-sökväg till en läsbar .pem- eller .crt-fil. Egen CA har företräde framför kompatibilitetsläget.",
+    ),
+    VariableDefinition(
         "discord_webhook_url",
         "Discord webhook",
         "notifications",
@@ -284,6 +300,20 @@ class IntegrationConfigStore:
             return normalized.rstrip("/")
         if definition.key == "home_assistant_token" and len(normalized) < 20:
             raise ValueError("Home Assistant-token verkar vara för kort")
+        if definition.key == "home_assistant_verify_tls":
+            lowered = normalized.casefold()
+            if lowered not in {"true", "false", "1", "0", "yes", "no", "on", "off"}:
+                raise ValueError("TLS-verifiering måste anges som true eller false")
+            return "true" if lowered in {"true", "1", "yes", "on"} else "false"
+        if definition.key == "home_assistant_ca_bundle":
+            path = Path(normalized).expanduser()
+            if not path.is_absolute():
+                raise ValueError("CA-sökvägen måste vara absolut i WSL")
+            if path.suffix.casefold() not in {".pem", ".crt", ".cer"}:
+                raise ValueError("CA-filen måste vara .pem, .crt eller .cer")
+            if not path.is_file() or not os.access(path, os.R_OK):
+                raise ValueError("CA-filen finns inte eller kan inte läsas")
+            return str(path.resolve())
         if definition.key == "discord_webhook_url":
             parsed = urlparse(normalized)
             allowed_hosts = {"discord.com", "www.discord.com", "discordapp.com", "www.discordapp.com"}
