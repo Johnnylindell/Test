@@ -150,6 +150,11 @@ class IntegrationConfigStore:
             return ""
         if not definition.database_key:
             return ""
+        legacy_settings = self.database.get_json_state("settings", {})
+        if isinstance(legacy_settings, dict):
+            value = str(legacy_settings.get(definition.database_key) or "").strip()
+            if value:
+                return value
         return str(self.database.get_setting(definition.database_key, "") or "").strip()
 
     def resolve(self, key: str) -> tuple[str, str]:
