@@ -28,6 +28,7 @@ class Settings:
     presence_hash_secret: str
     presence_ingest_token: str
     assistant_signing_secret: str
+    integration_secrets_path: Path
     notification_scheduler_enabled: bool
     notification_scheduler_seconds: int
     google_token_path: Path
@@ -63,6 +64,9 @@ def load_settings() -> Settings:
         presence_hash_secret=os.getenv("PRESENCE_HASH_SECRET", ""),
         presence_ingest_token=os.getenv("PRESENCE_INGEST_TOKEN", ""),
         assistant_signing_secret=os.getenv("ASSISTANT_SIGNING_SECRET", ""),
+        integration_secrets_path=Path(
+            os.getenv("INTEGRATION_SECRETS_PATH", str(config_root / "integration-secrets.json"))
+        ).expanduser(),
         notification_scheduler_enabled=_flag("NOTIFICATION_SCHEDULER_ENABLED", False),
         notification_scheduler_seconds=max(
             60,
