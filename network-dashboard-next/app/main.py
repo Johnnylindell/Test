@@ -61,7 +61,7 @@ _SAFE_SETUP_PREFIXES = (
     "/api/v2/admin/integrations/configuration",
     "/api/v2/admin/integrations/vapid/generate",
     "/api/v2/admin/integrations/google/",
-    "/api/v2/admin/home-assistant-embed",
+    "/api/v2/admin/home-assistant-embed/settings",
 )
 _SECTION_PREFIXES = (
     ("/api/v2/home-assistant", "homeassistant"),
