@@ -46,6 +46,15 @@ def arguments(tmp_path: Path, root: Path) -> argparse.Namespace:
     )
 
 
+def mock_runtime(monkeypatch) -> None:
+    monkeypatch.setattr(readiness_report, "_service_state", lambda service: (True, "active"))
+    monkeypatch.setattr(
+        readiness_report,
+        "_migration_state",
+        lambda database, directory: (True, "total=11 pending=0 checksum_mismatches=none"),
+    )
+
+
 def test_ready_report_accepts_isolated_secure_setup(tmp_path: Path, monkeypatch) -> None:
     root = tmp_path / "app"
     touch_required_static(root)
@@ -77,7 +86,7 @@ def test_ready_report_accepts_isolated_secure_setup(tmp_path: Path, monkeypatch)
         Path(args.legacy_report),
         json.dumps({"ok": True, "adopted": ["home_assistant_token"], "sensitive_values_exposed": False}),
     )
-    monkeypatch.setattr(readiness_report, "_service_state", lambda service: (True, "active"))
+    mock_runtime(monkeypatch)
 
     report = readiness_report.build_report(args)
     assert report["ok"] is True
@@ -86,6 +95,8 @@ def test_ready_report_accepts_isolated_secure_setup(tmp_path: Path, monkeypatch)
     assert secret_value not in json.dumps(report)
     assert "google.token" in report["warnings"]
     assert "google.client" in report["warnings"]
+    assert "credential.home_assistant_url" in report["warnings"]
+    assert "credential.home_assistant_token" not in report["warnings"]
 
 
 def test_report_blocks_live_database_reuse_and_secret_leak(tmp_path: Path, monkeypatch) -> None:
@@ -125,12 +136,41 @@ def test_report_blocks_live_database_reuse_and_secret_leak(tmp_path: Path, monke
             "sensitive_values_exposed": False,
         }),
     )
-    monkeypatch.setattr(readiness_report, "_service_state", lambda service: (True, "active"))
+    mock_runtime(monkeypatch)
 
     report = readiness_report.build_report(args)
     assert report["ok"] is False
     assert "database.isolated" in report["failed_critical"]
     assert "legacy.report_no_secret_values" in report["failed_critical"]
+
+
+def test_migration_failure_blocks_readiness(tmp_path: Path, monkeypatch) -> None:
+    root = tmp_path / "app"
+    touch_required_static(root)
+    args = arguments(tmp_path, root)
+    sqlite_database(Path(args.database))
+    sqlite_database(Path(args.live_database))
+    private_file(
+        Path(args.env_file),
+        "\n".join([
+            f"DASHBOARD_DB_PATH={args.database}",
+            "DASHBOARD_READ_ONLY=true",
+            "EXTERNAL_SIDE_EFFECTS=false",
+            "HOMELAB_ADMIN_PASSWORD=admin-password-123456",
+            "PRESENCE_HASH_SECRET=" + "a" * 64,
+            "PRESENCE_INGEST_TOKEN=" + "b" * 64,
+            "ASSISTANT_SIGNING_SECRET=" + "c" * 64,
+        ]) + "\n",
+    )
+    monkeypatch.setattr(readiness_report, "_service_state", lambda service: (True, "active"))
+    monkeypatch.setattr(
+        readiness_report,
+        "_migration_state",
+        lambda database, directory: (False, "total=11 pending=1 checksum_mismatches=none"),
+    )
+    report = readiness_report.build_report(args)
+    assert report["ok"] is False
+    assert "database.migrations" in report["failed_critical"]
 
 
 def test_private_file_helper_sets_expected_mode(tmp_path: Path) -> None:
