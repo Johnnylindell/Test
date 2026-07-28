@@ -7,8 +7,11 @@ from pathlib import Path
 import pytest
 from fastapi import HTTPException
 
+from app.core.cache import TTLCache
+from app.core.circuit_breaker import CircuitBreaker
 from app.database.database import Database
 from app.integrations.config_store import IntegrationConfigStore
+from app.integrations.home_assistant import HomeAssistantAdapter
 from app.modules.admin_integrations.router import _validate_google_client, _validate_google_token
 
 
@@ -114,8 +117,42 @@ def test_variable_validation_rejects_unsafe_values(tmp_path: Path) -> None:
         store.set("home_assistant_url", "http://user:pass@homeassistant.local:8123")
     with pytest.raises(ValueError, match="Discord"):
         store.set("discord_webhook_url", "https://example.com/api/webhooks/1/token")
+    with pytest.raises(ValueError, match="true eller false"):
+        store.set("home_assistant_verify_tls", "sometimes")
+    with pytest.raises(ValueError, match="absolut"):
+        store.set("home_assistant_ca_bundle", "certificates/ha.pem")
     with pytest.raises(KeyError):
         store.set("unknown_secret", "value")
+
+
+def test_home_assistant_tls_changes_apply_without_restart(tmp_path: Path) -> None:
+    store = IntegrationConfigStore(legacy_database(tmp_path), tmp_path / "secrets.json")
+    adapter = HomeAssistantAdapter(store, TTLCache(), CircuitBreaker(), verify_tls=True)
+    store.set("home_assistant_verify_tls", "false")
+    assert adapter._verify() is False
+    assert adapter._tls_status()["compatibility_mode"] is True
+
+    ca_file = tmp_path / "home-assistant-ca.pem"
+    ca_file.write_text("test-ca", encoding="utf-8")
+    store.set("home_assistant_ca_bundle", str(ca_file))
+    assert adapter._verify() == str(ca_file.resolve())
+    status = adapter._tls_status()
+    assert status["custom_ca_configured"] is True
+    assert status["custom_ca_readable"] is True
+    assert status["compatibility_mode"] is False
+
+
+def test_set_many_is_atomic_when_one_value_is_invalid(tmp_path: Path) -> None:
+    secrets = tmp_path / "secrets.json"
+    store = IntegrationConfigStore(legacy_database(tmp_path), secrets)
+    with pytest.raises(ValueError, match="VAPID subject"):
+        store.set_many({
+            "vapid_public_key": VAPID_PUBLIC,
+            "vapid_private_key": VAPID_PRIVATE,
+            "vapid_subject": "not-a-contact",
+        })
+    assert not secrets.exists()
+    assert store.resolve("vapid_public_key") == (VAPID_PUBLIC, "legacy_database")
 
 
 def test_google_file_validators_accept_expected_shapes() -> None:
