@@ -1,0 +1,17 @@
+.advanced-toolbar {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  margin: 0 0 1rem;
+}
+
+.advanced-toolbar .button--warning {
+  margin-left: auto;
+}
+
+@media (max-width: 760px) {
+  .advanced-toolbar .button--warning {
+    margin-left: 0;
+  }
+}
