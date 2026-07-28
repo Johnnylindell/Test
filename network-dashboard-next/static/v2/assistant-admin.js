@@ -14,12 +14,22 @@ function announce(message, tone = "good") {
 
 function resultRows(results) {
   if (!results?.length) return emptyState("Inga sökträffar", "Svaret kan fortfarande innehålla ett förslag eller en förklaring.");
-  return `<div class="list">${results.map(item => `<div class="row"><div class="row__main"><strong>${escapeHtml(item.title || "Träff")}</strong><span>${escapeHtml(item.detail || "")}</span></div>${item.url ? `<a class="button button--small" href="${escapeHtml(item.url)}">Öppna</a>` : ""}</div>`).join("")}</div>`;
+  return `<div class="list">${results.map(item => `<div class="row"><div class="row__main"><strong>${escapeHtml(item.title || "Träff")}</strong><span>${escapeHtml(item.detail || "")}</span></div>${item.url ? `<button class="button button--small" type="button" data-assistant-admin-url="${escapeHtml(item.url)}">Öppna</button>` : ""}</div>`).join("")}</div>`;
 }
 
 function proposalHtml(proposal) {
   if (!proposal) return emptyState("Ingen mutation föreslagen", "Läsfrågor och sökningar kräver ingen bekräftelse.");
   return `<div class="assistant-proposal"><strong>${escapeHtml(proposal.description || "Föreslagen åtgärd")}</strong><small>Giltig till ${escapeHtml(dateTime(proposal.expires_at))}</small><button id="assistant-admin-confirm" class="button button--primary" type="button"${readOnly ? " disabled" : ""}>${readOnly ? "Bekräftelse blockerad i parallelläge" : "Bekräfta en gång"}</button></div>`;
+}
+
+function openResult(rawUrl) {
+  try {
+    const target = new URL(String(rawUrl || "/#home"), location.origin);
+    if (target.origin !== location.origin) throw new Error("extern destination");
+    location.hash = target.hash || "#home";
+  } catch {
+    announce("Assistentens resultatlänk blockerades", "warning");
+  }
 }
 
 function renderResult() {
@@ -31,6 +41,7 @@ function renderResult() {
   }
   target.innerHTML = `<div class="list"><div class="row"><div class="row__main"><strong>Avsikt</strong><span>${escapeHtml(currentResult.intent || "okänd")}</span></div>${badge(currentResult.network_model_used ? "Nätverksmodell" : "Lokal logik", currentResult.network_model_used ? "warning" : "good")}</div><div class="row"><div class="row__main"><strong>Svar</strong><span>${escapeHtml(currentResult.reply || "")}</span></div></div><div class="row"><div class="row__main"><strong>Bekräftelse krävs</strong><span>${currentResult.requires_confirmation ? "Ja" : "Nej"}</span></div>${badge(currentResult.requires_confirmation ? "Kontrollerad mutation" : "Endast läsning", currentResult.requires_confirmation ? "warning" : "good")}</div></div><h3>Träffar</h3>${resultRows(currentResult.results || [])}<h3>Förslag</h3>${proposalHtml(currentResult.proposal)}`;
   document.querySelector("#assistant-admin-confirm")?.addEventListener("click", confirmProposal);
+  target.querySelectorAll("[data-assistant-admin-url]").forEach(button => button.addEventListener("click", () => openResult(button.dataset.assistantAdminUrl)));
 }
 
 function render() {
@@ -99,6 +110,7 @@ function installNav() {
   button.textContent = "Assistent";
   button.addEventListener("click", load);
   nav.append(button);
+  if (location.hash === "#assistant-admin") queueMicrotask(load);
 }
 
 const observer = new MutationObserver(installNav);
