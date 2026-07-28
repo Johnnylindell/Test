@@ -200,7 +200,8 @@ def create_app() -> FastAPI:
                     request_id,
                 )
             if (
-                not identity.admin
+                identity.selected
+                and not identity.admin
                 and identity.readonly
                 and method in {"POST", "PUT", "PATCH", "DELETE"}
                 and not _safe_read_only_mutation(path)
