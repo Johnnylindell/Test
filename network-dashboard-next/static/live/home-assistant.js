@@ -53,15 +53,29 @@ function renderEntity(entity) {
   return `<div class="row"><div class="row__main"><strong>${escapeHtml(entity.name)}</strong><span>${escapeHtml(entity.state || "okänd")}</span></div><div class="row__actions">${entity.favorite ? badge("Favorit", "good") : ""}${actions}</div></div>`;
 }
 
+function setupGuidance(data) {
+  const missing = new Set(data.missing || []);
+  if (missing.has("url") && missing.has("token")) {
+    return "Både basadressen och en long-lived access token behöver sparas av en administratör under Version 2 → Integrationsinställningar.";
+  }
+  if (missing.has("token")) {
+    return "Basadressen är hittad, men en Home Assistant long-lived access token behöver sparas av en administratör under Version 2 → Integrationsinställningar.";
+  }
+  if (missing.has("url")) {
+    return "En token är hittad, men Home Assistants basadress behöver sparas av en administratör under Version 2 → Integrationsinställningar.";
+  }
+  return "Kontrollera Home Assistant-inställningarna under Version 2 → Integrationsinställningar.";
+}
+
 function render(data) {
   const body = document.querySelector("#home-assistant-sheet-body");
   if (!body) return;
   if (!data.configured) {
-    body.innerHTML = emptyState("Home Assistant är inte konfigurerad", "Lägg in URL och token via Next-inställningarna först.");
+    body.innerHTML = emptyState(data.message || "Home Assistant är inte konfigurerad", setupGuidance(data));
     return;
   }
   if (!data.ok) {
-    body.innerHTML = errorState(new Error("Home Assistant kunde inte nås"));
+    body.innerHTML = errorState(new Error(data.message || "Home Assistant kunde inte nås"));
     return;
   }
   const blocked = runtime?.read_only || !runtime?.external_side_effects;
