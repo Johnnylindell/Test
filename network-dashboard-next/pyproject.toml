@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "network-dashboard-next"
-version = "0.2.0"
+version = "0.28.0"
 description = "Modular replacement for the Lindell family dashboard"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -26,6 +26,9 @@ dev = [
   "pytest>=8.4,<9",
   "pytest-asyncio>=1.1,<2",
   "ruff>=0.12,<1",
+]
+speech = [
+  "faster-whisper>=1.1,<2",
 ]
 
 [tool.hatch.build.targets.wheel]
