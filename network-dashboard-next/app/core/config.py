@@ -35,6 +35,12 @@ class Settings:
     google_client_secrets_path: Path
     home_assistant_verify_tls: bool
     home_assistant_ca_bundle: Path | None
+    speech_transcription_enabled: bool
+    speech_transcription_model: str
+    speech_transcription_device: str
+    speech_transcription_compute_type: str
+    speech_transcription_max_bytes: int
+    speech_transcription_allow_model_download: bool
 
 
 def load_settings() -> Settings:
@@ -80,6 +86,23 @@ def load_settings() -> Settings:
         ).expanduser(),
         home_assistant_verify_tls=_flag("HOME_ASSISTANT_VERIFY_TLS", True),
         home_assistant_ca_bundle=Path(ca_value).expanduser() if ca_value else None,
+        speech_transcription_enabled=_flag("SPEECH_TRANSCRIPTION_ENABLED", False),
+        speech_transcription_model=os.getenv("SPEECH_TRANSCRIPTION_MODEL", "").strip(),
+        speech_transcription_device=os.getenv("SPEECH_TRANSCRIPTION_DEVICE", "cpu").strip() or "cpu",
+        speech_transcription_compute_type=(
+            os.getenv("SPEECH_TRANSCRIPTION_COMPUTE_TYPE", "int8").strip() or "int8"
+        ),
+        speech_transcription_max_bytes=max(
+            64 * 1024,
+            min(
+                50 * 1024 * 1024,
+                int(os.getenv("SPEECH_TRANSCRIPTION_MAX_BYTES", str(8 * 1024 * 1024))),
+            ),
+        ),
+        speech_transcription_allow_model_download=_flag(
+            "SPEECH_TRANSCRIPTION_ALLOW_MODEL_DOWNLOAD",
+            False,
+        ),
     )
 
 
