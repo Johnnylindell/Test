@@ -48,14 +48,14 @@ def _source(request: Request) -> str:
     return (forwarded or (request.client.host if request.client else "unknown"))[:200]
 
 
-@router.get("/login", response_class=HTMLResponse)
+@router.get("/login", response_class=HTMLResponse, response_model=None)
 def login_page(identity: Identity = Depends(current_identity)) -> HTMLResponse | RedirectResponse:
     if identity.admin:
         return RedirectResponse("/", status_code=303)
     return HTMLResponse(_login_page())
 
 
-@router.post("/login")
+@router.post("/login", response_model=None)
 def login(
     request: Request,
     username: str = Form("admin"),
