@@ -19,8 +19,10 @@ from app.integrations.google_workspace import GoogleWorkspaceAdapter
 from app.integrations.home_assistant import HomeAssistantAdapter
 from app.integrations.network_tools import NetworkToolsAdapter
 from app.integrations.notification_delivery import NotificationDeliveryAdapter
+from app.integrations.speech_transcription import SpeechTranscriptionAdapter
 from app.integrations.tailscale import TailscaleAdapter
 from app.integrations.weather import WeatherAdapter
+from app.modules.admin_advanced.router import router as admin_advanced_router
 from app.modules.admin_integrations.router import router as admin_integrations_router
 from app.modules.admin_security.router import router as admin_security_router
 from app.modules.assistant.router import router as assistant_router
@@ -56,6 +58,9 @@ _SAFE_MUTATIONS = {
     "/api/select-user",
     "/api/v2/budget/excel/preview",
     "/api/v2/banking/import/preview",
+    "/api/v2/assistant/transcribe",
+    "/api/v2/admin/advanced/cache/clear",
+    "/api/v2/admin/advanced/breakers/reset",
 }
 _SAFE_SETUP_PREFIXES = (
     "/api/v2/admin/integrations/configuration",
@@ -101,7 +106,7 @@ def _error(status_code: int, code: str, message: str, request_id: str) -> JSONRe
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.27.0")
+    app = FastAPI(title=settings.app_name, version="0.28.0")
     database = Database(settings.database_path)
     selected_port = choose_port(settings.port)
     cache = TTLCache()
@@ -133,6 +138,14 @@ def create_app() -> FastAPI:
     )
     app.state.weather = WeatherAdapter(database, cache, breaker)
     app.state.network_tools = NetworkToolsAdapter(database, cache, breaker)
+    app.state.speech_transcription = SpeechTranscriptionAdapter(
+        enabled=settings.speech_transcription_enabled,
+        model=settings.speech_transcription_model,
+        device=settings.speech_transcription_device,
+        compute_type=settings.speech_transcription_compute_type,
+        max_bytes=settings.speech_transcription_max_bytes,
+        allow_model_download=settings.speech_transcription_allow_model_download,
+    )
     app.state.notification_delivery = NotificationDeliveryAdapter(
         notification_repository,
         integration_config,
@@ -233,6 +246,7 @@ def create_app() -> FastAPI:
     app.include_router(admin_integrations_router)
     app.include_router(admin_security_router)
     app.include_router(home_assistant_embed_router)
+    app.include_router(admin_advanced_router)
     app.include_router(backups_router)
     app.include_router(web_router)
     app.include_router(legacy_proxy_router)
