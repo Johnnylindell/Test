@@ -28,6 +28,16 @@ function allowed(section) {
   return Boolean(access?.admin || access?.sections?.includes(section));
 }
 
+function ensureAllowedRoute() {
+  if (!access) return;
+  const view = (location.hash || "#home").slice(1).split("?", 1)[0] || "home";
+  const section = VIEW_SECTIONS[view];
+  if (section && !allowed(section)) {
+    history.replaceState(null, "", "#home");
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+  }
+}
+
 function applyPermissions() {
   if (!access) return;
   document.documentElement.dataset.profileReadonly = String(Boolean(access.readonly));
@@ -43,11 +53,15 @@ function applyPermissions() {
     const section = QUICK_SECTIONS[element.dataset.quickCreate];
     element.hidden = Boolean(section && !allowed(section));
   });
+  document.querySelectorAll("[data-home-assistant-open]").forEach(element => {
+    element.hidden = !allowed("homeassistant");
+  });
   if (access.readonly) {
     document.querySelector("#new-button")?.setAttribute("hidden", "");
     const runtime = document.querySelector("#runtime-mode");
     if (runtime) runtime.textContent = "Profil: endast läsning";
   }
+  ensureAllowedRoute();
 }
 
 async function loadPermissions() {
@@ -61,4 +75,5 @@ async function loadPermissions() {
 
 const observer = new MutationObserver(applyPermissions);
 observer.observe(document.body, { childList: true, subtree: true });
+window.addEventListener("hashchange", ensureAllowedRoute);
 loadPermissions();
