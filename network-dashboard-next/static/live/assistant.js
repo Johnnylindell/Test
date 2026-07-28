@@ -5,6 +5,9 @@ let dialog = null;
 let thread = null;
 let composer = null;
 let readOnly = true;
+let mediaRecorder = null;
+let mediaStream = null;
+let recordingTimer = null;
 
 function ensureUi() {
   if (dialog) return;
@@ -138,31 +141,147 @@ function handleClick(event) {
   if (confirmation) confirmAction(confirmation.dataset.assistantConfirm, confirmation);
 }
 
-function configureVoice() {
-  const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+function preferredMimeType() {
+  if (!window.MediaRecorder) return "";
+  return ["audio/webm;codecs=opus", "audio/ogg;codecs=opus", "audio/mp4"]
+    .find(type => MediaRecorder.isTypeSupported?.(type)) || "";
+}
+
+function stopMediaStream() {
+  if (recordingTimer) window.clearTimeout(recordingTimer);
+  recordingTimer = null;
+  mediaStream?.getTracks().forEach(track => track.stop());
+  mediaStream = null;
+}
+
+function resetVoiceButton(voice) {
+  voice.disabled = false;
+  voice.textContent = "🎙";
+  voice.removeAttribute("data-recording");
+  composer.querySelector("textarea")?.focus();
+}
+
+async function responseError(response) {
+  try {
+    const payload = await response.json();
+    return payload.detail || payload.error?.message || `HTTP ${response.status}`;
+  } catch {
+    return `HTTP ${response.status}`;
+  }
+}
+
+async function transcribeRecording(blob, voice) {
+  voice.disabled = true;
+  voice.textContent = "…";
+  const type = String(blob.type || "audio/webm").split(";", 1)[0];
+  const extension = type === "audio/ogg" ? "ogg" : type === "audio/mp4" ? "m4a" : "webm";
+  const body = new FormData();
+  body.append("file", blob, `dictation.${extension}`);
+  try {
+    const response = await fetch("/api/v2/assistant/transcribe", {
+      method: "POST",
+      credentials: "same-origin",
+      body,
+    });
+    if (!response.ok) throw new Error(await responseError(response));
+    const result = await response.json();
+    composer.querySelector("textarea").value = result.text || "";
+    if (result.truncated) appendAssistant("Dikteringen var lång och kortades till assistentens maxlängd.");
+  } catch (error) {
+    appendAssistant(error.message || "Servertranskriberingen misslyckades.");
+  } finally {
+    resetVoiceButton(voice);
+  }
+}
+
+async function toggleServerRecording(voice) {
+  if (mediaRecorder?.state === "recording") {
+    mediaRecorder.stop();
+    return;
+  }
+  try {
+    mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const mimeType = preferredMimeType();
+    mediaRecorder = mimeType
+      ? new MediaRecorder(mediaStream, { mimeType })
+      : new MediaRecorder(mediaStream);
+    const chunks = [];
+    mediaRecorder.addEventListener("dataavailable", event => {
+      if (event.data?.size) chunks.push(event.data);
+    });
+    mediaRecorder.addEventListener("stop", () => {
+      const blob = new Blob(chunks, { type: mediaRecorder.mimeType || mimeType || "audio/webm" });
+      stopMediaStream();
+      transcribeRecording(blob, voice);
+    }, { once: true });
+    mediaRecorder.addEventListener("error", () => {
+      stopMediaStream();
+      resetVoiceButton(voice);
+      appendAssistant("Inspelningen kunde inte genomföras.");
+    }, { once: true });
+    mediaRecorder.start();
+    voice.dataset.recording = "true";
+    voice.textContent = "■";
+    voice.title = "Stoppa inspelningen";
+    recordingTimer = window.setTimeout(() => {
+      if (mediaRecorder?.state === "recording") mediaRecorder.stop();
+    }, 15000);
+  } catch (error) {
+    stopMediaStream();
+    resetVoiceButton(voice);
+    appendAssistant(error.message || "Mikrofonen kunde inte öppnas.");
+  }
+}
+
+async function configureVoice() {
   const voice = dialog.querySelector("[data-assistant-voice]");
-  if (!Recognition || !voice) return;
+  if (!voice) return;
+  const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let serverAvailable = false;
+  try {
+    const status = await api("/api/v2/assistant/transcription/status");
+    serverAvailable = Boolean(status.available && window.MediaRecorder && navigator.mediaDevices?.getUserMedia);
+  } catch {
+    serverAvailable = false;
+  }
+  if (!Recognition && !serverAvailable) return;
+
   voice.hidden = false;
-  const recognition = new Recognition();
-  recognition.lang = "sv-SE";
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
+  voice.dataset.voiceMode = Recognition ? "browser" : "server";
+  voice.title = Recognition ? "Diktera i webbläsaren" : "Spela in för lokal servertranskribering";
+
+  let recognition = null;
+  if (Recognition) {
+    recognition = new Recognition();
+    recognition.lang = "sv-SE";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    recognition.addEventListener("result", event => {
+      composer.querySelector("textarea").value = event.results[0][0].transcript;
+    });
+    recognition.addEventListener("end", () => resetVoiceButton(voice));
+    recognition.addEventListener("error", () => {
+      resetVoiceButton(voice);
+      if (serverAvailable) {
+        voice.dataset.voiceMode = "server";
+        voice.title = "Spela in för lokal servertranskribering";
+        appendAssistant("Webbläsarens diktering fungerade inte. Mikrofonknappen använder nu den lokala serverfallbacken.");
+      }
+    });
+  }
+
   voice.addEventListener("click", () => {
+    if (voice.dataset.voiceMode === "server") {
+      toggleServerRecording(voice);
+      return;
+    }
     voice.disabled = true;
     voice.textContent = "…";
-    recognition.start();
-  });
-  recognition.addEventListener("result", event => {
-    composer.querySelector("textarea").value = event.results[0][0].transcript;
-  });
-  recognition.addEventListener("end", () => {
-    voice.disabled = false;
-    voice.textContent = "🎙";
-    composer.querySelector("textarea").focus();
-  });
-  recognition.addEventListener("error", () => {
-    voice.disabled = false;
-    voice.textContent = "🎙";
+    try {
+      recognition.start();
+    } catch {
+      resetVoiceButton(voice);
+    }
   });
 }
 
