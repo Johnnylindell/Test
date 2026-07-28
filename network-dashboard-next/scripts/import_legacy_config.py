@@ -16,6 +16,8 @@ from app.integrations.config_store import IntegrationConfigStore
 _ENV_TO_KEY = {
     "HOME_ASSISTANT_URL": "home_assistant_url",
     "HOME_ASSISTANT_TOKEN": "home_assistant_token",
+    "HOME_ASSISTANT_VERIFY_TLS": "home_assistant_verify_tls",
+    "HOME_ASSISTANT_CA_BUNDLE": "home_assistant_ca_bundle",
     "DISCORD_WEBHOOK_URL": "discord_webhook_url",
     "VAPID_PUBLIC_KEY": "vapid_public_key",
     "VAPID_PRIVATE_KEY": "vapid_private_key",
