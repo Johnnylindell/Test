@@ -28,7 +28,7 @@ dev = [
   "ruff>=0.12,<1",
 ]
 speech = [
-  "faster-whisper>=1.1,<2",
+  "faster-whisper>=1.2.1,<2",
 ]
 
 [tool.hatch.build.targets.wheel]
