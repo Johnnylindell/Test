@@ -5,8 +5,11 @@ from pathlib import Path
 
 import pytest
 
+from app.database.database import Database
+from app.integrations.config_store import IntegrationConfigStore
 from app.integrations.notification_delivery import NotificationDeliveryAdapter
 from app.modules.backups.service import BackupService
+from app.modules.notifications.repository import NotificationsRepository
 
 
 def test_backup_create_verify_and_restore(tmp_path: Path) -> None:
@@ -40,8 +43,8 @@ def test_backup_rejects_paths_outside_directory(tmp_path: Path) -> None:
 
 
 def test_notification_delivery_requires_vapid_key(tmp_path: Path) -> None:
-    database = tmp_path / "next.sqlite3"
-    with sqlite3.connect(database) as connection:
+    database_path = tmp_path / "next.sqlite3"
+    with sqlite3.connect(database_path) as connection:
         connection.executescript(
             """
             CREATE TABLE app_json_state(key TEXT PRIMARY KEY,value TEXT NOT NULL,updated_at TEXT);
@@ -56,9 +59,10 @@ def test_notification_delivery_requires_vapid_key(tmp_path: Path) -> None:
             """
         )
 
-    from app.database.database import Database
-
-    adapter = NotificationDeliveryAdapter(Database(database))
+    database = Database(database_path)
+    repository = NotificationsRepository(database)
+    config = IntegrationConfigStore(database, tmp_path / "integration-secrets.json")
+    adapter = NotificationDeliveryAdapter(repository, config)
     result = adapter.deliver(title="Test", message="Meddelande", send_push=True)
     assert result["ok"] is False
     assert "VAPID" in result["push"]["error"]
