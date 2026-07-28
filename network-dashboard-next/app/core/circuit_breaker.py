@@ -71,15 +71,35 @@ class CircuitBreaker:
         self.success(key)
         return result
 
+    def _status(self, state: BreakerState, now: float) -> dict[str, Any]:
+        open_now = state.opened_until > now
+        return {
+            "open": open_now,
+            "half_open": state.half_open,
+            "failures": state.failures,
+            "retry_after_seconds": round(max(0.0, state.opened_until - now), 3),
+            "last_error": state.last_error,
+        }
+
     def status(self, key: str) -> dict[str, Any]:
         now = time.monotonic()
         with self._lock:
             state = self._states.setdefault(key, BreakerState())
-            open_now = state.opened_until > now
+            return self._status(state, now)
+
+    def snapshot(self) -> dict[str, dict[str, Any]]:
+        now = time.monotonic()
+        with self._lock:
             return {
-                "open": open_now,
-                "half_open": state.half_open,
-                "failures": state.failures,
-                "retry_after_seconds": round(max(0.0, state.opened_until - now), 3),
-                "last_error": state.last_error,
+                key: self._status(state, now)
+                for key, state in sorted(self._states.items())
             }
+
+    def reset(self, key: str = "") -> int:
+        normalized = str(key or "").strip()
+        with self._lock:
+            if normalized:
+                return int(self._states.pop(normalized, None) is not None)
+            removed = len(self._states)
+            self._states.clear()
+            return removed
