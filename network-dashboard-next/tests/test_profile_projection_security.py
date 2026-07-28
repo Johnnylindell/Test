@@ -55,10 +55,6 @@ def test_experience_search_only_returns_allowed_domains(tmp_path: Path) -> None:
         "VALUES('r1','Hemlig planering','johnny','','',0,datetime('now'))"
     )
     database.execute(
-        "INSERT INTO shopping_lists(id,title,created_at,updated_at) "
-        "VALUES('shopping','Inköp',datetime('now'),datetime('now'))"
-    )
-    database.execute(
         "INSERT INTO shopping_items(id,list_id,text,category,store,done,sort_order,owner,quantity,unit,created_at,completed_at,source) "
         "VALUES('s1','shopping','Hemlig inköpsvara','','',0,1,'johnny',1,'',datetime('now'),'','manual')"
     )
@@ -72,10 +68,6 @@ def test_compass_does_not_offer_hidden_views(tmp_path: Path) -> None:
     database.execute(
         "INSERT INTO home_reminders(id,title,owner,remind_at,note,done,created_at) "
         "VALUES('r1','Privat påminnelse','johnny','','',0,datetime('now'))"
-    )
-    database.execute(
-        "INSERT INTO shopping_lists(id,title,created_at,updated_at) "
-        "VALUES('shopping','Inköp',datetime('now'),datetime('now'))"
     )
     database.execute(
         "INSERT INTO shopping_items(id,list_id,text,category,store,done,sort_order,owner,quantity,unit,created_at,completed_at,source) "
