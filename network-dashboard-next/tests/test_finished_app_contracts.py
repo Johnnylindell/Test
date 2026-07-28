@@ -38,8 +38,10 @@ def test_recipe_preview_has_a_read_only_get_route() -> None:
     router = source("app/modules/food/router.py")
     assert '@router.get("/recipes/import/preview")' in router
     preview = router.split('def preview_recipe_import_get', 1)[1]
-    assert "RecipeImporter" in preview
-    assert "food_repository" not in preview.split('@router.post("/recipes/import/preview"', 1)[0]
+    get_route = preview.split('@router.post("/recipes/import/preview"', 1)[0]
+    assert "return _preview(url)" in get_route
+    assert "food_repository" not in get_route
+    assert "RecipeImporter" in router.split("def _preview", 1)[1].split("@router.get", 1)[0]
 
 
 def test_presence_admin_response_never_exposes_source_values() -> None:
