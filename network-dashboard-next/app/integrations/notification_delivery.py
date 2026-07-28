@@ -1,30 +1,23 @@
 from __future__ import annotations
 
 import json
-import os
 from typing import Any
 
 import httpx
 from pywebpush import WebPushException, webpush
 
-from app.database.database import Database
+from app.integrations.config_store import IntegrationConfigStore
 from app.modules.notifications.repository import NotificationsRepository
 
 
 class NotificationDeliveryAdapter:
-    def __init__(self, database: Database) -> None:
-        self.database = database
-        self.repository = NotificationsRepository(database)
+    def __init__(self, repository: NotificationsRepository, config: IntegrationConfigStore) -> None:
+        self.repository = repository
+        self.config = config
 
     def _vapid(self) -> tuple[str, str]:
-        keys = self.database.get_json_state("vapid_keys", {})
-        private_key = ""
-        subject = ""
-        if isinstance(keys, dict):
-            private_key = str(keys.get("private") or keys.get("private_key") or "")
-            subject = str(keys.get("subject") or "")
-        private_key = private_key or os.getenv("VAPID_PRIVATE_KEY", "")
-        subject = subject or os.getenv("VAPID_SUBJECT", "mailto:admin@localhost")
+        private_key = self.config.get("vapid_private_key")
+        subject = self.config.get("vapid_subject", "mailto:admin@localhost")
         if not private_key:
             raise RuntimeError("VAPID private key saknas")
         return private_key, subject
@@ -74,10 +67,7 @@ class NotificationDeliveryAdapter:
         }
 
     def discord(self, message: str) -> dict[str, Any]:
-        webhook = str(
-            self.database.get_setting("discord_webhook_url", "")
-            or os.getenv("DISCORD_WEBHOOK_URL", "")
-        ).strip()
+        webhook = self.config.get("discord_webhook_url").strip()
         if not webhook:
             raise RuntimeError("Discord-webhook saknas")
         response = httpx.post(
