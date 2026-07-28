@@ -1,12 +1,14 @@
+from dataclasses import replace
 from pathlib import Path
 
 from app.auth.service import AuthService
-from app.core.config import Settings
+from app.core.config import Settings, settings as default_settings
 from app.database.database import Database
 
 
 def _settings(path: Path) -> Settings:
-    return Settings(
+    return replace(
+        default_settings,
         app_name="test",
         host="127.0.0.1",
         port=0,
@@ -15,6 +17,9 @@ def _settings(path: Path) -> Settings:
         static_root=path.parent / "static",
         admin_session_seconds=600,
         cookie_secure=False,
+        integration_secrets_path=path.parent / "integration-secrets.json",
+        google_token_path=path.parent / "google-token.json",
+        google_client_secrets_path=path.parent / "google-client.json",
     )
 
 
