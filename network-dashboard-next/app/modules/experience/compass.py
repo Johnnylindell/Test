@@ -8,7 +8,6 @@ from app.auth.service import Identity
 from app.database.database import Database
 from app.modules.family.repository import FamilyRepository
 from app.modules.food.repository import FoodRepository
-from app.modules.inventory.repository import InventoryRepository
 from app.modules.planning.repository import PlanningRepository
 from app.modules.shopping.repository import ShoppingRepository
 
@@ -20,7 +19,6 @@ class HomeCompassService:
         self.database = database
         self.family = FamilyRepository(database)
         self.food = FoodRepository(database)
-        self.inventory = InventoryRepository(database)
         self.planning = PlanningRepository(database)
         self.shopping = ShoppingRepository(database)
 
@@ -34,6 +32,10 @@ class HomeCompassService:
             return {"id": "evening", "emoji": "🌙", "title": "Kvällsläge", "tone": "Gör kvällen lättare"}
         return {"id": "quiet", "emoji": "🛋️", "title": "Lugnläge", "tone": "Inget stort behövs"}
 
+    @staticmethod
+    def _allowed(identity: Identity, section: str) -> bool:
+        return identity.admin or section in identity.sections
+
     def overview(
         self,
         identity: Identity,
@@ -42,15 +44,19 @@ class HomeCompassService:
         presence: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
         now = datetime.now(APP_TZ)
-        reminders = [row for row in self.planning.reminders(limit=30) if not row.get("done")]
-        shopping = self.shopping.overview().get("active") or []
-        meals = self.food.weekly_meals()
-        lists = self.family.lists()
+        reminders = []
+        if self._allowed(identity, "planning"):
+            reminders = [row for row in self.planning.reminders(limit=30) if not row.get("done")]
+        shopping = self.shopping.overview().get("active") or [] if self._allowed(identity, "shopping") else []
+        meals = self.food.weekly_meals() if self._allowed(identity, "food") else []
+        lists = self.family.lists() if self._allowed(identity, "family") else []
         assigned = []
         for family_list in lists:
             for item in family_list.get("items") or []:
                 owner = str(item.get("owner") or "").casefold()
-                if not item.get("done") and (not owner or owner in {identity.user.casefold(), "all", "family", "alla"}):
+                if not item.get("done") and (
+                    not owner or owner in {identity.user.casefold(), "all", "family", "alla"}
+                ):
                     assigned.append({**item, "list_title": family_list.get("title")})
 
         actions: list[dict[str, Any]] = []
@@ -89,30 +95,32 @@ class HomeCompassService:
         today_names = {now.date().isoformat(), str(now.weekday()), now.strftime("%A").casefold()}
         today_meal = next(
             (
-                row for row in meals
+                row
+                for row in meals
                 if str(row.get("day") or "").casefold() in today_names
                 or str(row.get("date") or "")[:10] == now.date().isoformat()
             ),
             None,
         )
-        if not today_meal and now.hour >= 13:
-            add(
-                "meal-decision",
-                "Ta middagsbeslutet nu",
-                "Välj en enkel middag — perfekt behöver den inte vara.",
-                "🍽️",
-                "food",
-                8,
-            )
-        elif today_meal and now.hour >= 15:
-            add(
-                "meal-prep-compass",
-                "Förbered två minuter mat",
-                f"Dagens mat: {today_meal.get('title') or 'planerad rätt'}. Ta fram något redan nu.",
-                "🥘",
-                "food",
-                12,
-            )
+        if self._allowed(identity, "food"):
+            if not today_meal and now.hour >= 13:
+                add(
+                    "meal-decision",
+                    "Ta middagsbeslutet nu",
+                    "Välj en enkel middag — perfekt behöver den inte vara.",
+                    "🍽️",
+                    "food",
+                    8,
+                )
+            elif today_meal and now.hour >= 15:
+                add(
+                    "meal-prep-compass",
+                    "Förbered två minuter mat",
+                    f"Dagens mat: {today_meal.get('title') or 'planerad rätt'}. Ta fram något redan nu.",
+                    "🥘",
+                    "food",
+                    12,
+                )
 
         if shopping:
             sample = ", ".join(str(item.get("text") or "") for item in shopping[:2] if item.get("text"))
@@ -148,8 +156,11 @@ class HomeCompassService:
             )
 
         people_home = [row for row in (presence or []) if row.get("present")]
-        if len(people_home) >= 2:
-            names = ", ".join(str(row.get("name") or row.get("owner") or "någon") for row in people_home[:3])
+        if self._allowed(identity, "family") and len(people_home) >= 2:
+            names = ", ".join(
+                str(row.get("name") or row.get("owner") or "någon")
+                for row in people_home[:3]
+            )
             add(
                 "family-touchpoint",
                 "30 sekunders familjekoll",
