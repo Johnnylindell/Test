@@ -25,6 +25,7 @@ from app.modules.admin_integrations.router import router as admin_integrations_r
 from app.modules.admin_security.router import router as admin_security_router
 from app.modules.assistant.router import router as assistant_router
 from app.modules.backups.router import router as backups_router
+from app.modules.banking.router import router as banking_router
 from app.modules.budget.router import router as budget_router
 from app.modules.calendar.router import router as calendar_router
 from app.modules.experience.router import router as experience_router
@@ -39,6 +40,7 @@ from app.modules.inventory.router import router as inventory_router
 from app.modules.notifications.repository import NotificationsRepository
 from app.modules.notifications.router import router as notifications_router
 from app.modules.notifications.scheduler import NotificationScheduler
+from app.modules.operations.router import router as operations_router
 from app.modules.planning.router import router as planning_router
 from app.modules.presence.router import router as presence_router
 from app.modules.shopping.router import router as shopping_router
@@ -52,11 +54,31 @@ _SAFE_MUTATIONS = {
     "/logout",
     "/api/select-user",
     "/api/v2/budget/excel/preview",
+    "/api/v2/banking/import/preview",
 }
 _SAFE_SETUP_PREFIXES = (
     "/api/v2/admin/integrations/configuration",
     "/api/v2/admin/integrations/vapid/generate",
     "/api/v2/admin/integrations/google/",
+)
+_SECTION_PREFIXES = (
+    ("/api/v2/home-assistant", "homeassistant"),
+    ("/api/v2/assistant", "app"),
+    ("/api/v2/experience", "app"),
+    ("/api/v2/home", "app"),
+    ("/api/v2/presence", "family"),
+    ("/api/v2/shopping", "shopping"),
+    ("/api/v2/family", "family"),
+    ("/api/v2/planning", "planning"),
+    ("/api/v2/inventory", "inventory"),
+    ("/api/v2/food", "food"),
+    ("/api/v2/wishlists", "wishlists"),
+    ("/api/v2/household", "household"),
+    ("/api/v2/banking", "budget"),
+    ("/api/v2/budget", "budget"),
+    ("/api/v2/calendar", "calendar"),
+    ("/api/v2/notifications", "notifications"),
+    ("/api/v2/weather", "weather"),
 )
 
 
@@ -64,8 +86,20 @@ def _safe_read_only_mutation(path: str) -> bool:
     return path in _SAFE_MUTATIONS or any(path.startswith(prefix) for prefix in _SAFE_SETUP_PREFIXES)
 
 
+def _section_for_path(path: str) -> str:
+    return next((section for prefix, section in _SECTION_PREFIXES if path.startswith(prefix)), "")
+
+
+def _error(status_code: int, code: str, message: str, request_id: str) -> JSONResponse:
+    return JSONResponse(
+        status_code=status_code,
+        content={"error": {"code": code, "message": message, "request_id": request_id}},
+        headers={"X-Request-ID": request_id},
+    )
+
+
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.25.0")
+    app = FastAPI(title=settings.app_name, version="0.26.0")
     database = Database(settings.database_path)
     selected_port = choose_port(settings.port)
     cache = TTLCache()
@@ -128,36 +162,45 @@ def create_app() -> FastAPI:
     @app.middleware("http")
     async def request_context(request: Request, call_next):
         request_id = request.headers.get("x-request-id") or uuid.uuid4().hex
+        method = request.method.upper()
+        path = request.url.path
         if (
             settings.read_only
-            and request.method.upper() in {"POST", "PUT", "PATCH", "DELETE"}
-            and not _safe_read_only_mutation(request.url.path)
+            and method in {"POST", "PUT", "PATCH", "DELETE"}
+            and not _safe_read_only_mutation(path)
         ):
-            return JSONResponse(
-                status_code=423,
-                content={
-                    "error": {
-                        "code": "read_only_mode",
-                        "message": "Parallellversionen körs skrivskyddad.",
-                        "request_id": request_id,
-                    }
-                },
-                headers={"X-Request-ID": request_id},
+            return _error(423, "read_only_mode", "Parallellversionen körs skrivskyddad.", request_id)
+
+        section = _section_for_path(path)
+        if section:
+            identity = app.state.auth_service.identity(
+                request.cookies.get("homelab_session"),
+                request.cookies.get("homelab_user"),
             )
+            if not app.state.auth_service.section_allowed(identity, section):
+                return _error(
+                    403,
+                    "section_forbidden",
+                    f"Profilen har inte åtkomst till sektionen {section}.",
+                    request_id,
+                )
+            if (
+                not identity.admin
+                and identity.readonly
+                and method in {"POST", "PUT", "PATCH", "DELETE"}
+                and not _safe_read_only_mutation(path)
+            ):
+                return _error(
+                    423,
+                    "profile_read_only",
+                    "Den valda familjeprofilen har endast läsbehörighet.",
+                    request_id,
+                )
         try:
             response = await call_next(request)
         except Exception:
             logger.exception("Unhandled request error", extra={"request_id": request_id})
-            return JSONResponse(
-                status_code=500,
-                content={
-                    "error": {
-                        "code": "internal_error",
-                        "message": "Ett internt serverfel uppstod.",
-                        "request_id": request_id,
-                    }
-                },
-            )
+            return _error(500, "internal_error", "Ett internt serverfel uppstod.", request_id)
         response.headers["X-Request-ID"] = request_id
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["Referrer-Policy"] = "same-origin"
@@ -181,8 +224,10 @@ def create_app() -> FastAPI:
     app.include_router(weather_router)
     app.include_router(home_assistant_router)
     app.include_router(budget_router)
+    app.include_router(banking_router)
     app.include_router(notifications_router)
     app.include_router(homelab_router)
+    app.include_router(operations_router)
     app.include_router(admin_integrations_router)
     app.include_router(admin_security_router)
     app.include_router(backups_router)
