@@ -114,7 +114,9 @@ def test_presence_timer_is_explicit_and_does_not_start_a_scanner() -> None:
 
 def test_calendar_oauth_contract_is_single_use() -> None:
     source = Path("app/modules/calendar/router.py").read_text(encoding="utf-8")
-    assert 'set_json_state(f"google_oauth:{oauth_state}"' in source
+    oauth_start = source.split("def google_oauth_start", 1)[1].split("@router.get", 1)[0]
+    assert "set_json_state" in oauth_start
+    assert 'f"google_oauth:{oauth_state}"' in oauth_start
     assert "request.app.state.database.set_json_state(key, {})" in source
     assert "timedelta(minutes=10)" in source
     assert "secrets.compare_digest" in source
