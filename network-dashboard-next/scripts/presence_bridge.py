@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import argparse
+import ipaddress
 import json
 import os
 import sys
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 import httpx
 
@@ -20,6 +22,45 @@ def _load_object(path: Path) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise RuntimeError(f"JSON-objekt krävs i {path}")
     return value
+
+
+def _runtime_value(path: Path, key: str) -> str:
+    if not path.is_file() or path.stat().st_size > 64 * 1024:
+        return ""
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except (OSError, UnicodeDecodeError):
+        return ""
+    prefix = key + "="
+    for line in lines:
+        stripped = line.strip()
+        if stripped.startswith(prefix):
+            return stripped[len(prefix):].strip()
+    return ""
+
+
+def _validated_origin(origin: str) -> str:
+    normalized = str(origin or "").strip().rstrip("/")
+    parsed = urlparse(normalized)
+    if (
+        parsed.scheme not in {"http", "https"}
+        or not parsed.hostname
+        or parsed.username
+        or parsed.password
+        or parsed.query
+        or parsed.fragment
+    ):
+        raise RuntimeError("Dashboard Next-origin är ogiltig")
+    host = parsed.hostname.casefold()
+    allowed = host in {"localhost"} or host.endswith(".local") or host.endswith(".ts.net") or "." not in host
+    try:
+        address = ipaddress.ip_address(host)
+        allowed = address.is_private or address.is_loopback
+    except ValueError:
+        pass
+    if not allowed:
+        raise RuntimeError("Närvarotoken får endast skickas till en lokal eller privat Dashboard Next-origin")
+    return normalized
 
 
 def _devices(state: dict[str, Any]) -> list[dict[str, Any]]:
@@ -63,7 +104,7 @@ def collect_observations(state: dict[str, Any], config: dict[str, Any]) -> list[
 def post_observations(origin: str, token: str, observations: list[dict[str, Any]]) -> dict[str, int]:
     if not token:
         raise RuntimeError("PRESENCE_INGEST_TOKEN saknas")
-    endpoint = origin.rstrip("/") + "/api/v2/presence/observations"
+    endpoint = _validated_origin(origin) + "/api/v2/presence/observations"
     sent = 0
     transitions = 0
     with httpx.Client(timeout=10, headers={"X-Presence-Token": token}) as client:
@@ -88,20 +129,31 @@ def main() -> int:
         type=Path,
         default=Path.home() / ".config" / "network-dashboard-next-presence.json",
     )
-    parser.add_argument("--origin", default=os.getenv("DASHBOARD_NEXT_ORIGIN", ""))
+    parser.add_argument("--origin", default="")
+    parser.add_argument(
+        "--runtime-file",
+        type=Path,
+        default=Path.home() / ".cache" / "network-dashboard-next" / "runtime.env",
+    )
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
-    if not args.origin and not args.dry_run:
-        raise RuntimeError("DASHBOARD_NEXT_ORIGIN eller --origin krävs")
     state = _load_object(args.state.expanduser())
     config = _load_object(args.config.expanduser())
     observations = collect_observations(state, config)
     if args.dry_run:
         print(json.dumps({"ok": True, "configured": len(observations)}, ensure_ascii=False))
         return 0
+
+    origin = (
+        str(args.origin or "").strip()
+        or str(os.getenv("DASHBOARD_NEXT_ORIGIN", "")).strip()
+        or _runtime_value(args.runtime_file.expanduser(), "ORIGIN")
+    )
+    if not origin:
+        raise RuntimeError("DASHBOARD_NEXT_ORIGIN, --origin eller en runtime-fil med ORIGIN krävs")
     result = post_observations(
-        args.origin,
+        origin,
         os.getenv("PRESENCE_INGEST_TOKEN", ""),
         observations,
     )
