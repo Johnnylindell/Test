@@ -18,6 +18,12 @@ from app.modules.family.repository import FamilyRepository
 from app.modules.planning.repository import PlanningRepository
 from app.modules.shopping.repository import ShoppingRepository
 
+_ACTION_SECTIONS = {
+    "shopping.add": "shopping",
+    "reminder.add": "planning",
+    "family.note": "family",
+}
+
 
 def _b64(data: bytes) -> str:
     return base64.urlsafe_b64encode(data).rstrip(b"=").decode("ascii")
@@ -39,7 +45,27 @@ class AssistantService:
         self.secret = signing_secret.encode("utf-8")
         self.experience = ExperienceService(database)
 
-    def _proposal(self, identity: Identity, action: str, data: dict[str, Any], description: str) -> dict[str, Any]:
+    @staticmethod
+    def _allowed(identity: Identity, section: str) -> bool:
+        return identity.admin or section in identity.sections
+
+    @staticmethod
+    def _denied(section: str) -> dict[str, Any]:
+        return AssistantService._reply(
+            f"Din profil har inte åtkomst till sektionen {section}, så jag kan inte föreslå den åtgärden.",
+            "access_denied",
+        )
+
+    def _proposal(
+        self,
+        identity: Identity,
+        action: str,
+        data: dict[str, Any],
+        description: str,
+    ) -> dict[str, Any]:
+        section = _ACTION_SECTIONS.get(action)
+        if not section or not self._allowed(identity, section):
+            raise PermissionError("Profilen saknar behörighet för assistentåtgärden")
         expires = int(time.time()) + 600
         payload = {
             "version": 1,
@@ -73,12 +99,20 @@ class AssistantService:
             raise ValueError("Bekräftelsen tillhör en annan profil")
         if payload.get("version") != 1 or not isinstance(payload.get("data"), dict):
             raise ValueError("Bekräftelsen har fel format")
+        action = str(payload.get("action") or "")
+        section = _ACTION_SECTIONS.get(action)
+        if not section:
+            raise ValueError("Assistentåtgärden stöds inte")
+        if not self._allowed(identity, section):
+            raise PermissionError("Profilen saknar fortfarande behörighet för assistentåtgärden")
         return payload
+
+    def _token_hash(self, token: str) -> str:
+        return hashlib.sha256(token.encode("utf-8")).hexdigest()
 
     def _consume(self, token: str, identity: Identity, action: str) -> None:
         if not self.database.table_exists("assistant_confirmations"):
             raise ValueError("Assistentens bekräftelseschema saknas; kör databasmigreringen")
-        token_hash = hashlib.sha256(token.encode("utf-8")).hexdigest()
         try:
             with self.database.transaction() as connection:
                 connection.execute(
@@ -87,10 +121,22 @@ class AssistantService:
                 )
                 connection.execute(
                     "INSERT INTO assistant_confirmations(token_hash,user,action,consumed_at) VALUES(?,?,?,?)",
-                    (token_hash, identity.user, action, datetime.now(timezone.utc).isoformat()),
+                    (
+                        self._token_hash(token),
+                        identity.user,
+                        action,
+                        datetime.now(timezone.utc).isoformat(),
+                    ),
                 )
         except sqlite3.IntegrityError as exc:
             raise ValueError("Bekräftelsen har redan använts") from exc
+
+    def _release(self, token: str) -> None:
+        if self.database.table_exists("assistant_confirmations"):
+            self.database.execute(
+                "DELETE FROM assistant_confirmations WHERE token_hash=?",
+                (self._token_hash(token),),
+            )
 
     def query(self, message: str, identity: Identity) -> dict[str, Any]:
         text = _clean(message)
@@ -105,6 +151,8 @@ class AssistantService:
         if not shopping_match:
             shopping_match = re.search(r"^(?:köp|kop)\s+(.+)$", lowered)
         if shopping_match:
+            if not self._allowed(identity, "shopping"):
+                return self._denied("shopping")
             item = _clean(shopping_match.group(1), 300)
             proposal = self._proposal(
                 identity,
@@ -120,6 +168,8 @@ class AssistantService:
 
         reminder_match = re.search(r"^(?:påminn|paminn)\s+mig(?:\s+om)?\s+(.+)$", lowered)
         if reminder_match:
+            if not self._allowed(identity, "planning"):
+                return self._denied("planning")
             title = _clean(reminder_match.group(1), 300)
             proposal = self._proposal(
                 identity,
@@ -135,6 +185,8 @@ class AssistantService:
 
         note_match = re.search(r"^(?:anteckna|skriv\s+upp|familjeanteckning)\s+(.+)$", lowered)
         if note_match:
+            if not self._allowed(identity, "family"):
+                return self._denied("family")
             note = _clean(note_match.group(1), 1000)
             proposal = self._proposal(
                 identity,
@@ -142,9 +194,16 @@ class AssistantService:
                 {"text": note, "owner": identity.user},
                 "Spara texten som en familjeanteckning",
             )
-            return self._reply("Jag kan spara det som en familjeanteckning.", "family_note", proposal=proposal)
+            return self._reply(
+                "Jag kan spara det som en familjeanteckning.",
+                "family_note",
+                proposal=proposal,
+            )
 
-        if any(phrase in lowered for phrase in ("vad ska jag göra", "vad är viktigast", "nästa steg", "home compass")):
+        if any(
+            phrase in lowered
+            for phrase in ("vad ska jag göra", "vad är viktigast", "nästa steg", "home compass")
+        ):
             compass = HomeCompassService(self.database).overview(identity, weather={}, presence=[])
             actions = compass.get("actions") or []
             if not actions:
@@ -164,7 +223,8 @@ class AssistantService:
 
         if lowered in {"hjälp", "vad kan du göra", "vad kan du gora"}:
             return self._reply(
-                "Jag kan söka i appen och föreslå säkra åtgärder. Prova till exempel: ”var finns laddaren”, ”lägg mjölk på inköpslistan”, ”påminn mig om tandläkaren” eller ”vad ska jag göra?”.",
+                "Jag kan söka i de delar av appen din profil får se och föreslå behöriga åtgärder. "
+                "Prova till exempel ”var finns laddaren?” eller ”vad ska jag göra?”.",
                 "help",
             )
 
@@ -183,9 +243,13 @@ class AssistantService:
             for row in (search.get("results") or [])[:8]
         ]
         if results:
-            return self._reply(f"Jag hittade {len(results)} träffar för ”{search_text}”.", "search", results=results)
+            return self._reply(
+                f"Jag hittade {len(results)} träffar för ”{search_text}”.",
+                "search",
+                results=results,
+            )
         return self._reply(
-            f"Jag hittade inget som matchar ”{search_text}”. Prova ett kortare sökord eller be mig lägga till något.",
+            f"Jag hittade inget som matchar ”{search_text}”. Prova ett kortare sökord.",
             "search_empty",
         )
 
@@ -212,34 +276,53 @@ class AssistantService:
         action = str(payload.get("action") or "")
         data = payload["data"]
         self._consume(token, identity, action)
-        if action == "shopping.add":
-            item_id = ShoppingRepository(self.database).add(
-                {
-                    "list_id": "shopping",
-                    "text": _clean(data.get("text"), 300),
-                    "quantity": 1,
-                    "unit": "",
-                    "category": "",
-                    "store": "",
-                },
-                identity.user,
-            )
-            return {"ok": True, "action": action, "id": item_id, "message": "Varan lades till på inköpslistan."}
-        if action == "reminder.add":
-            reminder_id = PlanningRepository(self.database).add_reminder(
-                {
-                    "title": _clean(data.get("title"), 300),
-                    "owner": identity.user,
-                    "remind_at": "",
-                    "note": "Skapad via assistenten",
-                },
-                identity.user,
-            )
-            return {"ok": True, "action": action, "id": reminder_id, "message": "Påminnelsen skapades."}
-        if action == "family.note":
-            note_id = FamilyRepository(self.database).add_note(
-                _clean(data.get("text"), 1000),
-                identity.user,
-            )
-            return {"ok": True, "action": action, "id": note_id, "message": "Familjeanteckningen sparades."}
-        raise ValueError("Assistentåtgärden stöds inte")
+        try:
+            if action == "shopping.add":
+                item_id = ShoppingRepository(self.database).add(
+                    {
+                        "list_id": "shopping",
+                        "text": _clean(data.get("text"), 300),
+                        "quantity": 1,
+                        "unit": "",
+                        "category": "",
+                        "store": "",
+                    },
+                    identity.user,
+                )
+                return {
+                    "ok": True,
+                    "action": action,
+                    "id": item_id,
+                    "message": "Varan lades till på inköpslistan.",
+                }
+            if action == "reminder.add":
+                reminder_id = PlanningRepository(self.database).add_reminder(
+                    {
+                        "title": _clean(data.get("title"), 300),
+                        "owner": identity.user,
+                        "remind_at": "",
+                        "note": "Skapad via assistenten",
+                    },
+                    identity.user,
+                )
+                return {
+                    "ok": True,
+                    "action": action,
+                    "id": reminder_id,
+                    "message": "Påminnelsen skapades.",
+                }
+            if action == "family.note":
+                note_id = FamilyRepository(self.database).add_note(
+                    _clean(data.get("text"), 1000),
+                    identity.user,
+                )
+                return {
+                    "ok": True,
+                    "action": action,
+                    "id": note_id,
+                    "message": "Familjeanteckningen sparades.",
+                }
+            raise ValueError("Assistentåtgärden stöds inte")
+        except Exception:
+            self._release(token)
+            raise
