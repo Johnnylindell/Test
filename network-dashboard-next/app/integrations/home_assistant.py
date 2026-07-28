@@ -87,12 +87,22 @@ class HomeAssistantAdapter:
                 raise ValueError("Home Assistant-värdnamnet är inte tillåtet") from exc
         return base
 
+    def _tls_configuration(self) -> tuple[bool, Path | None, dict[str, str]]:
+        verify_value, verify_source = self.config.resolve("home_assistant_verify_tls")
+        ca_value, ca_source = self.config.resolve("home_assistant_ca_bundle")
+        verify = self.verify_tls
+        if verify_value:
+            verify = verify_value.casefold() in {"true", "1", "yes", "on"}
+        ca_bundle = Path(ca_value).expanduser() if ca_value else self.ca_bundle
+        return verify, ca_bundle, {"verification": verify_source, "ca_bundle": ca_source}
+
     def _verify(self) -> bool | str:
-        if self.ca_bundle:
-            if not self.ca_bundle.is_file():
+        verify, ca_bundle, _ = self._tls_configuration()
+        if ca_bundle:
+            if not ca_bundle.is_file():
                 raise ValueError("Konfigurerad Home Assistant CA-fil saknas")
-            return str(self.ca_bundle)
-        return self.verify_tls
+            return str(ca_bundle)
+        return verify
 
     def configured(self) -> bool:
         return bool(self._configuration_status()["configured"])
@@ -147,10 +157,14 @@ class HomeAssistantAdapter:
             }
 
     def _tls_status(self) -> dict:
+        verify, ca_bundle, sources = self._tls_configuration()
+        custom_ca = bool(ca_bundle)
         return {
-            "verification_enabled": bool(self.ca_bundle or self.verify_tls),
-            "custom_ca_configured": bool(self.ca_bundle),
-            "compatibility_mode": not self.verify_tls and not self.ca_bundle,
+            "verification_enabled": bool(custom_ca or verify),
+            "custom_ca_configured": custom_ca,
+            "custom_ca_readable": bool(ca_bundle and ca_bundle.is_file()),
+            "compatibility_mode": not verify and not custom_ca,
+            "sources": sources,
         }
 
     def _status_payload(self, result: dict, *, cached: bool) -> dict:
