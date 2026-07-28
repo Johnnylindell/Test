@@ -197,11 +197,8 @@ class HomeAssistantAdapter:
             })
         entities.sort(key=lambda row: (row["domain"], row["name"].casefold()))
         return {
-            "configured": True,
-            "ok": True,
+            **self._status_payload(result, cached=cached),
             "entities": entities[:120],
-            "cache": "hit" if cached else "miss",
-            "sensitive_values_exposed": False,
         }
 
     def call_service(self, entity_id: str, service: str) -> dict:
