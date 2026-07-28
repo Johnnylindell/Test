@@ -26,6 +26,25 @@ def _copy_first(
         return
 
 
+def _copy_number(
+    connection: sqlite3.Connection,
+    table: str,
+    target: str,
+    candidates: Iterable[str],
+) -> None:
+    columns = table_columns(connection, table)
+    if target not in columns:
+        return
+    for source in candidates:
+        if source not in columns or source == target:
+            continue
+        connection.execute(
+            f'UPDATE "{table}" SET "{target}"="{source}" '
+            f'WHERE COALESCE("{target}",0)=0 AND "{source}" IS NOT NULL'
+        )
+        return
+
+
 def _fill_unique(connection: sqlite3.Connection, table: str, column: str, prefix: str) -> None:
     connection.execute(
         f'UPDATE "{table}" SET "{column}"=? || rowid '
@@ -145,7 +164,7 @@ def upgrade(connection: sqlite3.Connection) -> None:
 
     _copy_first(connection, "bank_transactions", "booking_date", ("date", "transaction_date", "booked_at"))
     _copy_first(connection, "bank_transactions", "value_date", ("valueDate", "valuta_date"))
-    _copy_first(connection, "bank_transactions", "amount", ("value", "sum", "transaction_amount"))
+    _copy_number(connection, "bank_transactions", "amount", ("value", "sum", "transaction_amount"))
     _copy_first(connection, "bank_transactions", "account", ("account_name", "account_id", "iban"))
     _copy_first(connection, "bank_transactions", "description", ("text", "message", "details", "name"))
     _copy_first(connection, "bank_transactions", "counterparty", ("payee", "recipient", "payer"))
