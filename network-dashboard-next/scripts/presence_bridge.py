@@ -52,7 +52,7 @@ def _validated_origin(origin: str) -> str:
     ):
         raise RuntimeError("Dashboard Next-origin är ogiltig")
     host = parsed.hostname.casefold()
-    allowed = host in {"localhost"} or host.endswith(".local") or host.endswith(".ts.net") or "." not in host
+    allowed = host == "localhost" or host.endswith(".local") or host.endswith(".ts.net")
     try:
         address = ipaddress.ip_address(host)
         allowed = address.is_private or address.is_loopback
