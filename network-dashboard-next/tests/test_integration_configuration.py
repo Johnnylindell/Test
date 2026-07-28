@@ -150,7 +150,7 @@ def test_legacy_import_and_frontend_contracts_do_not_print_secrets() -> None:
     assert '"sensitive_values_exposed": False' in importer
     assert "print(value" not in importer
     assert "masked" in frontend
-    assert 'type="password"' in frontend
+    assert 'variable.secret ? "password" : "text"' in frontend
     assert "INTEGRATION_SECRETS_PATH" in installer
     assert "import_legacy_config.py" in installer
     assert "chmod 600 \"$INTEGRATION_SECRETS_PATH\"" in installer
