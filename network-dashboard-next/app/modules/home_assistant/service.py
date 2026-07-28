@@ -89,6 +89,12 @@ class HomeLifeService:
             "ok": bool(payload.get("ok")),
             "configured": bool(payload.get("configured")),
             "state": payload.get("state") or ("connected" if payload.get("ok") else "unavailable"),
+            "message": str(payload.get("message") or "")[:240],
+            "missing": [str(item) for item in (payload.get("missing") or []) if item in {"url", "token"}],
+            "setup": {
+                "url": bool((payload.get("setup") or {}).get("url")),
+                "token": bool((payload.get("setup") or {}).get("token")),
+            },
             "cache": payload.get("cache"),
             "summary": {
                 "entities": sum(len(rows) for rows in groups.values()),
