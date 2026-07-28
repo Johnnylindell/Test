@@ -16,7 +16,10 @@ class BackupService:
         self.backup_dir.mkdir(parents=True, exist_ok=True)
 
     def _resolve_name(self, name: str) -> Path:
-        candidate = (self.backup_dir / Path(name).name).resolve()
+        raw = Path(str(name or ""))
+        if raw.is_absolute() or len(raw.parts) != 1 or raw.name != str(name):
+            raise ValueError("Ogiltigt backupnamn")
+        candidate = (self.backup_dir / raw).resolve()
         if candidate.parent != self.backup_dir or candidate.suffix != ".sqlite3":
             raise ValueError("Ogiltigt backupnamn")
         return candidate
