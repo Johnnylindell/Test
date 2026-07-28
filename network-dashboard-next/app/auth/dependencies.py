@@ -22,7 +22,7 @@ def current_identity(
 
 
 def require_login(identity: Identity = Depends(current_identity)) -> Identity:
-    if not identity.admin and identity.user == "guest":
+    if not identity.admin and not identity.selected:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Välj användare först")
     return identity
 
