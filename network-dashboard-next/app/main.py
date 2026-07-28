@@ -34,6 +34,7 @@ from app.modules.food.router import router as food_router
 from app.modules.health.router import router as health_router
 from app.modules.home.router import router as home_router
 from app.modules.home_assistant.router import router as home_assistant_router
+from app.modules.home_assistant_embed.router import router as home_assistant_embed_router
 from app.modules.homelab.router import router as homelab_router
 from app.modules.household.router import router as household_router
 from app.modules.inventory.router import router as inventory_router
@@ -60,6 +61,7 @@ _SAFE_SETUP_PREFIXES = (
     "/api/v2/admin/integrations/configuration",
     "/api/v2/admin/integrations/vapid/generate",
     "/api/v2/admin/integrations/google/",
+    "/api/v2/admin/home-assistant-embed",
 )
 _SECTION_PREFIXES = (
     ("/api/v2/home-assistant", "homeassistant"),
@@ -99,7 +101,7 @@ def _error(status_code: int, code: str, message: str, request_id: str) -> JSONRe
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.26.0")
+    app = FastAPI(title=settings.app_name, version="0.27.0")
     database = Database(settings.database_path)
     selected_port = choose_port(settings.port)
     cache = TTLCache()
@@ -230,6 +232,7 @@ def create_app() -> FastAPI:
     app.include_router(operations_router)
     app.include_router(admin_integrations_router)
     app.include_router(admin_security_router)
+    app.include_router(home_assistant_embed_router)
     app.include_router(backups_router)
     app.include_router(web_router)
     app.include_router(legacy_proxy_router)
