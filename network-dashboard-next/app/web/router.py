@@ -45,7 +45,7 @@ def choose_user(request: Request) -> FileResponse:
     return response
 
 
-@router.get("/")
+@router.get("/", response_model=None)
 def live_index(request: Request, identity: Identity = Depends(current_identity)) -> FileResponse | RedirectResponse:
     if not request.cookies.get("homelab_user") and not identity.admin:
         return RedirectResponse("/choose-user", status_code=303)
