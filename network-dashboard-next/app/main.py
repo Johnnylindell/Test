@@ -53,10 +53,19 @@ _SAFE_MUTATIONS = {
     "/api/select-user",
     "/api/v2/budget/excel/preview",
 }
+_SAFE_SETUP_PREFIXES = (
+    "/api/v2/admin/integrations/configuration",
+    "/api/v2/admin/integrations/vapid/generate",
+    "/api/v2/admin/integrations/google/",
+)
+
+
+def _safe_read_only_mutation(path: str) -> bool:
+    return path in _SAFE_MUTATIONS or any(path.startswith(prefix) for prefix in _SAFE_SETUP_PREFIXES)
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.24.0")
+    app = FastAPI(title=settings.app_name, version="0.25.0")
     database = Database(settings.database_path)
     selected_port = choose_port(settings.port)
     cache = TTLCache()
@@ -122,7 +131,7 @@ def create_app() -> FastAPI:
         if (
             settings.read_only
             and request.method.upper() in {"POST", "PUT", "PATCH", "DELETE"}
-            and request.url.path not in _SAFE_MUTATIONS
+            and not _safe_read_only_mutation(request.url.path)
         ):
             return JSONResponse(
                 status_code=423,
