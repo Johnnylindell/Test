@@ -14,6 +14,7 @@ from app.core.circuit_breaker import CircuitBreaker
 from app.core.config import settings
 from app.core.ports import choose_port
 from app.database.database import Database
+from app.integrations.config_store import IntegrationConfigStore
 from app.integrations.google_workspace import GoogleWorkspaceAdapter
 from app.integrations.home_assistant import HomeAssistantAdapter
 from app.integrations.network_tools import NetworkToolsAdapter
@@ -35,6 +36,7 @@ from app.modules.home_assistant.router import router as home_assistant_router
 from app.modules.homelab.router import router as homelab_router
 from app.modules.household.router import router as household_router
 from app.modules.inventory.router import router as inventory_router
+from app.modules.notifications.repository import NotificationsRepository
 from app.modules.notifications.router import router as notifications_router
 from app.modules.notifications.scheduler import NotificationScheduler
 from app.modules.planning.router import router as planning_router
@@ -54,11 +56,13 @@ _SAFE_MUTATIONS = {
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version="0.21.0")
+    app = FastAPI(title=settings.app_name, version="0.24.0")
     database = Database(settings.database_path)
     selected_port = choose_port(settings.port)
     cache = TTLCache()
     breaker = CircuitBreaker(failure_threshold=3, reset_seconds=30)
+    integration_config = IntegrationConfigStore(database, settings.integration_secrets_path)
+    notification_repository = NotificationsRepository(database)
 
     app.state.settings = settings
     app.state.database = database
@@ -66,7 +70,14 @@ def create_app() -> FastAPI:
     app.state.selected_port = selected_port
     app.state.cache = cache
     app.state.circuit_breaker = breaker
-    app.state.home_assistant = HomeAssistantAdapter(database, cache, breaker)
+    app.state.integration_config = integration_config
+    app.state.home_assistant = HomeAssistantAdapter(
+        integration_config,
+        cache,
+        breaker,
+        verify_tls=settings.home_assistant_verify_tls,
+        ca_bundle=settings.home_assistant_ca_bundle,
+    )
     app.state.tailscale = TailscaleAdapter(cache, breaker, selected_port)
     app.state.google_workspace = GoogleWorkspaceAdapter(
         cache,
@@ -77,7 +88,10 @@ def create_app() -> FastAPI:
     )
     app.state.weather = WeatherAdapter(database, cache, breaker)
     app.state.network_tools = NetworkToolsAdapter(database, cache, breaker)
-    app.state.notification_delivery = NotificationDeliveryAdapter(database)
+    app.state.notification_delivery = NotificationDeliveryAdapter(
+        notification_repository,
+        integration_config,
+    )
     app.state.notification_scheduler = NotificationScheduler(
         database,
         app.state.notification_delivery,
