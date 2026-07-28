@@ -1,36 +1,51 @@
 from __future__ import annotations
 
 import ipaddress
+from pathlib import Path
 from urllib.parse import urlparse
 
 import httpx
 
 from app.core.cache import TTLCache
 from app.core.circuit_breaker import CircuitBreaker
-from app.database.database import Database
+from app.integrations.config_store import IntegrationConfigStore
 
 _ALLOWED_DOMAINS = {"light", "switch", "cover", "climate", "fan", "scene", "script", "automation"}
 _ALLOWED_SERVICES = {"turn_on", "turn_off", "toggle", "open_cover", "close_cover", "stop_cover"}
 
 
 class HomeAssistantAdapter:
-    def __init__(self, database: Database, cache: TTLCache, breaker: CircuitBreaker) -> None:
-        self.database = database
+    def __init__(
+        self,
+        config: IntegrationConfigStore,
+        cache: TTLCache,
+        breaker: CircuitBreaker,
+        *,
+        verify_tls: bool = True,
+        ca_bundle: Path | None = None,
+    ) -> None:
+        self.config = config
         self.cache = cache
         self.breaker = breaker
+        self.verify_tls = bool(verify_tls)
+        self.ca_bundle = Path(ca_bundle).expanduser() if ca_bundle else None
 
     def _config(self) -> tuple[str, str]:
-        settings = self.database.get_json_state("settings", {})
-        if not isinstance(settings, dict):
-            settings = {}
-        base = str(settings.get("home_assistant_url") or "").strip().rstrip("/")
-        token = str(settings.get("home_assistant_token") or "").strip()
+        base = self.config.get("home_assistant_url").strip().rstrip("/")
+        token = self.config.get("home_assistant_token").strip()
         return base, token
 
     @staticmethod
     def _validated_base(base: str) -> str:
         parsed = urlparse(base)
-        if parsed.scheme not in {"http", "https"} or not parsed.hostname or parsed.username or parsed.password:
+        if (
+            parsed.scheme not in {"http", "https"}
+            or not parsed.hostname
+            or parsed.username
+            or parsed.password
+            or parsed.query
+            or parsed.fragment
+        ):
             raise ValueError("Ogiltig Home Assistant-URL")
         host = parsed.hostname
         try:
@@ -43,6 +58,13 @@ class HomeAssistantAdapter:
             if not (host.endswith(".local") or host.endswith(".ts.net") or host in {"localhost"}):
                 raise ValueError("Home Assistant-värdnamnet är inte tillåtet") from exc
         return base
+
+    def _verify(self) -> bool | str:
+        if self.ca_bundle:
+            if not self.ca_bundle.is_file():
+                raise ValueError("Konfigurerad Home Assistant CA-fil saknas")
+            return str(self.ca_bundle)
+        return self.verify_tls
 
     def configured(self) -> bool:
         base, token = self._config()
@@ -61,7 +83,11 @@ class HomeAssistantAdapter:
                 "breaker": self.breaker.status("home-assistant"),
             }
         try:
-            with httpx.Client(timeout=httpx.Timeout(5.0, connect=2.0), verify=False) as client:
+            with httpx.Client(
+                timeout=httpx.Timeout(5.0, connect=2.0),
+                verify=self._verify(),
+                follow_redirects=False,
+            ) as client:
                 response = client.request(
                     method,
                     base + path,
@@ -77,7 +103,7 @@ class HomeAssistantAdapter:
                 "data": response.json() if response.content else None,
             }
         except (httpx.HTTPError, ValueError) as exc:
-            self.breaker.failure("home-assistant")
+            self.breaker.failure("home-assistant", exc)
             return {
                 "configured": True,
                 "ok": False,
@@ -86,16 +112,30 @@ class HomeAssistantAdapter:
                 "breaker": self.breaker.status("home-assistant"),
             }
 
+    def _tls_status(self) -> dict:
+        return {
+            "verification_enabled": bool(self.ca_bundle or self.verify_tls),
+            "custom_ca_configured": bool(self.ca_bundle),
+            "compatibility_mode": not self.verify_tls and not self.ca_bundle,
+        }
+
     def status(self, *, fresh: bool = False) -> dict:
         if fresh:
             self.cache.invalidate("ha:status")
         result, cached = self.cache.get_or_set("ha:status", 20, lambda: self._request("/api/"))
+        url_status = self.config.status("home_assistant_url")
+        token_status = self.config.status("home_assistant_token")
         return {
             "configured": bool(result.get("configured")),
             "ok": bool(result.get("ok")),
             "state": "connected" if result.get("ok") else result.get("state", "unavailable"),
             "cache": "hit" if cached else "miss",
             "breaker": self.breaker.status("home-assistant"),
+            "tls": self._tls_status(),
+            "credential_sources": {
+                "url": url_status["source"],
+                "token": token_status["source"],
+            },
             "sensitive_values_exposed": False,
         }
 
@@ -119,7 +159,13 @@ class HomeAssistantAdapter:
                 "state": str(row.get("state") or "")[:80],
             })
         entities.sort(key=lambda row: (row["domain"], row["name"].casefold()))
-        return {"configured": True, "ok": True, "entities": entities[:120], "cache": "hit" if cached else "miss"}
+        return {
+            "configured": True,
+            "ok": True,
+            "entities": entities[:120],
+            "cache": "hit" if cached else "miss",
+            "sensitive_values_exposed": False,
+        }
 
     def call_service(self, entity_id: str, service: str) -> dict:
         if service not in _ALLOWED_SERVICES:
