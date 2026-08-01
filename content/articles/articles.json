@@ -1582,7 +1582,7 @@
   {
     "slug": "basta-sensorer-home-assistant-nyborjare",
     "title": "Sensorer att börja med i Home Assistant",
-    "description": "Vilka sensorer är värda pengarna först: rörelse, dörr, vatten, temperatur eller närvaro?",
+    "description": "Vilka sensorer är värda pengarna först: rörelse, dörr, vatten eller temperatur? Konkreta modeller och kompromisser för ett svenskt hem.",
     "category": "köpguide",
     "products": [
       "motion-sensor",
@@ -1596,28 +1596,37 @@
       "sensorer",
       "zigbee"
     ],
-    "intro": "Sensorer är lätta att köpa för många av. Den bättre frågan är vilken sensor som löser ett konkret problem hemma redan första veckan.",
+    "intro": "Sensorer är lätta att köpa för många av. Börja med platsen där en signal kan leda till en enkel handling: svagt ljus i hallen, ett larm under diskmaskinen eller en påminnelse när balkongdörren står öppen. Modellerna nedan är exempel att jämföra, inte resultat från laboratorietest.",
     "examples": [
-      "Rörelsesensor gör nattljus i hallen.",
-      "Vattenläckagesensor ligger under diskmaskinen.",
-      "Dörrsensor visar om balkongdörren står öppen."
+      "23.10 tänder rörelsesensorn hallampan på 15 procents styrka; tidsgränsen släcker den efter 90 sekunder.",
+      "En fuktad trasa på sensorn under diskmaskinen ska ge både lokal signal och en notis med apparatens namn.",
+      "Vid balkongdörren räcker meddelandet 'öppen sedan 10 min' bättre än en notis vid varje passage.",
+      "I barnrummet loggas temperatur mellan 18 och 21 grader, men automationen ändrar inget innan familjen bestämt vad som ska göras."
     ],
     "sections": [
       [
-        "Rörelsesensor",
-        "Bäst för nattljus och enkla rum där någon passerar kort."
+        "Rörelse: börja i hallen",
+        "IKEA VALLHORN är ett prisvärt exempel för nattljus, medan Aqara Motion Sensor P1 passar den som redan har ett stabilt Zigbee-nät. Philips Hue Motion Sensor är enklare i ett Hue-hem men ofta dyr om Home Assistant är enda målet. Sätt sensorn ungefär 1,8–2,2 meter upp och rikta den mot gånglinjen, inte mot soffan. Rörelse säger att någon passerat; den säger inte att ett barn fortfarande ligger stilla i rummet."
       ],
       [
-        "Dörrsensor",
-        "Bäst för ytterdörr, balkong, förråd och kylskåp."
+        "Dörr: bra för tydliga tillstånd",
+        "Aqara Door and Window Sensor och IKEA PARASOLL är rimliga Zigbee-exempel för ytterdörr, balkong eller kylskåp. Shelly BLU Door/Window kan vara intressant i ett Shelly/Bluetooth-hem, men kräver gateway eller proxy för en stabil lösning. Mät glipan innan köp och lämna plats för batteribyte. En dörrsensor är bättre än en rörelsesensor när frågan är 'står frysdörren fortfarande öppen?'"
       ],
       [
-        "Vattenläckagesensor",
-        "Inte roligast men ofta mest rationell. Placera vid maskiner och rör."
+        "Vatten: placera där droppen börjar",
+        "Aqara Water Leak Sensor är låg och enkel under diskmaskin eller handfat. Shelly Flood med kabelgivare täcker en längre sträcka vid exempelvis varmvattenberedare, medan Eve Water Guard passar bättre om HomeKit/Matter och en nätansluten enhet är rätt för hemmet. Kontrollera protokoll, räckvidd på golvnivå och aktuell regional modell. Testa med en fuktad trasa efter installation och skriv larmet som 'vatten under diskmaskinen', inte som ett tekniskt sensornamn."
       ],
       [
-        "Temperatursensor",
-        "Bra när ett rum faktiskt är för kallt, varmt eller fuktigt och du vill följa mönster."
+        "Temperatur och fukt: köp först när värdet ändrar något",
+        "Aqara Temperature and Humidity Sensor är liten för barnrum eller förråd. Shelly H&T Gen3 passar den som vill ha en större Wi‑Fi/Bluetooth-lösning, och Sonoff SNZB-02D har display när familjen faktiskt behöver se temperaturen på väggen. Placera inte givaren i sol, ovanför element eller direkt vid badrumsfläkt. Bestäm i förväg vilken åtgärd som följer: vädra över 60 procent relativ luftfuktighet, flytta spjälsängen om rummet blir kallt eller kontrollera värmekällan."
+      ],
+      [
+        "Hubben avgör mer än sensorpriset",
+        "Home Assistant Connect ZBT-2, Sonoff Zigbee 3.0 USB Dongle Plus och andra koordinatorer är inte utbytbara på samma sätt som ett batteri. Kontrollera stöd i den Home Assistant-version du tänker köra, USB-förlängning, Zigbee-kanal och hur du säkerhetskopierar nätverket. Batterisensorer bygger inte mesh; några nätanslutna lampor eller pluggar mellan hubben och ett avlägset rum kan behövas."
+      ],
+      [
+        "Köp i ordning och ha manuell fallback",
+        "Börja med en sensor som går att verifiera samma dag: rörelse för nattljus eller vatten under en maskin. Lägg till dörr och temperatur först när den första automationen överlevt två veckor. Vanlig strömbrytare, fysisk knapp och fungerande appfri användning ska finnas kvar. Kontrollera pris, lager, elstandard, batterityp och returvillkor hos återförsäljaren före köp; sortiment och integrationer kan ändras."
       ]
     ],
     "updated_at": "2026-07-10"
