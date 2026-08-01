@@ -1014,26 +1014,36 @@
       ],
       [
         "1. Synlig veckovy",
-        "Sätt dagens tider, mat och påminnelser där alla passerar."
+        "Sätt en surfplatta på väggen nära frukostplatsen, inte ovanför spisen. Visa dagens hämtning, nästa aktivitet, middag och en kort inköpslista. En vy med högst fem rader fungerar bättre än en teknisk dashboard. Om skärmen är urladdad ska en papperskalender på kylskåpet fortfarande bära vardagen."
       ],
       [
-        "2. Inköpsknapp",
-        "En knapp eller QR-kod vid kyl/skafferi gör att saker hamnar på listan direkt."
+        "2. Inköpsknapp som går att hitta",
+        "Placera en knapp på insidan av skafferidörren eller bredvid återvinningen. Ett tryck lägger till mjölk eller blöjor, men fritext får fortfarande skrivas på en lista. Testa i en vecka: om ingen trycker, flytta knappen till platsen där den saknade varan upptäcks. En QR-kod är en reservväg, inte den enda vägen."
       ],
       [
-        "3. Vattenläckagesensor",
-        "Diskmaskinen är en av de första platserna jag hade säkrat."
+        "3. Vattenlarm under diskmaskinen",
+        "Lägg en vattenläckagesensor längst fram under diskmaskinen, där den går att se och byta batteri utan att demontera köket. Skicka texten 'Vatten under diskmaskinen' till två vuxna, inte bara en appnotis. Testa larmet med några droppar enligt sensorns instruktioner och kontrollera manuellt när någon är hemma; sensorn stänger inte av vattnet."
       ],
       [
-        "4–5. Ljus och städ",
-        "Morgonljus och robotdammsugarschema ger liten men återkommande avlastning."
+        "4. Ljus som markerar rytm",
+        "En varmvit lampa över frukostbordet kan tändas 06.30 på vardagar och släckas 07.45, medan en svagare lampa visar kvällsläge efter 19.30. Behåll den vanliga strömbrytaren och låt ett knapptryck slå av automationen när någon sover längre."
+      ],
+      [
+        "5. Städning efter den värsta smulstunden",
+        "Kör inte robotdammsugaren mitt i frukosten. Ett schema på 08.30 efter att barnen gått, eller en knapptryckning när matbordet är undanplockat, är rimligare. Börja med köket och hallen och stäng av zonen om sladdar, vatten eller små leksaker ligger kvar."
       ]
     ],
     "tags": [
       "guide",
       "kok"
     ],
-    "examples": []
+    "intro": "Köket är familjens trafikplats: frukost, skolväskor, middag och disk passerar samma yta. Välj funktioner som syns eller går att trycka på med en hand, och planera alltid en vanlig manuell väg när nätet eller tekniken strular.",
+    "examples": [
+      "06.45: veckovyn visar att gympakläder ska med, medan en vanlig lapp på kylskåpet fungerar om plattan laddas.",
+      "Efter middagen: ett tryck på köksknappen lägger till havremjölk utan att någon behöver öppna en app.",
+      "En vardagskväll: vattenlarmet skickar 'Vatten under diskmaskinen'; en vuxen torkar upp och kontrollerar avstängningen manuellt.",
+      "08.30: roboten tar kök och hall först när stolarna är uppställda och golvet är fritt."
+    ]
   },
   {
     "slug": "smarta-hem-prylar-att-inte-kopa-forst",
