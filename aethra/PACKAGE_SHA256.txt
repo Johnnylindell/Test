@@ -1,0 +1,4 @@
+3985a16bd912cba0e870bd64dfb4cf8fee2e223b9ceda6ebce5fc10141104b79  aethra-source-v0.11.zip
+f9a536503397435edab918db13a3c5de6e681d2f96310249cc535c3aff2f1ce7  aethra-audio-v0.11.zip
+4ddfd6b4724259e739573e72d631021ea881b47e48a6935f4a3a703642cb3cc5  aethra-concept-art-v0.11.zip
+c96addb503861fc17e7de2afeae0c47082e8dab81def0c1f1e8d2606bbc53f75  aethra-v0.11.zip
