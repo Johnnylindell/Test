@@ -1,21 +1,21 @@
 # Aethra MMORPG — isolated transport branch
 
-Current milestone: **v0.14 — Guilds, Maker-Mark Crafting & Fifteen Playable Classes**.
+Current milestone: **v0.18 — Full 27-Class Prototype Roster + Dynamic Weather**.
 
-This subtree exists only on branch `agent/aethra-mmorpg` under `aethra/`. The unrelated project on `main` remains untouched and must not be merged with Aethra.
+This subtree remains isolated on branch `agent/aethra-mmorpg` under `aethra/`; the unrelated project on `main` remains untouched.
 
-## v0.14 highlights
-- 3 realms, 9 origin lineages.
-- 15/27 release classes now have playable six-ability combat kits.
-- Guild registry, realm-validated guild membership, alliances and Ravenhold guild claims.
-- Maker-mark crafting with persistent crafted item identity and a hard-capped 0–3% basic-attack sidegrade.
-- Realm-specific crafting stations in capitals.
-- Three prototype homelands/capitals and realm-locked travel gates to Ravenhold.
-- Safe homeland/capital PvP rules; Ravenhold and Hollow Crown remain contested.
-- Original procedural music/SFX source pipeline and custom proxy mesh source assets.
+## v0.18 highlights
+- All **27/27 target release class IDs** now have playable six-ability prototype combat kits.
+- 9 playable origin lineages across Veyr, Skeld and Elarin.
+- Capitals/homeland safe zones, Ravenhold frontier and shared Hollow Crown dungeon.
+- Capital bounty boards, homeland elite events, Trade Marks economy and nearby server-validated currency transfer.
+- Guilds, alliances, maker-mark crafting and Ravenhold guild claims.
+- Beastmaster replicated companion and Echo replicated decoys.
+- Replicated dynamic weather over The Scar; fog/rain/storm reduce server scout range without altering combat hit authority.
+- Original procedural music/SFX and growing original OBJ source-asset library.
 
-## Latest artifact hashes
-See `PACKAGE_SHA256.txt`. The complete v0.14 source package is preserved as a downloadable artifact in the development conversation because this GitHub connector does not expose Git LFS or a safe local-file streaming upload path.
+## Artifact handling
+The complete v0.18 and source-only v0.18 ZIPs are checksum-recorded in `PACKAGE_SHA256.txt`. The temporary GitHub connector does not expose Git LFS/local-file streaming, so large binaries remain external artifacts until Aethra has a dedicated repository with LFS.
 
-## Repository plan
-Move this subtree into a dedicated `Aethra` repository with Git LFS once repo creation/LFS access is available. Until then, this branch is an isolated, versioned transport area only.
+## Important verification boundary
+UnrealBuildTool / UE 5.8 cannot run in the current execution environment. v0.18 passes the full static/regression suite, but actual UE compilation and runtime playtest remain external verification steps.
