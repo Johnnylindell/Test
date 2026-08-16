@@ -1,0 +1,76 @@
+name: Aethra UE 5.8 CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'agent/**'
+
+concurrency:
+  group: ue58-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-static-test:
+    runs-on: [self-hosted, Windows, X64, unreal-5.8]
+    timeout-minutes: 90
+    env:
+      UE_ROOT: 'C:\Program Files\Epic Games\UE_5.8'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          fetch-depth: 0
+
+      - name: Verify Unreal installation
+        shell: pwsh
+        run: |
+          $build = Join-Path $env:UE_ROOT 'Engine\Build\BatchFiles\Build.bat'
+          if (!(Test-Path $build)) { throw "UE 5.8 Build.bat not found at $build" }
+          Write-Host "UE build tool: $build"
+
+      - name: Locate project
+        id: project
+        shell: pwsh
+        run: |
+          $project = Get-ChildItem -Path $env:GITHUB_WORKSPACE -Recurse -Filter *.uproject | Select-Object -First 1
+          if (!$project) { throw 'No .uproject found in repository' }
+          "path=$($project.FullName)" >> $env:GITHUB_OUTPUT
+          "name=$($project.BaseName)" >> $env:GITHUB_OUTPUT
+          Write-Host "Project: $($project.FullName)"
+
+      - name: Static v0.20 gate
+        shell: pwsh
+        run: |
+          $validator = Get-ChildItem -Path $env:GITHUB_WORKSPACE -Recurse -Filter validate_v20.py | Select-Object -First 1
+          if (!$validator) { throw 'validate_v20.py not found' }
+          python $validator.FullName
+
+      - name: Build Editor
+        shell: pwsh
+        run: |
+          $build = Join-Path $env:UE_ROOT 'Engine\Build\BatchFiles\Build.bat'
+          & $build '${{ steps.project.outputs.name }}Editor' Win64 Development '-Project=${{ steps.project.outputs.path }}' -WaitMutex -NoHotReload
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Build dedicated server
+        shell: pwsh
+        run: |
+          $build = Join-Path $env:UE_ROOT 'Engine\Build\BatchFiles\Build.bat'
+          & $build '${{ steps.project.outputs.name }}Server' Win64 Development '-Project=${{ steps.project.outputs.path }}' -WaitMutex
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unreal-build-logs-${{ github.run_id }}
+          path: |
+            **/Saved/Logs/**
+            **/Saved/Crashes/**
+          if-no-files-found: ignore
+          retention-days: 14

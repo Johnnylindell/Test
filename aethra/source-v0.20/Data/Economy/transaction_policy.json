@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "milestone": "0.20",
+  "transaction_contract": {
+    "write_ahead_prepare_required": true,
+    "idempotency_key_required": true,
+    "payload_digest_required": true,
+    "terminal_states": ["committed", "aborted"],
+    "valid_transitions": ["prepared->committed", "prepared->aborted"],
+    "terminal_state_mutation_allowed": false
+  },
+  "recovery": {
+    "prepared_records_are_recovery_work": true,
+    "auto_commit_on_restart": false,
+    "auto_abort_on_restart": false,
+    "requires_authoritative_state_reconciliation": true
+  },
+  "reference_provider": {
+    "format": "jsonl",
+    "single_process_only": true,
+    "production_cluster_ready": false,
+    "location": "Saved/Aethra/Economy/economy-ledger.jsonl"
+  },
+  "production_provider_requirements": {
+    "atomic_transactions": true,
+    "unique_idempotency_constraint": true,
+    "durable_commit": true,
+    "replicated_storage": true,
+    "backup_restore": true,
+    "audit_retention": true
+  }
+}
