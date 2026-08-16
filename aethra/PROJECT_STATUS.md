@@ -1,11 +1,27 @@
-# Aethra project status
+# Aethra project status — v0.14
 
-Current milestone: **v0.12 Character Identity + Nine Playable Classes**
+## Implemented
+- Authoritative three-realm multiplayer combat.
+- Ravenhold capture, logistics, caravans, forward camps, ram and ballista siege.
+- Shared Hollow Crown PvE/RvR dungeon with phased Hollow Warden.
+- Realm Rank, Chronicle, war-session flow, commander/scout intel, Replication Graph and scale harness.
+- Runtime UMG, casting/channels, telegraphs, readability LOD and combat presentation hooks.
+- 9 playable origin lineages.
+- 15 playable six-ability class kits:
+  - Veyr: Knight, Templar, Cleric, Arbalist, Engineer.
+  - Skeld: Berserker, Spiritcaller, Huntsman, Skinwalker, Runecaster.
+  - Elarin: Arbiter, Weaver, Lifebinder, Vector, Null.
+- Prototype capitals: Caer Veyr, Hrafnheim and Ilyr with safe-zone PvP rules and realm-locked Ravenhold travel.
+- Guilds, alliances, guild renown and Ravenhold guild claims.
+- Persistent personal crafting materials, maker-mark equipment, realm crafting stations and capped sidegrade item power.
+- Original procedural music/SFX source pipeline and original proxy mesh sources.
 
-Implemented in source: authoritative multiplayer combat, three realms, nine playable six-ability class kits, Ravenhold keep capture, supply/caravans/forward camps, ram/ballista siege, shared Hollow Crown PvE, Realm Rank, Chronicle, Replication Graph, scale bots, readability LOD, runtime HUD, casting/telegraphs, 90-minute war-session flow, nine playable origin lineages, stable IDs/catalogs for a 27-class release roster, persistent server-validated character identity, and an original procedural audio source pipeline.
+## Still required for a complete shipping MMO
+- Remaining 12 release class kits and full class balance pass.
+- Production character/creature meshes, rigs, animation sets, Niagara/VFX and final material library.
+- Full homeland/frontier geography, quests, events, dungeons, world bosses and exploration content.
+- Production guild permissions/social tools, trade/economy/market, housing and keep ownership depth.
+- Account/backend persistence, server fleet/orchestration, anti-cheat and operational tooling.
+- Final music score, complete SFX/VO pipeline, localization, accessibility/settings, installer/patcher and shipping QA.
 
-Playable now: Veyr Knight / Templar / Cleric; Skeld Berserker / Spiritcaller / Huntsman; Elarin Arbiter / Weaver / Lifebinder.
-
-Not yet complete: the remaining 18 class implementations, production 3D characters/animation sets, all homeland/frontier levels, quests/encounters, guild/housing/economy backend, final music mix, final SFX library, localization, account services, anti-cheat, production persistence, matchmaking/server fleet, accessibility/options and shipping QA.
-
-Generated Unreal binary assets should eventually live behind Git LFS in a dedicated Aethra repository.
+Actual UE 5.8 compilation/runtime remains unverified in this execution environment because UnrealBuildTool is unavailable; current validation is source/static/regression based.
