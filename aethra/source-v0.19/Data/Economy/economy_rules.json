@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "milestone": "0.19",
+  "currency": {
+    "trade_marks": {
+      "integer_only": true,
+      "max_balance": 2147483647,
+      "player_transfer_enabled": true,
+      "negative_balance_allowed": false
+    }
+  },
+  "inventory": {
+    "default_slots": 80,
+    "hard_slot_cap": 256,
+    "stacking": {
+      "enabled": true,
+      "trade_escrow_moves_full_instances_only": true
+    }
+  },
+  "trade": {
+    "max_items_per_side": 12,
+    "max_distance_cm": 1200,
+    "requires_both_accept": true,
+    "reset_acceptance_on_offer_change": true,
+    "disconnect_policy": "cancel_and_unlock",
+    "item_lock_reason": "Trade"
+  },
+  "power_budget": {
+    "philosophy": "horizontal_sidegrade",
+    "max_item_quality": 100,
+    "max_stat_rolls": 4,
+    "realm_rank_direct_power_from_gear": false
+  }
+}

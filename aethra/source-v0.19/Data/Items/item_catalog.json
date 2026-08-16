@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "items": [
+    {"id":"veyr_iron_oathblade","slot":"main_hand","type":"sword","tier":1,"realm_affinity":"Veyr","base_stats":{"weapon_power":18,"tempo":0,"control":1},"craftable":true},
+    {"id":"veyr_bastion_kite","slot":"off_hand","type":"shield","tier":1,"realm_affinity":"Veyr","base_stats":{"guard":18,"resilience":2},"craftable":true},
+    {"id":"veyr_cantor_chain","slot":"chest","type":"medium_armor","tier":1,"realm_affinity":"Veyr","base_stats":{"armor":22,"support":2},"craftable":true},
+    {"id":"skeld_rimecleaver","slot":"main_hand","type":"axe","tier":1,"realm_affinity":"Skeld","base_stats":{"weapon_power":20,"tempo":-1,"pressure":2},"craftable":true},
+    {"id":"skeld_hrafn_hide","slot":"chest","type":"medium_armor","tier":1,"realm_affinity":"Skeld","base_stats":{"armor":19,"mobility":2},"craftable":true},
+    {"id":"skeld_stormcaller_totem","slot":"focus","type":"totem","tier":1,"realm_affinity":"Skeld","base_stats":{"spell_power":17,"control":2},"craftable":true},
+    {"id":"elarin_thornbow","slot":"main_hand","type":"bow","tier":1,"realm_affinity":"Elarin","base_stats":{"weapon_power":17,"range":2,"mobility":1},"craftable":true},
+    {"id":"elarin_veilweave","slot":"chest","type":"light_armor","tier":1,"realm_affinity":"Elarin","base_stats":{"armor":14,"focus":2,"mobility":1},"craftable":true},
+    {"id":"elarin_loom_focus","slot":"focus","type":"focus","tier":1,"realm_affinity":"Elarin","base_stats":{"spell_power":18,"support":2},"craftable":true},
+    {"id":"frontier_scouts_signal_horn","slot":"utility","type":"signal","tier":1,"realm_affinity":"Any","base_stats":{"scouting":2},"craftable":true},
+    {"id":"hollow_crown_loom_shard","slot":"material","type":"crafting_material","tier":2,"realm_affinity":"Any","base_stats":{},"craftable":false},
+    {"id":"ravenhold_siege_fitting","slot":"material","type":"siege_material","tier":1,"realm_affinity":"Any","base_stats":{},"craftable":true}
+  ]
+}

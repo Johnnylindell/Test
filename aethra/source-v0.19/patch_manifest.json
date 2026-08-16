@@ -1,0 +1,25 @@
+{
+  "milestone": "v0.19",
+  "name": "Inventory & Trade Escrow Foundation",
+  "baseline": {
+    "expected_source_archive": "aethra-source-v0.18.zip",
+    "sha256": "ee41b1c11f4afd97ebb5ad936c5e2e5209855d9169a4297bda6b7f84ea5e54a8"
+  },
+  "engine_target": "Unreal Engine 5.8",
+  "module": "Ravenhold",
+  "integration_mode": "text_source_overlay",
+  "features": [
+    "replicated_item_instances",
+    "fast_array_inventory",
+    "server_owned_trade_marks",
+    "item_locking",
+    "two_party_trade_escrow",
+    "rollback_on_commit_failure",
+    "sidegrade_item_catalog"
+  ],
+  "verification": {
+    "static_validator": "Tools/Validation/validate_v19.py",
+    "ue_compile_required_externally": true,
+    "runtime_multiplayer_test_required_externally": true
+  }
+}
