@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://johnnylindell.github.io/Test/sitemap.txt
