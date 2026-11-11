@@ -1,0 +1,48 @@
+name: Build Video Cast TV webOS IPK
+on:
+  push:
+    branches:
+      - build/videocast-tv-standalone-v01
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install official webOS CLI
+        run: npm --prefix "$RUNNER_TEMP/ares-cli" install --no-save --no-package-lock @webos-tools/cli@3.2.6
+      - name: Extract app and run tests
+        run: |
+          unzip -q videocast-tv-source.zip
+          node VideoCast-TV-v0.1/tests/catalog.test.js
+          node --check VideoCast-TV-v0.1/app/app.js
+          node --check VideoCast-TV-v0.1/app/logic.js
+      - name: Bundle official webOSTV.js
+        run: |
+          LIB=$(find "$RUNNER_TEMP/ares-cli/node_modules/@webos-tools/cli" -type f -name 'webOSTV.js' -print -quit)
+          if [ -z "$LIB" ]; then echo 'Official webOSTV.js not found in installed CLI'; exit 1; fi
+          cp "$LIB" VideoCast-TV-v0.1/app/webOSTV.js
+          echo "Bundled $LIB"
+      - name: Package app
+        run: |
+          mkdir -p dist
+          "$RUNNER_TEMP/ares-cli/node_modules/.bin/ares-config" --profile tv
+          "$RUNNER_TEMP/ares-cli/node_modules/.bin/ares-package" --no-minify -o dist VideoCast-TV-v0.1/app
+          test -s dist/com.videocast.tv_0.1.0_all.ipk
+          "$RUNNER_TEMP/ares-cli/node_modules/.bin/ares-package" -i dist/com.videocast.tv_0.1.0_all.ipk
+          sha256sum dist/*.ipk
+      - name: Publish webOS IPK
+        uses: actions/upload-artifact@v4
+        with:
+          name: VideoCast-TV-v0.1-webOS-IPK
+          path: dist/*.ipk
+          if-no-files-found: error
+          retention-days: 14

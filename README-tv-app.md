@@ -1,0 +1,2 @@
+# Video Cast TV
+Independent LG webOS television catalog and video player. Build runs on the isolated branch `build/videocast-tv-standalone-v01`. The app is packaged with the official webOS CLI. See the source archive for installation guidance and limitations.
