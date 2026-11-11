@@ -1,0 +1,45 @@
+name: VideoCast v0.4 FMHY mobile catalog APK
+on:
+  push:
+    branches:
+      - build/videocast-fmhy-v04
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  android-debug:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Android SDK
+        uses: android-actions/setup-android@v4
+        with:
+          packages: ''
+      - name: SDK API 37
+        run: sdkmanager 'platforms;android-37.0' 'build-tools;36.0.0'
+      - name: Gradle 9.3.1
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.3.1'
+      - name: Extract project
+        run: unzip -q videocast-v04-source.zip
+      - name: Compile and run unit tests
+        working-directory: LGEmbeddedCast
+        run: gradle :app:testDebugUnitTest :app:assembleDebug --no-daemon --stacktrace
+      - name: Verify APK
+        run: |
+          test -s LGEmbeddedCast/app/build/outputs/apk/debug/app-debug.apk
+          unzip -t LGEmbeddedCast/app/build/outputs/apk/debug/app-debug.apk >/dev/null
+      - name: Publish APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: VideoCast-v0.4-LG-Chromecast-APK
+          path: LGEmbeddedCast/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
