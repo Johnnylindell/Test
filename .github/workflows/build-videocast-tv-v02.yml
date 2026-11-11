@@ -1,0 +1,50 @@
+name: Build Video Cast TV v0.2 – OLED65C14LB webOS 6
+on:
+  push:
+    branches:
+      - build/videocast-tv-standalone-v02
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package-webos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install official LG webOS tools
+        run: npm --prefix "$RUNNER_TEMP/ares-cli" install --no-save --no-package-lock @webos-tools/cli@3.2.6
+      - name: Extract project
+        run: unzip -q videocast-tv-v02-source.zip
+      - name: Validate title search and existing features
+        run: |
+          node videocast_tv_v02/tests/catalog.test.js
+          node videocast_tv_v02/tests/discovery.test.js
+          node --check videocast_tv_v02/app/title-search.js
+          node --check videocast_tv_v02/app/app.js
+          node -e "const p=require('./videocast_tv_v02/app/appinfo.json'); if(p.version!=='0.2.0') throw new Error('Wrong version')"
+      - name: Bundle official webOSTV.js
+        run: |
+          LIB=$(find "$RUNNER_TEMP/ares-cli/node_modules/@webos-tools/cli" -type f -name 'webOSTV.js' -print -quit)
+          if [ -z "$LIB" ]; then echo 'webOSTV.js not found'; exit 1; fi
+          cp "$LIB" videocast_tv_v02/app/webOSTV.js
+      - name: Build and inspect IPK
+        run: |
+          mkdir -p dist
+          "$RUNNER_TEMP/ares-cli/node_modules/.bin/ares-config" --profile tv
+          "$RUNNER_TEMP/ares-cli/node_modules/.bin/ares-package" --no-minify -o dist videocast_tv_v02/app
+          test -s dist/com.videocast.tv_0.2.0_all.ipk
+          "$RUNNER_TEMP/ares-cli/node_modules/.bin/ares-package" -i dist/com.videocast.tv_0.2.0_all.ipk
+          sha256sum dist/*.ipk
+      - name: Publish installable LG TV app
+        uses: actions/upload-artifact@v4
+        with:
+          name: VideoCast-TV-v0.2-OLED-C1-webOS6-IPK
+          path: dist/*.ipk
+          retention-days: 14
+          if-no-files-found: error

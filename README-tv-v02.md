@@ -1,0 +1,1 @@
+# Video Cast TV v0.2 for LG OLED65C14LB (webOS 6)\n\nAdds global movie and TV-series title discovery from Wikipedia and TVmaze, plus provider search navigation. **Search results are metadata only, not confirmed streaming availability.**\n\nBuild independently in .ipk format; refer to archive README for installation steps.
